@@ -1,0 +1,78 @@
+#!/usr/bin/env node
+const program = require('commander')
+const chalk = require('chalk')
+const { version } = require('../package.json')
+const { compile } = require('..')
+
+program.version(version)
+
+program
+  .command('dev <vendor>')
+  .description('Compiles extension in devmode')
+  .option('-s, --src [src]', 'specify source directory', 'app')
+  .option('-t, --target [target]', 'specify target directory', 'dist/[vendor]')
+  .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', 'cheap-source-map')
+  .option('-r, --autoReload [autoReload]', 'reload extension after rebuild', true)
+  .option('-p, --pack [pack]', 'pack extension', false)
+  .action(function watch (vendor, options) {
+    compile({
+      vendor,
+      dev: true,
+      devtool: options.devtool,
+      src: options.src,
+      target: options.target,
+      autoReload: options.autoReload,
+      pack: options.pack
+    }).watch({}, logCompileOutput)
+  })
+
+program
+  .command('build <vendor>')
+  .description('Compiles extension for production')
+  .option('-s, --src [src]', 'specify source directory', 'app')
+  .option('-t, --target [target]', 'specify target directory', 'dist/[vendor]')
+  .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', false)
+  .option('-p, --pack [pack]', 'pack extension', true)
+  .action(function build (vendor, options) {
+    compile({
+      vendor,
+      dev: false,
+      devtool: options.devtool,
+      src: options.src,
+      target: options.target,
+      autoReload: false,
+      pack: options.pack
+    }).run(logCompileOutput)
+  })
+
+program.parse(process.argv)
+
+function logCompileOutput (error, stats) {
+  logBanner()
+
+  if (error) {
+    console.error(error)
+  }
+
+  console.log(stats.toString({
+    colors: true,
+    version: false,
+    hash: false
+  }))
+}
+
+function logBanner () {
+  const b = chalk.blue
+  const l = chalk.bold.yellow
+  console.log(b(`
+                              ###############                              
+                              ##           ##                              
+##########################################################################
+#                                                                        #
+#                                                                        #
+#                          ${l('WEBEXTENSION-TOOLBOX')}                          #
+#                                                                        #
+#                                                                        #
+##########################################################################
+  `))
+}

@@ -1,0 +1,48 @@
+{
+  "name": "webextension-toolbox",
+  "version": "0.0.1",
+  "description": "Framework for browser webextensions (Chrome, Opera, Safai, Edge)",
+  "main": "index.js",
+  "repository": "https://github.com/HaNdTriX/create-browserextension",
+  "author": "Henrik Wenz <HaNdTriX@gmail.com> (https://github.com/HaNdTriX)",
+  "license": "MIT",
+  "bin": {
+    "webextension-toolbox": "./bin/webextension-toolbox"
+  },
+  "scripts": {
+    "lint": "standard"
+  },
+  "standard": {
+    "globals": [
+      "browser"
+    ],
+    "ignore": [
+      "**/dist",
+      "**/node_modules"
+    ]
+  },
+  "dependencies": {
+    "@babel/core": "^7.0.0-beta.36",
+    "@babel/polyfill": "^7.0.0-beta.36",
+    "@babel/preset-env": "^7.0.0-beta.36",
+    "@babel/preset-react": "^7.0.0-beta.36",
+    "babel-loader": "8.0.0-beta.0",
+    "babel-minify-webpack-plugin": "^0.2.0",
+    "case-sensitive-paths-webpack-plugin": "^2.1.1",
+    "chalk": "^2.3.0",
+    "clean-webpack-plugin": "^0.1.17",
+    "commander": "^2.12.2",
+    "copy-webpack-plugin": "^4.3.1",
+    "friendly-errors-webpack-plugin": "^1.6.1",
+    "joi": "^13.0.2",
+    "webpack": "^3.10.0",
+    "webpack-glob-entry": "^2.1.1",
+    "zip-webpack-plugin": "^2.1.0"
+  },
+  "devDependencies": {
+    "standard": "^10.0.3"
+  },
+  "engines" : { 
+    "node" : ">=v8.1.4"
+  }
+}
