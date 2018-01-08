@@ -36,7 +36,7 @@
     "friendly-errors-webpack-plugin": "^1.6.1",
     "joi": "^13.0.2",
     "webpack": "^3.10.0",
-    "wildcards-entry-webpack-plugin": "^2.1.0",
+    "webpack-watched-glob-entries-plugin": "^1.0.4",
     "zip-webpack-plugin": "^2.1.0"
   },
   "devDependencies": {

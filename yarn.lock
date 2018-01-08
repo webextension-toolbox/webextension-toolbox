@@ -3986,6 +3986,13 @@ webpack-sources@^1.0.1, webpack-sources@^1.0.2:
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
+webpack-watched-glob-entries-plugin@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/webpack-watched-glob-entries-plugin/-/webpack-watched-glob-entries-plugin-1.0.4.tgz#bcf4216f5fcb3b5a91a2ddf1cf71941a0d9f2dc1"
+  dependencies:
+    glob "^7.1.2"
+    glob-base "^0.3.0"
+
 webpack@^3.10.0:
   version "3.10.0"
   resolved "https://registry.yarnpkg.com/webpack/-/webpack-3.10.0.tgz#5291b875078cf2abf42bdd23afe3f8f96c17d725"
@@ -4028,12 +4035,6 @@ wide-align@^1.1.0:
   resolved "https://registry.yarnpkg.com/wide-align/-/wide-align-1.1.2.tgz#571e0f1b0604636ebc0dfc21b0339bbe31341710"
   dependencies:
     string-width "^1.0.2"
-
-wildcards-entry-webpack-plugin@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/wildcards-entry-webpack-plugin/-/wildcards-entry-webpack-plugin-2.1.0.tgz#c46e30d8760db9e0009082e8be09089c906cfdf6"
-  dependencies:
-    glob "^7.1.2"
 
 window-size@0.1.0:
   version "0.1.0"

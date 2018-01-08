@@ -1,7 +1,7 @@
 const { resolve } = require('path')
 const webpack = require('webpack')
 const CleanPlugin = require('clean-webpack-plugin')
-const WildcardsEntryPlugin = require('wildcards-entry-webpack-plugin')
+const GlobEntriesPlugin = require('webpack-watched-glob-entries-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
@@ -45,23 +45,23 @@ module.exports = function compile ({
   /******************************/
   /*       WEBPACK.ENTRY        */
   /******************************/
-  const wildcardEntry = resolve(src, '*.js')
-  const extraEntries = {}
+  const wildcardEntries = []
+
+  // Add main entry glob
+  wildcardEntries.push(resolve(src, '*.js'))
 
   // Add autoReload in dev
   if (autoReload) {
-    extraEntries.autoReload = resolve(
-      __dirname,
-      './autoReload'
+    wildcardEntries.push(
+      resolve(__dirname, './autoReload')
     )
   }
 
-  // We use the WildcardsEntryPlugin in order to
+  // We use the GlobEntriesPlugin in order to
   // restart the compiler in watch mode, when new
   // files got added.
-  webpackConfig.entry = WildcardsEntryPlugin.entry(
-    wildcardEntry,
-    extraEntries
+  webpackConfig.entry = GlobEntriesPlugin.getEntries(
+    wildcardEntries
   )
 
   /******************************/
@@ -112,7 +112,7 @@ module.exports = function compile ({
   webpackConfig.plugins = []
 
   // Add Wilcard Entry Plugin
-  webpackConfig.plugins.push(new WildcardsEntryPlugin())
+  webpackConfig.plugins.push(new GlobEntriesPlugin())
 
   // Add CaseSensitivePathsPlugin
   webpackConfig.plugins.push(new CaseSensitivePathsPlugin())
