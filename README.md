@@ -6,7 +6,7 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 Small cli toolbox for creating cross-browser webextensions.
-
+w
 ## Browser Support
 
 * `chrome` (polyfill)
@@ -16,9 +16,10 @@ Small cli toolbox for creating cross-browser webextensions.
 
 ## Features
 
-* babel
+* [react.js](https://reactjs.org/) support
+* [babel](https://babeljs.io/) support
 * packing
-* auto reload
+* auto extension reload
 * manifest validation
 * manifest defaults
 
@@ -83,7 +84,7 @@ compiler.watch({}, (error, stats) => console.log(error, stats))
 
 ### Browser API
 
-Always use the [webextension browser api](https://developer.mozilla.org/de/Add-ons/WebExtensions).
+Always use the [webextension browser api](https://developer.mozilla.org/de/Add-ons/WebExtensions). Webextension-Toolbox will polyfill it for you in chrome and opera.
 
 ### Entry points
 
