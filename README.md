@@ -67,9 +67,9 @@ const compiler = compile({
   src: 'app',
   target: 'build/[vendor]',
   dev: false,
-  copyIgnore: [ '*.js', '*.json', '_locales/**/*' ],
+  devtool: false,
+  copyIgnore: [ '*.js', '*.json', '!_locales/**/*.json' ],
   autoReload: false,
-  devtool: 'cheap-source-map',
   pack: false
 })
 

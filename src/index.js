@@ -17,9 +17,9 @@ function compile ({
   src = 'app',
   target = 'build/[vendor]',
   dev = false,
-  copyIgnore = [ '*.js', '*.json', '_locales/**/*' ],
+  copyIgnore = [ '*.js', '*.json', '!_locales/**/*.json' ],
   autoReload = false,
-  devtool = 'cheap-source-map',
+  devtool = false,
   pack = false,
   vendor = 'chrome'
 } = {}) {
