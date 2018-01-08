@@ -5,3 +5,4 @@
 /examples/**/dist
 /examples/**/node_modules
 /examples/**/yarn-error.log
+/examples/**/yarn.lock

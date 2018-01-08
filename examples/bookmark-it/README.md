@@ -1,5 +1,23 @@
 # bookmark-it
 
+## Install 
+
+    $ npm install
+
+## Dev
+
+    $ npm run dev -- chrome
+    $ npm run dev -- firefox
+    $ npm run dev -- edge
+    $ npm run dev -- opera
+
+## Build
+
+    $ npm run build -- chrome
+    $ npm run build -- firefox
+    $ npm run build -- edge
+    $ npm run build -- opera
+
 ## What it does
 
 Displays a simple button in the menu bar that toggles a bookmark for the currently active tab.
@@ -10,7 +28,7 @@ A background script will listen for tab events and update the browserAction icon
 
 ## What it shows
 
-* how to use the various `bookmarks` functions
+* how to use the various `bookmarks` apis
   * create a bookmark
   * remove a bookmark
   * search bookmarks by url
@@ -21,4 +39,4 @@ A background script will listen for tab events and update the browserAction icon
 
 ## Copyright
 
-This example was forked from https://github.com/mdn/webextensions-examples/blob/master/bookmark-it
+This example was forked from https://github.com/mdn/webextensions-examples/blob/master/bookmark-it.

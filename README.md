@@ -6,7 +6,7 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 Small cli toolbox for creating cross-browser webextensions.
-w
+
 ## Browser Support
 
 * `chrome` (polyfill)
@@ -98,4 +98,4 @@ All javascript files located at the root of your `./src` or `./src/scripts` dire
 
 Copyright 2018 Henrik Wenz
 
-This project is free software released under the MIT license
+This project is free software released under the MIT license.
