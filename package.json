@@ -36,13 +36,13 @@
     "friendly-errors-webpack-plugin": "^1.6.1",
     "joi": "^13.0.2",
     "webpack": "^3.10.0",
-    "webpack-glob-entry": "^2.1.1",
+    "wildcards-entry-webpack-plugin": "^2.1.0",
     "zip-webpack-plugin": "^2.1.0"
   },
   "devDependencies": {
     "standard": "^10.0.3"
   },
-  "engines" : { 
-    "node" : ">=v8.1.4"
+  "engines": {
+    "node": ">=v8.1.4"
   }
 }

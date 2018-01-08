@@ -66,10 +66,11 @@ const compiler = compile({
   vendor: 'chrome',
   src: 'app',
   target: 'build/[vendor]',
+  packageTarget: 'packages',
   dev: false,
   devtool: false,
-  copyIgnore: [ '*.js', '*.json', '!_locales/**/*.json' ],
   autoReload: false,
+  copyIgnore: [ '*.js', '*.json', '!_locales/**/*.json' ],
   pack: false
 })
 

@@ -1,10 +1,10 @@
 const { resolve } = require('path')
 const webpack = require('webpack')
-const globEntry = require('webpack-glob-entry')
 const CleanPlugin = require('clean-webpack-plugin')
+const WildcardsEntryPlugin = require('wildcards-entry-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 const MinifyPlugin = require('babel-minify-webpack-plugin')
 const ZipPlugin = require('zip-webpack-plugin')
 const compileManifest = require('./manifest')
@@ -13,9 +13,10 @@ const getExtensionFileType = require('./utils/getExtensionFileType')
 const validateVendor = require('./utils/validateVendor')
 const capitalize = require('./utils/capitalize')
 
-function compile ({
+module.exports = function compile ({
   src = 'app',
   target = 'build/[vendor]',
+  packageTarget = 'packages',
   dev = false,
   copyIgnore = [ '*.js', '*.json', '!_locales/**/*.json' ],
   autoReload = false,
@@ -23,32 +24,48 @@ function compile ({
   pack = false,
   vendor = 'chrome'
 } = {}) {
-  target = resolve(target.replace('[vendor]', vendor))
+  // Input validation
   validateVendor(vendor)
+
+  // Compile variable targets
+  target = resolve(target.replace('[vendor]', vendor))
+  packageTarget = resolve(packageTarget.replace('[vendor]', vendor))
+
+  // Get some defaults
   const { version, name, description } = getExtensionInfo(src)
+
+  /******************************/
+  /*      WEBPACK               */
+  /******************************/
   const webpackConfig = {}
 
   // Source-Maps
   webpackConfig.devtool = devtool
 
   /******************************/
-  /*           ENTRY            */
+  /*       WEBPACK.ENTRY        */
   /******************************/
-  webpackConfig.entry = globEntry(
-    resolve(src, '*.js'),
-    resolve(src, 'scripts/*.js')
-  )
+  const wildcardEntry = resolve(src, '*.js')
+  const extraEntries = {}
 
   // Add autoReload in dev
   if (autoReload) {
-    webpackConfig.entry.autoReload = resolve(
+    extraEntries.autoReload = resolve(
       __dirname,
       './autoReload'
     )
   }
 
+  // We use the WildcardsEntryPlugin in order to
+  // restart the compiler in watch mode, when new
+  // files got added.
+  webpackConfig.entry = WildcardsEntryPlugin.entry(
+    wildcardEntry,
+    extraEntries
+  )
+
   /******************************/
-  /*          OUTPUT            */
+  /*       WEBPACK.OUTPUT       */
   /******************************/
   webpackConfig.output = {
     path: target,
@@ -57,7 +74,7 @@ function compile ({
   }
 
   /******************************/
-  /*         LOADERS            */
+  /*       WEBPACK.LOADERS      */
   /******************************/
   webpackConfig.module = {
     rules: []
@@ -90,9 +107,12 @@ function compile ({
   })
 
   /******************************/
-  /*         PLUGINS            */
+  /*     WEBPACK.PLUGINS        */
   /******************************/
   webpackConfig.plugins = []
+
+  // Add Wilcard Entry Plugin
+  webpackConfig.plugins.push(new WildcardsEntryPlugin())
 
   // Add CaseSensitivePathsPlugin
   webpackConfig.plugins.push(new CaseSensitivePathsPlugin())
@@ -159,12 +179,10 @@ function compile ({
   // Pack extension
   if (pack) {
     webpackConfig.plugins.push(new ZipPlugin({
-      path: resolve(target, '../../packages'),
+      path: resolve(packageTarget),
       filename: `${name}.v${version}.${vendor}.${getExtensionFileType(vendor)}`
     }))
   }
 
   return webpack(webpackConfig)
 }
-
-module.exports = compile
