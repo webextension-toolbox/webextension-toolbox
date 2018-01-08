@@ -2,10 +2,12 @@
 
 [![npm package](https://badge.fury.io/js/webextension-toolbox.svg)](https://www.npmjs.com/package/webextension-toolbox)
 [![dependencies](https://img.shields.io/bithound/dependencies/github/rexxars/sse-channel.svg)](https://github.com/HaNdTriX/webextension-toolbox)
-[![license](https://img.shields.io/npm/l/webextension-toolbox.svg)](https://github.com/HaNdTriX/webextension-toolbox)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![license](https://img.shields.io/npm/l/webextension-toolbox.svg)](https://github.com/HaNdTriX/webextension-toolbox/blob/master/LICENSE)
 
-Small cli toolbox for creating cross-browser webextensions.
+Small cli toolbox for creating cross-browser WebExtensions.
+
+If you want to get started quickly check out the [yeoman generator](https://github.com/HaNdTriX/generator-web-extension) for this project.
 
 ## Browser Support
 
