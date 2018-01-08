@@ -1,3 +1,7 @@
-/build
+/dist
 /node_modules
 /yarn-error.log
+
+/examples/**/dist
+/examples/**/node_modules
+/examples/**/yarn-error.log

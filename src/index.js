@@ -164,6 +164,7 @@ module.exports = function compile ({
         transform: str => compileManifest(str, {
           vendor,
           autoReload,
+          name,
           version,
           description
         })
