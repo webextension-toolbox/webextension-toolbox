@@ -108,6 +108,7 @@ If you want to get started quickly check out the [yeoman generator](https://gith
 * Reloads extension as soon something changed.
 * Sets `process.env.NODE_ENV` to `development`.
 * Sets `process.env.VENDOR` to the current vendor.
+* Mounts the extension *(Firefox only)*
 
 #### Syntax
 

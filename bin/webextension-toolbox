@@ -3,6 +3,7 @@ const program = require('commander')
 const chalk = require('chalk')
 const { version } = require('../package.json')
 const { compile } = require('..')
+const { resolve } = require('path')
 
 program.version(version)
 
@@ -23,7 +24,12 @@ program
       target: options.target,
       autoReload: options.autoReload,
       pack: options.pack
-    }).watch({}, logCompileOutput)
+    }).watch({}, (error, stats) => {
+      logCompileOutput(error, stats)
+      if (options.autoReload) {
+        mountExtension({ vendor, target: options.target })
+      }
+    })
   })
 
 program
@@ -76,3 +82,21 @@ function logBanner () {
 ##########################################################################
   `))
 }
+
+const mountExtension = (() => {
+  let mounted = false
+  return ({ vendor, target }) => {
+    // Mount only once
+    if (mounted) return
+
+    // Mounting is currently only supported by firefox
+    if (vendor !== 'firefox') return
+
+    return require('web-ext').default.cmd.run({
+      noInput: true,
+      sourceDir: resolve(target.replace('[vendor]', vendor))
+    }, {
+      shouldExitProgram: false
+    })
+  }
+})()
