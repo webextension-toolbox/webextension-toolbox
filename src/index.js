@@ -51,7 +51,7 @@ module.exports = function compile ({
   wildcardEntries.push(resolve(src, '*.js'))
 
   // Add autoReload in dev
-  if (autoReload) {
+  if (autoReload && ['chrome', 'opera'].includes(vendor)) {
     wildcardEntries.push(
       resolve(__dirname, './autoReload')
     )
