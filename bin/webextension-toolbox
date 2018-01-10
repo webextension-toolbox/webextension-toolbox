@@ -92,6 +92,7 @@ const mountExtension = (() => {
     // Mounting is currently only supported by firefox
     if (vendor !== 'firefox') return
 
+    mounted = true
     return require('web-ext').default.cmd.run({
       noInput: true,
       sourceDir: resolve(target.replace('[vendor]', vendor))
