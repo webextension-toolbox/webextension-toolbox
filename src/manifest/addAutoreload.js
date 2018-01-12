@@ -8,7 +8,7 @@ module.exports = function addAutoreload (manifest) {
   }
 
   manifest.background.scripts = [
-    'autoReload.js',
+    'auto-reload.js',
     ...manifest.background.scripts
   ]
 

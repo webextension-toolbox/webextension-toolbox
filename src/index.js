@@ -45,15 +45,15 @@ module.exports = function compile ({
   /******************************/
   /*       WEBPACK.ENTRY        */
   /******************************/
-  const wildcardEntries = []
+  const entries = []
 
   // Add main entry glob
-  wildcardEntries.push(resolve(src, '*.js'))
+  entries.push(resolve(src, '*.js'))
 
   // Add autoReload in dev
   if (autoReload && ['chrome', 'opera'].includes(vendor)) {
-    wildcardEntries.push(
-      resolve(__dirname, './autoReload')
+    entries.push(
+      resolve(__dirname, './auto-reload')
     )
   }
 
@@ -61,7 +61,7 @@ module.exports = function compile ({
   // restart the compiler in watch mode, when new
   // files got added.
   webpackConfig.entry = GlobEntriesPlugin.getEntries(
-    wildcardEntries
+    entries
   )
 
   /******************************/
@@ -82,10 +82,10 @@ module.exports = function compile ({
 
   // Add babel support
   webpackConfig.module.rules.push({
-    test: /\.js$/,
-    exclude: /node_modules/,
+    test: /\.(js|jsx|mjs)$/,
+    include: resolve(__dirname, src),
     use: {
-      loader: 'babel-loader',
+      loader: require.resolve('babel-loader'),
       options: {
         babelrc: false,
         cacheDirectory: true,
@@ -111,14 +111,14 @@ module.exports = function compile ({
   /******************************/
   webpackConfig.plugins = []
 
-  // Add Wilcard Entry Plugin
-  webpackConfig.plugins.push(new GlobEntriesPlugin())
+  // Clear output directory
+  webpackConfig.plugins.push(new CleanPlugin([target], { allowExternal: true }))
 
   // Add CaseSensitivePathsPlugin
   webpackConfig.plugins.push(new CaseSensitivePathsPlugin())
 
-  // Clear output directory
-  webpackConfig.plugins.push(new CleanPlugin([target], { allowExternal: true }))
+  // Add Wilcard Entry Plugin
+  webpackConfig.plugins.push(new GlobEntriesPlugin())
 
   // Improve log output in devmode
   if (dev) {
@@ -129,7 +129,7 @@ module.exports = function compile ({
   if (['chrome', 'opera'].includes(vendor)) {
     webpackConfig.plugins.push(
       new webpack.ProvidePlugin({
-        browser: resolve(__dirname, './webextensionPolyfill')
+        browser: require.resolve('./webextension-polyfill')
       })
     )
   }
@@ -138,7 +138,8 @@ module.exports = function compile ({
   webpackConfig.plugins.push(
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': dev ? '"development"' : '"production"',
-      'process.env.VENDOR': `"${vendor}"`
+      'process.env.VENDOR': `"${vendor}"`,
+      'process.env.WEBEXTENSION_TOOLBOX_VERSION': `"${version}"`
     })
   )
 
@@ -180,7 +181,7 @@ module.exports = function compile ({
   // Pack extension
   if (pack) {
     webpackConfig.plugins.push(new ZipPlugin({
-      path: resolve(packageTarget),
+      path: packageTarget,
       filename: `${name}.v${version}.${vendor}.${getExtensionFileType(vendor)}`
     }))
   }
