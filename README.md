@@ -99,7 +99,9 @@ If you want to get started quickly check out the [yeoman generator](https://gith
 
 ### Install
 
-    $ npm install -g webextension-toolbox
+```shell
+$ npm install -g webextension-toolbox
+```
 
 ### Development
 
@@ -112,15 +114,19 @@ If you want to get started quickly check out the [yeoman generator](https://gith
 
 #### Syntax
 
-    $ webextension-toolbox dev <vendor> [..options]
+```shell
+$ webextension-toolbox dev <vendor> [..options]
+```
 
 #### Examples
 
-    $ webextension-toolbox dev --help
-    $ webextension-toolbox dev chrome
-    $ webextension-toolbox dev firefox
-    $ webextension-toolbox dev opera
-    $ webextension-toolbox dev edge
+```shell
+$ webextension-toolbox dev --help
+$ webextension-toolbox dev chrome
+$ webextension-toolbox dev firefox
+$ webextension-toolbox dev opera
+$ webextension-toolbox dev edge
+```
 
 ### Build
 
@@ -132,16 +138,20 @@ If you want to get started quickly check out the [yeoman generator](https://gith
 
 #### Syntax
 
-    $ webextension-toolbox build <vendor> [..options]
+```shell
+$ webextension-toolbox build <vendor> [..options]
+```
 
 
 #### Examples
 
-    $ webextension-toolbox build --help
-    $ webextension-toolbox build chrome
-    $ webextension-toolbox build firefox
-    $ webextension-toolbox build opera
-    $ webextension-toolbox build edge
+```shell
+$ webextension-toolbox build --help
+$ webextension-toolbox build chrome
+$ webextension-toolbox build firefox
+$ webextension-toolbox build opera
+$ webextension-toolbox build edge
+```
 
 ### Node.js API
 
@@ -156,7 +166,7 @@ const compiler = compile({
   dev: false,
   devtool: false,
   autoReload: false,
-  copyIgnore: [ '*.js', '*.json', '!_locales/**/*.json' ],
+  copyIgnore: [ '**/*.js', '**/*.json', '!_locales/**/*.json' ],
   pack: false
 })
 
@@ -175,9 +185,11 @@ Always use the [webextension browser api](https://developer.mozilla.org/de/Add-o
 
 All javascript files located at the root of your `./src` or `./src/scripts` directory will create a seperate bundle.
 
-    "app/background.js"               -> "dist/<vendor>/dist/background.js"
-    "app/scripts/background.js"       -> "dist/<vendor>/dist/scripts/background.js"
-    "app/someDir/someFile.js"         -> Will be ignored.
+```
+"app/background.js"               -> "dist/<vendor>/dist/background.js"
+"app/scripts/background.js"       -> "dist/<vendor>/dist/scripts/background.js"
+"app/someDir/someFile.js"         -> Will be ignored.
+```
 
 ## License
 
