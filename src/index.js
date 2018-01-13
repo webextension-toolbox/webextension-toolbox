@@ -18,7 +18,7 @@ module.exports = function compile ({
   target = 'build/[vendor]',
   packageTarget = 'packages',
   dev = false,
-  copyIgnore = [ '*.js', '*.json', '!_locales/**/*.json' ],
+  copyIgnore = [ '**/*.js', '**/*.json', '!_locales/**/*.json' ],
   autoReload = false,
   devtool = false,
   pack = false,
@@ -48,7 +48,7 @@ module.exports = function compile ({
   const entries = []
 
   // Add main entry glob
-  entries.push(resolve(src, '*.js'))
+  entries.push(resolve(src, '?(scripts)/*.js'))
 
   // Add autoReload in dev
   if (autoReload && ['chrome', 'opera'].includes(vendor)) {
