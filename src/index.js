@@ -48,7 +48,8 @@ module.exports = function compile ({
   const entries = []
 
   // Add main entry glob
-  entries.push(resolve(src, '**/*.js'))
+  entries.push(resolve(src, '*.js'))
+  entries.push(resolve(src, 'scripts/*.js'))
 
   // Add autoReload in dev
   if (autoReload && ['chrome', 'opera'].includes(vendor)) {
