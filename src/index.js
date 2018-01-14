@@ -83,7 +83,7 @@ module.exports = function compile ({
   // Add babel support
   webpackConfig.module.rules.push({
     test: /\.(js|jsx|mjs)$/,
-    include: resolve(__dirname, src),
+    exclude: /node_modules/,
     use: {
       loader: require.resolve('babel-loader'),
       options: {
