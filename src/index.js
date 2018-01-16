@@ -154,12 +154,6 @@ module.exports = function compile ({
         to: target
       },
       {
-        // Copy _locales
-        context: resolve(src, '_locales'),
-        from: '**/*.json',
-        to: target
-      },
-      {
         // Copy & Tranform manifest
         from: resolve(src, './manifest.json'),
         transform: str => compileManifest(str, {
