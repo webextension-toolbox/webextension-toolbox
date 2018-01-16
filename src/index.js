@@ -2,7 +2,6 @@ const { resolve } = require('path')
 const webpack = require('webpack')
 const CleanPlugin = require('clean-webpack-plugin')
 const GlobEntriesPlugin = require('webpack-watched-glob-entries-plugin')
-const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const MinifyPlugin = require('babel-minify-webpack-plugin')
@@ -119,11 +118,6 @@ module.exports = function compile ({
 
   // Add Wilcard Entry Plugin
   webpackConfig.plugins.push(new GlobEntriesPlugin())
-
-  // Improve log output in devmode
-  if (dev) {
-    webpackConfig.plugins.push(new FriendlyErrorsPlugin())
-  }
 
   // Add webextension polyfill
   if (['chrome', 'opera'].includes(vendor)) {
