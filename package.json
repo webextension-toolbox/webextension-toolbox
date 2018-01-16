@@ -10,7 +10,8 @@
     "webextension-toolbox": "./bin/webextension-toolbox"
   },
   "scripts": {
-    "lint": "standard"
+    "lint": "standard",
+    "release": "np"
   },
   "standard": {
     "globals": [
@@ -40,6 +41,7 @@
     "zip-webpack-plugin": "^2.1.0"
   },
   "devDependencies": {
+    "np": "^2.18.3",
     "standard": "^10.0.3"
   },
   "engines": {
