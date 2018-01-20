@@ -1,4 +1,4 @@
-const { resolve } = require('path')
+const { resolve, dirname } = require('path')
 const webpack = require('webpack')
 const CleanPlugin = require('clean-webpack-plugin')
 const GlobEntriesPlugin = require('webpack-watched-glob-entries-plugin')
@@ -10,7 +10,8 @@ const compileManifest = require('./manifest')
 const getExtensionInfo = require('./utils/getExtensionInfo')
 const getExtensionFileType = require('./utils/getExtensionFileType')
 const validateVendor = require('./utils/validateVendor')
-const capitalize = require('./utils/capitalize')
+const capitalize = require('lodash/capitalize')
+const preset = require('./preset')
 
 module.exports = function compile ({
   src = 'app',
@@ -36,7 +37,21 @@ module.exports = function compile ({
   /******************************/
   /*      WEBPACK               */
   /******************************/
-  const webpackConfig = {}
+  const webpackConfig = {
+    context: resolve(src, '../'),
+    resolve: {
+      alias: {
+        // @remove-on-eject-begin
+        // Resolve Babel runtime relative to react-scripts.
+        // It usually still works on npm 3 without this but it would be
+        // unfortunate to rely on, as react-scripts could be symlinked,
+        // and thus @babel/runtime might not be resolvable from the source.
+        '@babel/runtime': dirname(
+          require.resolve('@babel/runtime/package.json')
+        )
+      }
+    }
+  }
 
   // Source-Maps
   webpackConfig.devtool = devtool
@@ -86,21 +101,13 @@ module.exports = function compile ({
     use: {
       loader: require.resolve('babel-loader'),
       options: {
-        babelrc: false,
         cacheDirectory: true,
-        presets: [
-          // Latest stable ECMAScript features
-          [
-            require.resolve('@babel/preset-env'), {
-              targets: {
-                browsers: [`last 2 ${capitalize(vendor)} versions`]
-              },
-              useBuiltIns: 'usage'
-            }
-          ],
-          // JSX, Flow
-          require.resolve('@babel/preset-react')
-        ]
+        ...preset({
+          targets: {
+            // TODO: Make this configurable
+            browsers: [`last 2 ${capitalize(vendor)} versions`]
+          }
+        })
       }
     }
   })
@@ -113,11 +120,17 @@ module.exports = function compile ({
   // Clear output directory
   webpackConfig.plugins.push(new CleanPlugin([target], { allowExternal: true }))
 
-  // Add CaseSensitivePathsPlugin
+  // Watcher doesn't work well if you mistype casing in a path so we use
+  // a plugin that prints an error when you attempt to do this.
   webpackConfig.plugins.push(new CaseSensitivePathsPlugin())
 
   // Add Wilcard Entry Plugin
   webpackConfig.plugins.push(new GlobEntriesPlugin())
+
+  // Add module names to factory functions so they appear in browser profiler
+  if (dev) {
+    webpackConfig.plugins.push(new webpack.NamedModulesPlugin())
+  }
 
   // Add webextension polyfill
   if (['chrome', 'opera'].includes(vendor)) {
