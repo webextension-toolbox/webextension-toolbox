@@ -6,3 +6,4 @@
 /examples/**/node_modules
 /examples/**/yarn-error.log
 /examples/**/yarn.lock
+/yarn.lock
