@@ -1,4 +1,4 @@
-const { resolve, dirname } = require('path')
+const { resolve } = require('path')
 const webpack = require('webpack')
 const CleanPlugin = require('clean-webpack-plugin')
 const GlobEntriesPlugin = require('webpack-watched-glob-entries-plugin')
@@ -18,7 +18,7 @@ module.exports = function compile ({
   target = 'build/[vendor]',
   packageTarget = 'packages',
   dev = false,
-  copyIgnore = [ '**/*.js', '**/*.json', '!_locales/**/*.json' ],
+  copyIgnore = [ '**/*.js', '**/*.json' ],
   autoReload = false,
   devtool = false,
   pack = false,
@@ -38,19 +38,7 @@ module.exports = function compile ({
   /*      WEBPACK               */
   /******************************/
   const webpackConfig = {
-    context: resolve(src, '../'),
-    resolve: {
-      alias: {
-        // @remove-on-eject-begin
-        // Resolve Babel runtime relative to react-scripts.
-        // It usually still works on npm 3 without this but it would be
-        // unfortunate to rely on, as react-scripts could be symlinked,
-        // and thus @babel/runtime might not be resolvable from the source.
-        '@babel/runtime': dirname(
-          require.resolve('@babel/runtime/package.json')
-        )
-      }
-    }
+    context: resolve(src, '../')
   }
 
   // Source-Maps
@@ -62,6 +50,7 @@ module.exports = function compile ({
   const entries = []
 
   // Add main entry glob
+  entries.push(resolve(src, '*.js'))
   entries.push(resolve(src, '?(scripts)/*.js'))
 
   // Add autoReload in dev
@@ -157,7 +146,7 @@ module.exports = function compile ({
         // Copy all files except (.js, .json, _locales)
         context: src,
         from: '**/*',
-        copyIgnore,
+        ignore: copyIgnore,
         to: target
       },
       {
@@ -170,6 +159,12 @@ module.exports = function compile ({
           version,
           description
         })
+      },
+      {
+        // Copy all files except (.js, .json, _locales)
+        context: src,
+        from: '_locales/**/*.json',
+        to: target
       }
     ])
   )
