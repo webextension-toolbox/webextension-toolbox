@@ -14,6 +14,7 @@ program
   .option('-t, --target [target]', 'specify target directory', 'dist/[vendor]')
   .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', 'cheap-source-map')
   .option('-r, --autoReload [autoReload]', 'reload extension after rebuild', true)
+  .option('-vv, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
   .option('-p, --pack [pack]', 'pack extension', false)
   .action(function watch (vendor, options) {
     compile({
@@ -38,6 +39,7 @@ program
   .option('-s, --src [src]', 'specify source directory', 'app')
   .option('-t, --target [target]', 'specify target directory', 'dist/[vendor]')
   .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', false)
+  .option('-vv, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
   .option('-p, --pack [pack]', 'pack extension', true)
   .action(function build (vendor, options) {
     compile({

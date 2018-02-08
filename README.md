@@ -167,6 +167,7 @@ const compiler = compile({
   devtool: false,
   autoReload: false,
   copyIgnore: [ '**/*.js', '**/*.json', '!_locales/**/*.json' ],
+  vendorVersion: undefined,
   pack: false
 })
 

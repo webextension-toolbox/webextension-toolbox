@@ -10,8 +10,7 @@ const compileManifest = require('./manifest')
 const getExtensionInfo = require('./utils/getExtensionInfo')
 const getExtensionFileType = require('./utils/getExtensionFileType')
 const validateVendor = require('./utils/validateVendor')
-const capitalize = require('lodash/capitalize')
-const preset = require('./preset')
+const createPreset = require('./preset')
 
 module.exports = function compile ({
   src = 'app',
@@ -22,7 +21,8 @@ module.exports = function compile ({
   autoReload = false,
   devtool = false,
   pack = false,
-  vendor = 'chrome'
+  vendor = 'chrome',
+  vendorVersion
 } = {}) {
   // Input validation
   validateVendor(vendor)
@@ -91,11 +91,9 @@ module.exports = function compile ({
       loader: require.resolve('babel-loader'),
       options: {
         cacheDirectory: true,
-        ...preset({
-          targets: {
-            // TODO: Make this configurable
-            browsers: [`last 2 ${capitalize(vendor)} versions`]
-          }
+        ...createPreset({
+          vendor,
+          vendorVersion
         })
       }
     }
