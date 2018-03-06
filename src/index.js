@@ -4,13 +4,13 @@ const CleanPlugin = require('clean-webpack-plugin')
 const GlobEntriesPlugin = require('webpack-watched-glob-entries-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
-const MinifyPlugin = require('babel-minify-webpack-plugin')
 const ZipPlugin = require('zip-webpack-plugin')
 const compileManifest = require('./manifest')
 const getExtensionInfo = require('./utils/getExtensionInfo')
 const getExtensionFileType = require('./utils/getExtensionFileType')
 const validateVendor = require('./utils/validateVendor')
 const createPreset = require('./preset')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = function compile ({
   src = 'app',
@@ -33,11 +33,13 @@ module.exports = function compile ({
 
   // Get some defaults
   const { version, name, description } = getExtensionInfo(src)
+  const mode = dev ? 'development' : 'production'
 
   /******************************/
   /*      WEBPACK               */
   /******************************/
   const webpackConfig = {
+    mode,
     context: resolve(src, '../')
   }
 
@@ -130,10 +132,10 @@ module.exports = function compile ({
 
   // Set environment vars
   webpackConfig.plugins.push(
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': dev ? '"development"' : '"production"',
-      'process.env.VENDOR': `"${vendor}"`,
-      'process.env.WEBEXTENSION_TOOLBOX_VERSION': `"${version}"`
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: mode,
+      VENDOR: vendor,
+      WEBEXTENSION_TOOLBOX_VERSION: version
     })
   )
 
@@ -169,7 +171,11 @@ module.exports = function compile ({
 
   // Minify in production
   if (!dev) {
-    webpackConfig.plugins.push(new MinifyPlugin())
+    webpackConfig.plugins.push(new UglifyJsPlugin({
+      uglifyOptions: {
+        ecma: 8
+      }
+    }))
   }
 
   // Pack extension
