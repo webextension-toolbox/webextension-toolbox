@@ -38,13 +38,13 @@ module.exports = function compile ({
   /******************************/
   /*      WEBPACK               */
   /******************************/
-  const webpackConfig = {
+  const config = {
     mode,
     context: resolve(src, '../')
   }
 
   // Source-Maps
-  webpackConfig.devtool = devtool
+  config.devtool = devtool
 
   /******************************/
   /*       WEBPACK.ENTRY        */
@@ -65,14 +65,14 @@ module.exports = function compile ({
   // We use the GlobEntriesPlugin in order to
   // restart the compiler in watch mode, when new
   // files got added.
-  webpackConfig.entry = GlobEntriesPlugin.getEntries(
+  config.entry = GlobEntriesPlugin.getEntries(
     entries
   )
 
   /******************************/
   /*       WEBPACK.OUTPUT       */
   /******************************/
-  webpackConfig.output = {
+  config.output = {
     path: target,
     filename: '[name].js',
     chunkFilename: '[id].chunk.js'
@@ -81,12 +81,12 @@ module.exports = function compile ({
   /******************************/
   /*       WEBPACK.LOADERS      */
   /******************************/
-  webpackConfig.module = {
+  config.module = {
     rules: []
   }
 
   // Add babel support
-  webpackConfig.module.rules.push({
+  config.module.rules.push({
     test: /\.(js|jsx|mjs)$/,
     exclude: /node_modules/,
     use: {
@@ -104,26 +104,26 @@ module.exports = function compile ({
   /******************************/
   /*     WEBPACK.PLUGINS        */
   /******************************/
-  webpackConfig.plugins = []
+  config.plugins = []
 
   // Clear output directory
-  webpackConfig.plugins.push(new CleanPlugin([target], { allowExternal: true }))
+  config.plugins.push(new CleanPlugin([target], { allowExternal: true }))
 
   // Watcher doesn't work well if you mistype casing in a path so we use
   // a plugin that prints an error when you attempt to do this.
-  webpackConfig.plugins.push(new CaseSensitivePathsPlugin())
+  config.plugins.push(new CaseSensitivePathsPlugin())
 
   // Add Wilcard Entry Plugin
-  webpackConfig.plugins.push(new GlobEntriesPlugin())
+  config.plugins.push(new GlobEntriesPlugin())
 
   // Add module names to factory functions so they appear in browser profiler
   if (dev) {
-    webpackConfig.plugins.push(new webpack.NamedModulesPlugin())
+    config.plugins.push(new webpack.NamedModulesPlugin())
   }
 
   // Add webextension polyfill
   if (['chrome', 'opera'].includes(vendor)) {
-    webpackConfig.plugins.push(
+    config.plugins.push(
       new webpack.ProvidePlugin({
         browser: require.resolve('./webextension-polyfill')
       })
@@ -131,7 +131,7 @@ module.exports = function compile ({
   }
 
   // Set environment vars
-  webpackConfig.plugins.push(
+  config.plugins.push(
     new webpack.EnvironmentPlugin({
       NODE_ENV: mode,
       VENDOR: vendor,
@@ -140,7 +140,7 @@ module.exports = function compile ({
   )
 
   // Copy non js files & compile manifest
-  webpackConfig.plugins.push(
+  config.plugins.push(
     new CopyPlugin([
       {
         // Copy all files except (.js, .json, _locales)
@@ -171,7 +171,8 @@ module.exports = function compile ({
 
   // Minify in production
   if (!dev) {
-    webpackConfig.plugins.push(new UglifyJsPlugin({
+    config.plugins.push(new UglifyJsPlugin({
+      parallel: true,
       uglifyOptions: {
         ecma: 8
       }
@@ -180,11 +181,11 @@ module.exports = function compile ({
 
   // Pack extension
   if (pack) {
-    webpackConfig.plugins.push(new ZipPlugin({
+    config.plugins.push(new ZipPlugin({
       path: packageTarget,
       filename: `${name}.v${version}.${vendor}.${getExtensionFileType(vendor)}`
     }))
   }
 
-  return webpack(webpackConfig)
+  return webpack(config)
 }
