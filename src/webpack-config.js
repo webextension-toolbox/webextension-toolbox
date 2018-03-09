@@ -144,14 +144,14 @@ module.exports = function webpackConfig ({
     new CopyPlugin([
       {
         // Copy all files except (.js, .json, _locales)
-        context: src,
-        from: '**/*',
+        context: resolve(src),
+        from: resolve(src, '**/*'),
         ignore: copyIgnore,
         to: target
       },
       {
         // Copy & Tranform manifest
-        from: resolve(src, './manifest.json'),
+        from: resolve(src, 'manifest.json'),
         transform: str => compileManifest(str, {
           vendor,
           autoReload,
@@ -162,8 +162,8 @@ module.exports = function webpackConfig ({
       },
       {
         // Copy all files except (.js, .json, _locales)
-        context: src,
-        from: '_locales/**/*.json',
+        context: resolve(src),
+        from: resolve(src, '_locales/**/*.json'),
         to: target
       }
     ])
