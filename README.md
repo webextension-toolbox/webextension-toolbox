@@ -185,13 +185,13 @@ Always use the [webextension browser api](https://developer.mozilla.org/de/Add-o
 
 ### Entry points
 
-All javascript files located at the root of your `./src` or `./src/scripts` directory will create a seperate bundle.
+All javascript files located at the root of your `./app` or `./app/scripts` directory will create a seperate bundle.
 
-```
-"app/background.js"               -> "dist/<vendor>/dist/background.js"
-"app/scripts/background.js"       -> "dist/<vendor>/dist/scripts/background.js"
-"app/someDir/someFile.js"         -> Will be ignored.
-```
+| app                         | dist                                  |
+|-----------------------------|---------------------------------------|
+| `app/background.js`         | `dist/<vendor>/background.js`         |
+| `app/scripts/background.js` | `dist/<vendor>/scripts/background.js` |
+| `app/some-dir/some-file.js` | Will be ignored.                      |
 
 ## License
 
