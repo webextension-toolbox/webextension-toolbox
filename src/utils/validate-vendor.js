@@ -1,4 +1,4 @@
-const vendors = require('../../vendors.json')
+const vendors = require('../vendors.json')
 
 function validateVendor (vendor) {
   if (!vendors.includes(vendor)) {

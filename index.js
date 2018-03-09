@@ -1,3 +1,3 @@
-const compile = require('./src')
+const compile = require('./src/compile')
 
 exports.compile = compile

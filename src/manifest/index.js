@@ -1,6 +1,6 @@
 const validate = require('./validate')
-const transformVendorKeys = require('./transformVendorKeys')
-const addAutoreload = require('./addAutoreload')
+const transformVendorKeys = require('./transform-vendor-keys')
+const addAutoreload = require('./add-autoreload')
 
 async function transformManifest (manifest, { vendor, autoReload, name, version, description }) {
   manifest = JSON.parse(manifest.toString('utf8'))

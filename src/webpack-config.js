@@ -6,13 +6,13 @@ const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const ZipPlugin = require('zip-webpack-plugin')
 const compileManifest = require('./manifest')
-const getExtensionInfo = require('./utils/getExtensionInfo')
-const getExtensionFileType = require('./utils/getExtensionFileType')
-const validateVendor = require('./utils/validateVendor')
+const getExtensionInfo = require('./utils/get-extension-info')
+const getExtensionFileType = require('./utils/get-extension-file-type')
+const validateVendor = require('./utils/validate-vendor')
 const createPreset = require('./preset')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
-module.exports = function compile ({
+module.exports = function webpackConfig ({
   src = 'app',
   target = 'build/[vendor]',
   packageTarget = 'packages',
@@ -187,5 +187,5 @@ module.exports = function compile ({
     }))
   }
 
-  return webpack(config)
+  return config
 }
