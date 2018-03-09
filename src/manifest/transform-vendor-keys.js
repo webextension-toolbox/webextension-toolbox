@@ -1,4 +1,4 @@
-const vendors = require('../../vendors.json')
+const vendors = require('../vendors.json')
 const vendorRegExp = new RegExp(`^__(${vendors.join('|')})__(.*)`)
 
 async function transform (manifest, vendor) {
