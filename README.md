@@ -154,31 +154,6 @@ $ webextension-toolbox build opera
 $ webextension-toolbox build edge
 ```
 
-### Node.js API
-
-```js
-const { compile } = require('webextension-toolbox')
-
-const compiler = compile({
-  vendor: 'chrome',
-  src: 'app',
-  target: 'build/[vendor]',
-  packageTarget: 'packages',
-  dev: false,
-  devtool: false,
-  autoReload: false,
-  copyIgnore: [ '**/*.js', '**/*.json', '!_locales/**/*.json' ],
-  vendorVersion: undefined,
-  pack: false
-})
-
-compiler.run((error, stats) => console.log(error, stats))
-
-// or
-
-compiler.watch({}, (error, stats) => console.log(error, stats))
-```
-
 ### Browser API
 
 Always use the [webextension browser api](https://developer.mozilla.org/de/Add-ons/WebExtensions). Webextension-Toolbox will polyfill it for you in chrome and opera.
