@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`validates manifest 1`] = `
+"manifest.json: 
+{
+  [41m\\"name\\"[0m[31m [1]: -- missing --[0m
+}
+[31m
+[1] \\"name\\" is required[0m"
+`;
