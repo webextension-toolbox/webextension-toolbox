@@ -23,6 +23,8 @@ If you want to get started quickly check out the [yeoman generator](https://gith
   <summary><b>react.js</b></summary>
   <p>
     Works with react.js out of the box!
+    <br />
+    Run <code>$ npm i react react-dom</code> and you are ready to go.
   </p>
 </details>
 
