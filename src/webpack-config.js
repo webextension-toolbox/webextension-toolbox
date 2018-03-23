@@ -40,7 +40,7 @@ module.exports = function webpackConfig ({
   /******************************/
   const config = {
     mode,
-    context: resolve(src, '../')
+    context: resolve(src)
   }
 
   // Source-Maps
