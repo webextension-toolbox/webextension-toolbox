@@ -9,7 +9,7 @@ async function transformManifest (manifest, { vendor, autoReload, name, version,
   manifest.description = manifest.description || description
 
   manifest = await validate(manifest)
-  manifest = await transformVendorKeys(manifest, vendor)
+  manifest = transformVendorKeys(manifest, vendor)
 
   if (autoReload && ['chrome', 'opera'].includes(vendor)) {
     manifest = addAutoreload(manifest)
