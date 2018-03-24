@@ -1,9 +1,9 @@
-const vendors = require('../vendors.json')
+const vendors = require('../../vendors.json')
 const vendorRegExp = new RegExp(`^__(${vendors.join('|')})__(.*)`)
 
-function transform (manifest, vendor) {
+module.exports = function transformVendorKeys (manifest, vendor) {
   if (Array.isArray(manifest)) {
-    return manifest.map(manifest => transform(manifest, vendor))
+    return manifest.map(manifest => transformVendorKeys(manifest, vendor))
   }
 
   if (typeof manifest === 'object') {
@@ -17,7 +17,7 @@ function transform (manifest, vendor) {
             manifest[match[2]] = value
           }
         } else {
-          manifest[key] = transform(value, vendor)
+          manifest[key] = transformVendorKeys(value, vendor)
         }
         return manifest
       }, {})
@@ -25,5 +25,3 @@ function transform (manifest, vendor) {
 
   return manifest
 }
-
-module.exports = transform

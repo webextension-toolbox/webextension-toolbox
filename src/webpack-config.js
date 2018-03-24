@@ -5,12 +5,12 @@ const GlobEntriesPlugin = require('webpack-watched-glob-entries-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const ZipPlugin = require('zip-webpack-plugin')
-const compileManifest = require('./manifest')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const WebextensionPlugin = require('./webpack-webextension-plugin')
 const getExtensionInfo = require('./utils/get-extension-info')
 const getExtensionFileType = require('./utils/get-extension-file-type')
 const validateVendor = require('./utils/validate-vendor')
 const createPreset = require('./preset')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = function webpackConfig ({
   src = 'app',
@@ -18,7 +18,6 @@ module.exports = function webpackConfig ({
   packageTarget = 'packages',
   dev = false,
   copyIgnore = [ '**/*.js', '**/*.json' ],
-  autoReload = false,
   devtool = false,
   pack = false,
   vendor = 'chrome',
@@ -54,13 +53,6 @@ module.exports = function webpackConfig ({
   // Add main entry glob
   entries.push(resolve(src, '*.js'))
   entries.push(resolve(src, '?(scripts)/*.js'))
-
-  // Add autoReload in dev
-  if (autoReload && ['chrome', 'opera'].includes(vendor)) {
-    entries.push(
-      resolve(__dirname, './auto-reload')
-    )
-  }
 
   // We use the GlobEntriesPlugin in order to
   // restart the compiler in watch mode, when new
@@ -150,17 +142,6 @@ module.exports = function webpackConfig ({
         to: target
       },
       {
-        // Copy & Tranform manifest
-        from: resolve(src, 'manifest.json'),
-        transform: str => compileManifest(str, {
-          vendor,
-          autoReload,
-          name,
-          version,
-          description
-        })
-      },
-      {
         // Copy all files except (.js, .json, _locales)
         context: resolve(src),
         from: resolve(src, '_locales/**/*.json'),
@@ -178,6 +159,17 @@ module.exports = function webpackConfig ({
       }
     }))
   }
+
+  config.plugins.push(
+    new WebextensionPlugin({
+      vendor,
+      manifestDefaults: {
+        name,
+        description,
+        version
+      }
+    })
+  )
 
   // Pack extension
   if (pack) {
