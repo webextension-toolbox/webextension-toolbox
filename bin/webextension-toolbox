@@ -25,12 +25,7 @@ program
       target: options.target,
       autoReload: options.autoReload,
       pack: options.pack
-    }).watch({}, (error, stats) => {
-      logCompileOutput(error, stats)
-      if (options.autoReload) {
-        mountExtension({ vendor, target: options.target })
-      }
-    })
+    }).watch({}, logCompileOutput)
   })
 
 program
@@ -84,22 +79,3 @@ function logBanner () {
 ##########################################################################
   `))
 }
-
-const mountExtension = (() => {
-  let mounted = false
-  return ({ vendor, target }) => {
-    // Mount only once
-    if (mounted) return
-
-    // Mounting is currently only supported by firefox
-    if (vendor !== 'firefox') return
-
-    mounted = true
-    return require('web-ext').default.cmd.run({
-      noInput: true,
-      sourceDir: resolve(target.replace('[vendor]', vendor))
-    }, {
-      shouldExitProgram: false
-    })
-  }
-})()

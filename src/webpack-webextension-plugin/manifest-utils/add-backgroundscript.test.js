@@ -1,11 +1,11 @@
 /* eslint-env jest */
-const addAutoreload = require('./add-autoreload')
+const addBackgroundscript = require('./add-backgroundscript')
 
-test('adds a new background entry called autoreload', () => {
+test('adds a new background backgroundscript', () => {
   const manifest = {
     name: 'left-pad'
   }
-  const result = addAutoreload(manifest)
+  const result = addBackgroundscript(manifest, 'auto-reload.js')
   expect(result).toEqual({
     name: 'left-pad',
     background: {
@@ -16,7 +16,7 @@ test('adds a new background entry called autoreload', () => {
   })
 })
 
-test('extends background entry with autoreload', () => {
+test('extends background entry with backgroundscript', () => {
   const manifest = {
     name: 'left-pad',
     background: {
@@ -25,7 +25,7 @@ test('extends background entry with autoreload', () => {
       ]
     }
   }
-  const result = addAutoreload(manifest)
+  const result = addBackgroundscript(manifest, 'auto-reload.js')
   expect(result).toEqual({
     name: 'left-pad',
     background: {
