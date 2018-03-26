@@ -16,8 +16,12 @@ module.exports = function webpackConfig ({
   src = 'app',
   target = 'build/[vendor]',
   packageTarget = 'packages',
+  // @TODO: Expose webpack mode
+  // @TODO: Deprecate in favor of mode === 'production'
   dev = false,
+  // @TODO: Use next approach ('**/**.js') and deprecate
   copyIgnore = [ '**/*.js', '**/*.json' ],
+  // @TODO: Deprecate in favor of mode === 'production'
   devtool = false,
   pack = false,
   vendor = 'chrome',
