@@ -1,6 +1,6 @@
 {
   "name": "webextension-toolbox",
-  "version": "0.2.2",
+  "version": "1.0.0-beta.1",
   "description": "Framework for browser webextensions (Chrome, Opera, Safai, Edge)",
   "main": "index.js",
   "repository": "https://github.com/HaNdTriX/create-browserextension",
