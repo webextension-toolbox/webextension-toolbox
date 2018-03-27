@@ -16,14 +16,10 @@ module.exports = function webpackConfig ({
   src = 'app',
   target = 'build/[vendor]',
   packageTarget = 'packages',
-  // @TODO: Expose webpack mode
-  // @TODO: Deprecate in favor of mode === 'production'
-  dev = false,
+  mode = 'production',
   // @TODO: Use next approach ('**/**.js') and deprecate
   copyIgnore = [ '**/*.js', '**/*.json' ],
-  // @TODO: Deprecate in favor of mode === 'production'
   devtool = false,
-  pack = false,
   vendor = 'chrome',
   vendorVersion
 } = {}) {
@@ -36,7 +32,6 @@ module.exports = function webpackConfig ({
 
   // Get some defaults
   const { version, name, description } = getExtensionInfo(src)
-  const mode = dev ? 'development' : 'production'
 
   /******************************/
   /*      WEBPACK               */
@@ -113,7 +108,7 @@ module.exports = function webpackConfig ({
   config.plugins.push(new GlobEntriesPlugin())
 
   // Add module names to factory functions so they appear in browser profiler
-  if (dev) {
+  if (mode !== 'production') {
     config.plugins.push(new webpack.NamedModulesPlugin())
   }
 
@@ -155,7 +150,7 @@ module.exports = function webpackConfig ({
   )
 
   // Minify in production
-  if (!dev) {
+  if (mode === 'production') {
     config.plugins.push(new UglifyJsPlugin({
       parallel: true,
       uglifyOptions: {
@@ -176,7 +171,7 @@ module.exports = function webpackConfig ({
   )
 
   // Pack extension
-  if (pack) {
+  if (mode === 'production') {
     config.plugins.push(new ZipPlugin({
       path: packageTarget,
       filename: `${name}.v${version}.${vendor}.${getExtensionFileType(vendor)}`
