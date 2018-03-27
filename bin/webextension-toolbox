@@ -3,7 +3,6 @@ const program = require('commander')
 const chalk = require('chalk')
 const { version } = require('../package.json')
 const { compile } = require('..')
-const { resolve } = require('path')
 
 program.version(version)
 
@@ -15,16 +14,14 @@ program
   .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', 'cheap-source-map')
   .option('-r, --autoReload [autoReload]', 'reload extension after rebuild', true)
   .option('-vv, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
-  .option('-p, --pack [pack]', 'pack extension', false)
   .action(function watch (vendor, options) {
     compile({
       vendor,
-      dev: true,
+      mode: 'development',
       devtool: options.devtool,
       src: options.src,
       target: options.target,
-      autoReload: options.autoReload,
-      pack: options.pack
+      autoReload: options.autoReload
     }).watch({}, logCompileOutput)
   })
 
@@ -35,16 +32,14 @@ program
   .option('-t, --target [target]', 'specify target directory', 'dist/[vendor]')
   .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', false)
   .option('-vv, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
-  .option('-p, --pack [pack]', 'pack extension', true)
   .action(function build (vendor, options) {
     compile({
       vendor,
-      dev: false,
+      mode: 'production',
       devtool: options.devtool,
       src: options.src,
       target: options.target,
-      autoReload: false,
-      pack: options.pack
+      autoReload: false
     }).run(logCompileOutput)
   })
 
