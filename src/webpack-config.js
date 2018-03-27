@@ -9,7 +9,6 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const WebextensionPlugin = require('./webpack-webextension-plugin')
 const getExtensionInfo = require('./utils/get-extension-info')
 const getExtensionFileType = require('./utils/get-extension-file-type')
-const validateVendor = require('./utils/validate-vendor')
 const createPreset = require('./preset')
 
 module.exports = function webpackConfig ({
@@ -23,9 +22,6 @@ module.exports = function webpackConfig ({
   vendor = 'chrome',
   vendorVersion
 } = {}) {
-  // Input validation
-  validateVendor(vendor)
-
   // Compile variable targets
   target = resolve(target.replace('[vendor]', vendor))
   packageTarget = resolve(packageTarget.replace('[vendor]', vendor))
