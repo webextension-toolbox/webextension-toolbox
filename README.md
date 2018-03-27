@@ -170,6 +170,24 @@ All javascript files located at the root of your `./app` or `./app/scripts` dire
 | `app/scripts/background.js` | `dist/<vendor>/scripts/background.js` |
 | `app/some-dir/some-file.js` | Will be ignored.                      |
 
+### Customizing webpack config
+
+In order to extend our usage of `webpack`, you can define a function that extends its config via `webextension-toolbox.js`.
+
+```js
+// This file is not going through babel transformation.
+// So, we write it in vanilla JS
+// (But you could use ES2015 features supported by your Node.js version)
+module.exports = {
+  webpack: (config, { mode }) => {
+    // Perform customizations to webpack config
+
+    // Important: return the modified config
+    return config
+  }
+}
+```
+
 ## License
 
 Copyright 2018 Henrik Wenz
