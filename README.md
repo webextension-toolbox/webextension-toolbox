@@ -10,6 +10,10 @@ Small cli toolbox for creating cross-browser WebExtensions.
 
 If you want to get started quickly check out the [yeoman generator](https://github.com/HaNdTriX/generator-web-extension) for this project.
 
+## ⚠️ Caution
+
+You are currenly viewing the new beta version of `webextension-toolbox`. Please note, that things might break between beta releases.
+
 ## Browser Support
 
 * `chrome` (polyfill)
@@ -103,7 +107,7 @@ If you want to get started quickly check out the [yeoman generator](https://gith
 ### Install
 
 ```shell
-$ npm install -g webextension-toolbox
+$ npm install -g webextension-toolbox@next
 ```
 
 ### Development
