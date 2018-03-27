@@ -4,6 +4,7 @@ const compileTemplate = require('./utils/compile-template')
 const { promisify } = require('util')
 const WebpackFileEntry = require('./utils/webpack-file-entry')
 const manifestUtils = require('./manifest-utils')
+const vendors = require('./vendors.json')
 
 class WebextensionPlugin {
   constructor ({
@@ -245,5 +246,7 @@ class WebextensionPlugin {
       .map(filePath => filePath.replace(contextRegex, ''))
   }
 }
+
+WebextensionPlugin.vendors = vendors
 
 module.exports = WebextensionPlugin
