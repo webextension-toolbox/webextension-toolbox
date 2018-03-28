@@ -93,6 +93,6 @@
   }
 
   function log (message, ...args) {
-    console.log(`%cWebpackWebextensionPlugin: ${message}`, 'color: gray;', ...args)
+    console.log(`%cwebpack-webextension-plugin: ${message}`, 'color: gray;', ...args)
   }
 })(window)
