@@ -16,7 +16,6 @@ module.exports = function webpackConfig ({
   target = 'build/[vendor]',
   packageTarget = 'packages',
   dev = false,
-  // @TODO: Use next approach ('**/**.js') and deprecate
   copyIgnore = [ '**/*.js', '**/*.json' ],
   devtool = false,
   vendor = 'chrome',
@@ -38,6 +37,11 @@ module.exports = function webpackConfig ({
     context: resolve(src)
   }
 
+  // Automatically resolve the following extensions:
+  config.resolve = {
+    extensions: ['.js', '.json', '.mjs', '.jsx']
+  }
+
   // Source-Maps
   config.devtool = devtool
 
@@ -47,8 +51,8 @@ module.exports = function webpackConfig ({
   const entries = []
 
   // Add main entry glob
-  entries.push(resolve(src, '*.js'))
-  entries.push(resolve(src, '?(scripts)/*.js'))
+  entries.push(resolve(src, '*.{js,mjs,jsx}'))
+  entries.push(resolve(src, '?(scripts)/*.{js,mjs,jsx}'))
 
   // We use the GlobEntriesPlugin in order to
   // restart the compiler in watch mode, when new
@@ -138,7 +142,7 @@ module.exports = function webpackConfig ({
         to: target
       },
       {
-        // Copy all files except (.js, .json, _locales)
+        // Copy all language json files
         context: resolve(src),
         from: resolve(src, '_locales/**/*.json'),
         to: target
