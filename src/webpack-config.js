@@ -155,6 +155,8 @@ module.exports = function webpackConfig ({
     }))
   }
 
+  // Compile and validate manifest and autoreload
+  // extension in watch mode
   config.plugins.push(
     new WebextensionPlugin({
       vendor,
