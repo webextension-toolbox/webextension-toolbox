@@ -3,22 +3,23 @@
   const host = /* PLACEHOLDER-HOST */ 'localhost' /* PLACEHOLDER-HOST */
   const port = /* PLACEHOLDER-PORT */ 35729 /* PLACEHOLDER-PORT */
   const reconnectTime = /* PLACEHOLDER-RECONNECTTIME */ 3000 /* PLACEHOLDER-RECONNECTTIME */
-  let reconnectTimeoutId
 
   connect()
 
   function connect () {
-    // @TODO improve debounce behaviour
+    const connection = new WebSocket(
+      `ws://${host}:${port}`
+    )
+    connection.onopen = handleConnectionOpen
+    connection.onmessage = handleConnectionMessage
+    connection.onerror = handleConnectionError
+    connection.onclose = handleConnectionClose
+  }
+
+  let reconnectTimeoutId
+  function reconnect () {
     clearTimeout(reconnectTimeoutId)
-    reconnectTimeoutId = setTimeout(() => {
-      const connection = new WebSocket(
-        `ws://${host}:${port}`
-      )
-      connection.onopen = handleConnectionOpen
-      connection.onmessage = handleConnectionMessage
-      connection.onerror = handleConnectionError
-      connection.onclose = handleConnectionClose
-    }, reconnectTime)
+    reconnectTimeoutId = setTimeout(connect, reconnectTime)
   }
 
   function handleConnectionOpen () {
@@ -27,7 +28,7 @@
 
   function handleConnectionClose () {
     log(`Connection lost. Reconnecting in %ss'`, reconnectTime / 1000)
-    connect()
+    reconnect()
   }
 
   function handleConnectionError () {
