@@ -44,7 +44,9 @@
     "joi": "^13.1.2",
     "lodash": "^4.17.5",
     "uglifyjs-webpack-plugin": "^1.2.3",
+    "webextension-polyfill": "^0.2.1",
     "webpack": "^4.3.0",
+    "webpack-replace": "^1.0.0",
     "webpack-watched-glob-entries-plugin": "^2.1.1",
     "ws": "^5.1.0",
     "zip-webpack-plugin": "^3.0.0"
