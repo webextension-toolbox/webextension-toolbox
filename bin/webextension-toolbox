@@ -17,7 +17,7 @@ program
   .action(function watch (vendor, options) {
     compile({
       vendor,
-      mode: 'development',
+      dev: true,
       devtool: options.devtool,
       src: options.src,
       target: options.target,
@@ -35,7 +35,6 @@ program
   .action(function build (vendor, options) {
     compile({
       vendor,
-      mode: 'production',
       devtool: options.devtool,
       src: options.src,
       target: options.target,
