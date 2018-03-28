@@ -10,8 +10,7 @@
     "webextension-toolbox": "./bin/webextension-toolbox"
   },
   "scripts": {
-    "lint": "standard",
-    "test": "jest"
+    "lint": "standard"
   },
   "standard": {
     "globals": [
@@ -36,19 +35,16 @@
     "babel-loader": "8.0.0-beta.2",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.13",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
-    "chalk": "^2.3.2",
     "clean-webpack-plugin": "^0.1.19",
     "commander": "^2.15.0",
     "copy-webpack-plugin": "^4.5.1",
     "find-up": "^2.1.0",
-    "joi": "^13.1.2",
-    "lodash": "^4.17.5",
     "uglifyjs-webpack-plugin": "^1.2.3",
     "webextension-polyfill": "^0.2.1",
     "webpack": "^4.3.0",
     "webpack-replace": "^1.0.0",
     "webpack-watched-glob-entries-plugin": "^2.1.1",
-    "ws": "^5.1.0",
+    "webpack-webextension-plugin": "^0.0.1",
     "zip-webpack-plugin": "^3.0.0"
   },
   "devDependencies": {
