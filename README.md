@@ -192,6 +192,21 @@ module.exports = {
 }
 ```
 
+## FAQ
+
+### What is the difference to [web-ext](https://github.com/mozilla/web-ext)?
+
+If want to develop browser extensions for Firefox only [web-ext](https://github.com/mozilla/web-ext) might be a better fit for you, since it supports, extension signing, better manifest validation and auto mounting.
+
+Nevertheless if you want to develop cross browser extensions using
+
+* the same development experience in every browser
+* a single codebase
+* react
+* and custom webpack configuration
+
+webextension-toolbox might be your tool of choice. 
+
 ## License
 
 Copyright 2018 Henrik Wenz
