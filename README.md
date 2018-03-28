@@ -168,11 +168,12 @@ Always use the [webextension browser api](https://developer.mozilla.org/de/Add-o
 
 All javascript files located at the root of your `./app` or `./app/scripts` directory will create a seperate bundle.
 
-| app                         | dist                                  |
-|-----------------------------|---------------------------------------|
-| `app/background.js`         | `dist/<vendor>/background.js`         |
-| `app/scripts/background.js` | `dist/<vendor>/scripts/background.js` |
-| `app/some-dir/some-file.js` | Will be ignored.                      |
+| app                                 | dist                                  |
+|-------------------------------------|---------------------------------------|
+| `app/background.js`                 | `dist/<vendor>/background.js`         |
+| `app/scripts/background.js`         | `dist/<vendor>/scripts/background.js` |
+| `app/some-dir/some-file.js`         | Will be ignored as entry file.        |
+| `app/scripts/some-dir/some-file.js` | Will be ignored as entry file.        |
 
 ### Customizing webpack config
 
