@@ -3,57 +3,84 @@
   const host = /* PLACEHOLDER-HOST */ 'localhost' /* PLACEHOLDER-HOST */
   const port = /* PLACEHOLDER-PORT */ 35729 /* PLACEHOLDER-PORT */
   const reconnectTime = /* PLACEHOLDER-RECONNECTTIME */ 3000 /* PLACEHOLDER-RECONNECTTIME */
+  const quiet = /* PLACEHOLDER-QUIET */ false /* PLACEHOLDER-QUIET */
 
   connect()
 
+  /**
+   * Connect to the server
+   */
   function connect () {
     const connection = new WebSocket(
       `ws://${host}:${port}`
     )
-    connection.onopen = handleConnectionOpen
-    connection.onmessage = handleConnectionMessage
-    connection.onerror = handleConnectionError
-    connection.onclose = handleConnectionClose
-  }
-
-  let reconnectTimeoutId
-  function reconnect () {
-    clearTimeout(reconnectTimeoutId)
-    reconnectTimeoutId = setTimeout(connect, reconnectTime)
-  }
-
-  function handleConnectionOpen () {
-    log('Connected')
-  }
-
-  function handleConnectionClose () {
-    log(`Connection lost. Reconnecting in %ss'`, reconnectTime / 1000)
-    reconnect()
-  }
-
-  function handleConnectionError () {
-    log('Connection error.')
-  }
-
-  function handleConnectionMessage (event) {
-    let payload
-    try {
-      payload = JSON.parse(event.data)
-    } catch (error) {
-      log('Could not parse server payload')
+    connection.onopen = () => {
+      log('Connected')
     }
-    handleServerRequest(payload)
+    connection.onmessage = (event) => {
+      let payload
+      try {
+        payload = JSON.parse(event.data)
+      } catch (error) {
+        log('Could not parse server payload')
+      }
+      handleServerMessage(payload)
+    }
+    connection.onerror = () => {
+      log('Connection error.')
+    }
+    connection.onclose = () => {
+      log(`Connection lost. Reconnecting in %ss'`, reconnectTime / 1000)
+      reconnect()
+    }
   }
 
-  function handleServerRequest ({ action, changedFiles }) {
+  /**
+   * Debounced connect to the server
+   */
+  const reconnect = debounce(connect, reconnectTime)
+
+  /**
+   * Simple debounce function
+   * Delay and throttle the execution
+   * of the fs function
+   *
+   * @param {function} fn
+   * @param {number} time
+   */
+  function debounce (fn, time) {
+    let timeout
+    return function () {
+      const functionCall = () => fn.apply(this, arguments)
+      clearTimeout(timeout)
+      timeout = setTimeout(functionCall, time)
+    }
+  }
+
+  /**
+   * Handle messages from the server
+   *
+   * @param {Object} payload
+   * @param {String} payload.action
+   */
+  function handleServerMessage ({ action, changedFiles }) {
     switch (action) {
       case 'reload':
-        reloadExtension(changedFiles)
+        smartReloadExtension(changedFiles)
         break
     }
   }
 
-  function reloadExtension (changedFiles) {
+  /**
+   * We don't like reopening our devtools after a browser.runtime.reload.
+   * Since it is not possible to open them programatically, we
+   * need to reduce the runtime.reloads.
+   * This function prefers softer reloads, by comparing
+   * runtime depenencies with the changed files.
+   *
+   * @param {Array} changedFiles
+   */
+  function smartReloadExtension (changedFiles) {
     log('Reloading ...')
 
     // Full reload if we have no changed files (dump reload!)
@@ -63,17 +90,17 @@
 
     // Full reload manifest changed
     if (changedFiles.some(file => file === 'manifest.json')) {
-      reloadExtension()
+      smartReloadExtension()
     }
 
     // Full reload if _locales changed
     if (changedFiles.some(file => /^_locales\//.test(file))) {
-      reloadExtension()
+      smartReloadExtension()
     }
 
     // Full reload if manifest deps changed
     if (getManifestFileDeps().some(file => changedFiles.includes(file))) {
-      reloadExtension()
+      smartReloadExtension()
     }
 
     // Reload current tab (smart reload)
@@ -85,6 +112,10 @@
       .map(_window => _window.location.reload())
   }
 
+  /**
+   * Return all files depenencies listed
+   * in the manifest.json.
+   */
   function getManifestFileDeps () {
     const manifest = (browser || chrome).runtime.getManifest()
     const manifestStr = JSON.stringify(manifest)
@@ -92,7 +123,15 @@
     return manifestStr.match(fileRegex)
   }
 
+  /**
+   * Simple namespaced logger
+   *
+   * @param {*} message
+   * @param {*} args
+   */
   function log (message, ...args) {
-    console.log(`%cwebpack-webextension-plugin: ${message}`, 'color: gray;', ...args)
+    if (!quiet) {
+      console.log(`%cwebpack-webextension-plugin: ${message}`, 'color: gray;', ...args)
+    }
   }
 })(window)
