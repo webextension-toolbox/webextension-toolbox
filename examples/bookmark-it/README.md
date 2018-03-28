@@ -6,17 +6,17 @@
 
 ## Dev
 
-    $ npm run dev -- chrome
-    $ npm run dev -- firefox
-    $ npm run dev -- edge
-    $ npm run dev -- opera
+    $ npm run dev chrome
+    $ npm run dev firefox
+    $ npm run dev edge
+    $ npm run dev opera
 
 ## Build
 
-    $ npm run build -- chrome
-    $ npm run build -- firefox
-    $ npm run build -- edge
-    $ npm run build -- opera
+    $ npm run build chrome
+    $ npm run build firefox
+    $ npm run build edge
+    $ npm run build opera
 
 ## What it does
 
