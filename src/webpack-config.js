@@ -117,9 +117,21 @@ module.exports = function webpackConfig ({
   if (['chrome', 'opera'].includes(vendor)) {
     config.plugins.push(
       new webpack.ProvidePlugin({
-        browser: require.resolve('./webextension-polyfill')
+        browser: require.resolve('webextension-polyfill')
       })
     )
+
+    // The webextension-polyill doesn't work well with webpacks ProvidePlugin.
+    // So we need to monkey patch it on the fly
+    // More info: https://github.com/mozilla/webextension-polyfill/pull/86
+    config.module.rules.push({
+      test: /webextension-polyfill\/dist\/browser-polyfill\.js$/,
+      loader: 'string-replace-loader',
+      query: {
+        search: 'typeof browser === "undefined"',
+        replace: 'typeof window.browser === "undefined"'
+      }
+    })
   }
 
   // Set environment vars

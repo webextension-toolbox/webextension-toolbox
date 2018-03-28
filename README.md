@@ -16,8 +16,8 @@ You are currenly viewing the new beta version of `webextension-toolbox`. Please 
 
 ## Browser Support
 
-* `chrome` (polyfill)
-* `opera` (polyfill)
+* `chrome` (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
+* `opera` (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
 * `firefox`
 * `edge`
 
