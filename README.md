@@ -114,10 +114,9 @@ $ npm install -g webextension-toolbox@next
 
 * Compiles the extension via webpack to `dist/<vendor>`.
 * Watches all extension files and recompiles on demand.
-* Reloads extension as soon something changed.
+* Reloads extension or extension page as soon something changed.
 * Sets `process.env.NODE_ENV` to `development`.
 * Sets `process.env.VENDOR` to the current vendor.
-* Mounts the extension *(Firefox only)*
 
 #### Syntax
 
