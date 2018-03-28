@@ -15,13 +15,14 @@ module.exports = function webpackConfig ({
   src = 'app',
   target = 'build/[vendor]',
   packageTarget = 'packages',
-  mode = 'production',
+  dev = false,
   // @TODO: Use next approach ('**/**.js') and deprecate
   copyIgnore = [ '**/*.js', '**/*.json' ],
   devtool = false,
   vendor = 'chrome',
   vendorVersion
 } = {}) {
+  const mode = dev ? 'development' : 'production'
   // Compile variable targets
   target = resolve(target.replace('[vendor]', vendor))
   packageTarget = resolve(packageTarget.replace('[vendor]', vendor))
