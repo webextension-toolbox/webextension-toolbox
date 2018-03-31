@@ -126,7 +126,7 @@ module.exports = function webpackConfig ({
     // More info: https://github.com/mozilla/webextension-polyfill/pull/86
     config.module.rules.push({
       test: /webextension-polyfill\/dist\/browser-polyfill\.js$/,
-      loader: 'string-replace-loader',
+      loader: require.resolve('string-replace-loader'),
       query: {
         search: 'typeof browser === "undefined"',
         replace: 'typeof window.browser === "undefined"'
