@@ -10,6 +10,7 @@ const WebextensionPlugin = require('webpack-webextension-plugin')
 const getExtensionInfo = require('./utils/get-extension-info')
 const getExtensionFileType = require('./utils/get-extension-file-type')
 const createPreset = require('./preset')
+const WebpackBar = require('webpackbar')
 
 module.exports = function webpackConfig ({
   src = 'app',
@@ -192,6 +193,8 @@ module.exports = function webpackConfig ({
       filename: `${name}.v${version}.${vendor}.${getExtensionFileType(vendor)}`
     }))
   }
+
+  config.plugins.push(new WebpackBar())
 
   return config
 }
