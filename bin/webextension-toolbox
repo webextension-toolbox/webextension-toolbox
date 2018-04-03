@@ -15,6 +15,7 @@ program
   .option('-r, --autoReload [autoReload]', 'reload extension after rebuild', true)
   .option('-vv, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
   .action(function watch (vendor, options) {
+    logBanner()
     compile({
       vendor,
       dev: true,
@@ -33,6 +34,7 @@ program
   .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', false)
   .option('-vv, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
   .action(function build (vendor, options) {
+    logBanner()
     compile({
       vendor,
       devtool: options.devtool,
@@ -45,8 +47,6 @@ program
 program.parse(process.argv)
 
 function logCompileOutput (error, stats) {
-  logBanner()
-
   if (error) {
     console.error(error)
   }
@@ -59,17 +59,13 @@ function logCompileOutput (error, stats) {
 }
 
 function logBanner () {
-  const b = chalk.blue
-  const l = chalk.bold.yellow
-  console.log(b(`
-                              ###############                              
-                              ##           ##                              
-##########################################################################
-#                                                                        #
-#                                                                        #
-#                          ${l('WEBEXTENSION-TOOLBOX')}                          #
-#                                                                        #
-#                                                                        #
-##########################################################################
-  `))
+  const banner = `
+           ╔════════╗                     
+╔══════════════════════════════╗
+║     WEBEXTENSION-TOOLBOX     ║
+╚══════════════════════════════╝`
+  const colouredBanner = chalk.blue(
+    banner.replace('WEBEXTENSION-TOOLBOX', chalk.bold.yellow('WEBEXTENSION-TOOLBOX'))
+  )
+  console.log(colouredBanner)
 }

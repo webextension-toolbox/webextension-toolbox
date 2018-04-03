@@ -45,6 +45,7 @@
     "webpack": "^4.3.0",
     "webpack-watched-glob-entries-plugin": "^2.1.1",
     "webpack-webextension-plugin": "^0.0.1",
+    "webpackbar": "^2.4.0",
     "zip-webpack-plugin": "^3.0.0"
   },
   "devDependencies": {
