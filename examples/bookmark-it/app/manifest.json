@@ -1,4 +1,5 @@
 {
+  "manifest_version": 2,
   "icons": {
     "48": "icons/bookmark-it.png",
     "96": "icons/bookmark-it@2x.png"
