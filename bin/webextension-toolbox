@@ -3,7 +3,6 @@ const program = require('commander')
 const chalk = require('chalk')
 const { version } = require('../package.json')
 const { compile } = require('..')
-const { resolve } = require('path')
 
 program.version(version)
 
@@ -15,22 +14,16 @@ program
   .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', 'cheap-source-map')
   .option('-r, --autoReload [autoReload]', 'reload extension after rebuild', true)
   .option('-vv, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
-  .option('-p, --pack [pack]', 'pack extension', false)
   .action(function watch (vendor, options) {
+    logBanner()
     compile({
       vendor,
       dev: true,
       devtool: options.devtool,
       src: options.src,
       target: options.target,
-      autoReload: options.autoReload,
-      pack: options.pack
-    }).watch({}, (error, stats) => {
-      logCompileOutput(error, stats)
-      if (options.autoReload) {
-        mountExtension({ vendor, target: options.target })
-      }
-    })
+      autoReload: options.autoReload
+    }).watch({}, logCompileOutput)
   })
 
 program
@@ -40,24 +33,20 @@ program
   .option('-t, --target [target]', 'specify target directory', 'dist/[vendor]')
   .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', false)
   .option('-vv, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
-  .option('-p, --pack [pack]', 'pack extension', true)
   .action(function build (vendor, options) {
+    logBanner()
     compile({
       vendor,
-      dev: false,
       devtool: options.devtool,
       src: options.src,
       target: options.target,
-      autoReload: false,
-      pack: options.pack
+      autoReload: false
     }).run(logCompileOutput)
   })
 
 program.parse(process.argv)
 
 function logCompileOutput (error, stats) {
-  logBanner()
-
   if (error) {
     console.error(error)
   }
@@ -70,36 +59,13 @@ function logCompileOutput (error, stats) {
 }
 
 function logBanner () {
-  const b = chalk.blue
-  const l = chalk.bold.yellow
-  console.log(b(`
-                              ###############                              
-                              ##           ##                              
-##########################################################################
-#                                                                        #
-#                                                                        #
-#                          ${l('WEBEXTENSION-TOOLBOX')}                          #
-#                                                                        #
-#                                                                        #
-##########################################################################
-  `))
+  const banner = `
+           ╔════════╗                     
+╔══════════════════════════════╗
+║     WEBEXTENSION-TOOLBOX     ║
+╚══════════════════════════════╝`
+  const colouredBanner = chalk.blue(
+    banner.replace('WEBEXTENSION-TOOLBOX', chalk.bold.yellow('WEBEXTENSION-TOOLBOX'))
+  )
+  console.log(colouredBanner)
 }
-
-const mountExtension = (() => {
-  let mounted = false
-  return ({ vendor, target }) => {
-    // Mount only once
-    if (mounted) return
-
-    // Mounting is currently only supported by firefox
-    if (vendor !== 'firefox') return
-
-    mounted = true
-    return require('web-ext').default.cmd.run({
-      noInput: true,
-      sourceDir: resolve(target.replace('[vendor]', vendor))
-    }, {
-      shouldExitProgram: false
-    })
-  }
-})()

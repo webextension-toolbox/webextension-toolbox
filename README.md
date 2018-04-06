@@ -10,10 +10,14 @@ Small cli toolbox for creating cross-browser WebExtensions.
 
 If you want to get started quickly check out the [yeoman generator](https://github.com/HaNdTriX/generator-web-extension) for this project.
 
+## ⚠️ Caution
+
+You are currenly viewing the new beta version of `webextension-toolbox`. Please note, that things might break between beta releases.
+
 ## Browser Support
 
-* `chrome` (polyfill)
-* `opera` (polyfill)
+* `chrome` (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
+* `opera` (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
 * `firefox`
 * `edge`
 
@@ -103,17 +107,16 @@ If you want to get started quickly check out the [yeoman generator](https://gith
 ### Install
 
 ```shell
-$ npm install -g webextension-toolbox
+$ npm install -g webextension-toolbox@next
 ```
 
 ### Development
 
 * Compiles the extension via webpack to `dist/<vendor>`.
 * Watches all extension files and recompiles on demand.
-* Reloads extension as soon something changed.
+* Reloads extension or extension page as soon something changed.
 * Sets `process.env.NODE_ENV` to `development`.
 * Sets `process.env.VENDOR` to the current vendor.
-* Mounts the extension *(Firefox only)*
 
 #### Syntax
 
@@ -164,11 +167,45 @@ Always use the [webextension browser api](https://developer.mozilla.org/de/Add-o
 
 All javascript files located at the root of your `./app` or `./app/scripts` directory will create a seperate bundle.
 
-| app                         | dist                                  |
-|-----------------------------|---------------------------------------|
-| `app/background.js`         | `dist/<vendor>/background.js`         |
-| `app/scripts/background.js` | `dist/<vendor>/scripts/background.js` |
-| `app/some-dir/some-file.js` | Will be ignored.                      |
+| app                                 | dist                                  |
+|-------------------------------------|---------------------------------------|
+| `app/background.js`                 | `dist/<vendor>/background.js`         |
+| `app/scripts/background.js`         | `dist/<vendor>/scripts/background.js` |
+| `app/some-dir/some-file.js`         | Will be ignored as entry file.        |
+| `app/scripts/some-dir/some-file.js` | Will be ignored as entry file.        |
+
+### Customizing webpack config
+
+In order to extend our usage of `webpack`, you can define a function that extends its config via `webextension-toolbox.js`.
+
+```js
+// This file is not going through babel transformation.
+// So, we write it in vanilla JS
+// (But you could use ES2015 features supported by your Node.js version)
+module.exports = {
+  webpack: (config, { dev, vendor }) => {
+    // Perform customizations to webpack config
+
+    // Important: return the modified config
+    return config
+  }
+}
+```
+
+## FAQ
+
+### What is the difference to [web-ext](https://github.com/mozilla/web-ext)?
+
+If want to develop browser extensions for Firefox only [web-ext](https://github.com/mozilla/web-ext) might be a better fit for you, since it supports, extension signing, better manifest validation and auto mounting.
+
+Nevertheless if you want to develop cross browser extensions using
+
+* the same development experience in every browser
+* a single codebase
+* react
+* and custom webpack configuration
+
+webextension-toolbox might be your tool of choice. 
 
 ## License
 

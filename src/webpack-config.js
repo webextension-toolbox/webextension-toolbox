@@ -5,12 +5,12 @@ const GlobEntriesPlugin = require('webpack-watched-glob-entries-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const ZipPlugin = require('zip-webpack-plugin')
-const compileManifest = require('./manifest')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const WebextensionPlugin = require('webpack-webextension-plugin')
 const getExtensionInfo = require('./utils/get-extension-info')
 const getExtensionFileType = require('./utils/get-extension-file-type')
-const validateVendor = require('./utils/validate-vendor')
 const createPreset = require('./preset')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const WebpackBar = require('webpackbar')
 
 module.exports = function webpackConfig ({
   src = 'app',
@@ -18,22 +18,17 @@ module.exports = function webpackConfig ({
   packageTarget = 'packages',
   dev = false,
   copyIgnore = [ '**/*.js', '**/*.json' ],
-  autoReload = false,
   devtool = false,
-  pack = false,
   vendor = 'chrome',
   vendorVersion
 } = {}) {
-  // Input validation
-  validateVendor(vendor)
-
+  const mode = dev ? 'development' : 'production'
   // Compile variable targets
   target = resolve(target.replace('[vendor]', vendor))
   packageTarget = resolve(packageTarget.replace('[vendor]', vendor))
 
   // Get some defaults
   const { version, name, description } = getExtensionInfo(src)
-  const mode = dev ? 'development' : 'production'
 
   /******************************/
   /*      WEBPACK               */
@@ -41,6 +36,11 @@ module.exports = function webpackConfig ({
   const config = {
     mode,
     context: resolve(src)
+  }
+
+  // Automatically resolve the following extensions:
+  config.resolve = {
+    extensions: ['.js', '.json', '.mjs', '.jsx']
   }
 
   // Source-Maps
@@ -52,15 +52,8 @@ module.exports = function webpackConfig ({
   const entries = []
 
   // Add main entry glob
-  entries.push(resolve(src, '*.js'))
-  entries.push(resolve(src, '?(scripts)/*.js'))
-
-  // Add autoReload in dev
-  if (autoReload && ['chrome', 'opera'].includes(vendor)) {
-    entries.push(
-      resolve(__dirname, './auto-reload')
-    )
-  }
+  entries.push(resolve(src, '*.{js,mjs,jsx}'))
+  entries.push(resolve(src, '?(scripts)/*.{js,mjs,jsx}'))
 
   // We use the GlobEntriesPlugin in order to
   // restart the compiler in watch mode, when new
@@ -117,7 +110,7 @@ module.exports = function webpackConfig ({
   config.plugins.push(new GlobEntriesPlugin())
 
   // Add module names to factory functions so they appear in browser profiler
-  if (dev) {
+  if (mode !== 'production') {
     config.plugins.push(new webpack.NamedModulesPlugin())
   }
 
@@ -125,9 +118,21 @@ module.exports = function webpackConfig ({
   if (['chrome', 'opera'].includes(vendor)) {
     config.plugins.push(
       new webpack.ProvidePlugin({
-        browser: require.resolve('./webextension-polyfill')
+        browser: require.resolve('webextension-polyfill')
       })
     )
+
+    // The webextension-polyill doesn't work well with webpacks ProvidePlugin.
+    // So we need to monkey patch it on the fly
+    // More info: https://github.com/mozilla/webextension-polyfill/pull/86
+    config.module.rules.push({
+      test: /webextension-polyfill[\\/]+dist[\\/]+browser-polyfill\.js$/,
+      loader: require.resolve('string-replace-loader'),
+      query: {
+        search: 'typeof browser === "undefined"',
+        replace: 'typeof window.browser === "undefined"'
+      }
+    })
   }
 
   // Set environment vars
@@ -150,18 +155,7 @@ module.exports = function webpackConfig ({
         to: target
       },
       {
-        // Copy & Tranform manifest
-        from: resolve(src, 'manifest.json'),
-        transform: str => compileManifest(str, {
-          vendor,
-          autoReload,
-          name,
-          version,
-          description
-        })
-      },
-      {
-        // Copy all files except (.js, .json, _locales)
+        // Copy all language json files
         context: resolve(src),
         from: resolve(src, '_locales/**/*.json'),
         to: target
@@ -170,7 +164,7 @@ module.exports = function webpackConfig ({
   )
 
   // Minify in production
-  if (!dev) {
+  if (mode === 'production') {
     config.plugins.push(new UglifyJsPlugin({
       parallel: true,
       uglifyOptions: {
@@ -179,13 +173,28 @@ module.exports = function webpackConfig ({
     }))
   }
 
+  // Compile and validate manifest and autoreload
+  // extension in watch mode
+  config.plugins.push(
+    new WebextensionPlugin({
+      vendor,
+      manifestDefaults: {
+        name,
+        description,
+        version
+      }
+    })
+  )
+
   // Pack extension
-  if (pack) {
+  if (mode === 'production') {
     config.plugins.push(new ZipPlugin({
       path: packageTarget,
       filename: `${name}.v${version}.${vendor}.${getExtensionFileType(vendor)}`
     }))
   }
+
+  config.plugins.push(new WebpackBar())
 
   return config
 }
