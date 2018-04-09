@@ -25,7 +25,7 @@ module.exports = ({ vendor, vendorVersion }) => {
         {
           // Adds component stack to warning messages
           // Adds __self attribute to JSX which React will use for some warnings
-          development: process.env.NODE_ENV !== 'production'
+          development: !isProduction
         }
       ]
     ],
