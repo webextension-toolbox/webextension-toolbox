@@ -23,6 +23,10 @@ module.exports = function webpackConfig ({
   vendorVersion
 } = {}) {
   const mode = dev ? 'development' : 'production'
+
+  // Set the NODE_ENV (needed for babel)
+  process.env.NODE_ENV = mode
+
   // Compile variable targets
   target = resolve(target.replace('[vendor]', vendor))
   packageTarget = resolve(packageTarget.replace('[vendor]', vendor))
