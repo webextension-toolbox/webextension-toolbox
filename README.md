@@ -10,103 +10,62 @@ Small cli toolbox for creating cross-browser WebExtensions.
 
 If you want to get started quickly check out the [yeoman generator](https://github.com/HaNdTriX/generator-web-extension) for this project.
 
-## Browser Support
-
+# Browser Support
 * `chrome` (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
 * `opera` (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
 * `firefox`
 * `edge`
+# Features
+## react.js
+Works with react.js out of the box!  
+Run `$ npm i react react-dom` and you are ready to go.
+## packing
+The `build` task creates bundles for:
+* Firefox (`.xpi`)
+* Chrome (`.zip`)
+* Opera (`.crx`)
+* Edge (`.zip`)
+## manifest validation
+Validates your `manifest.json` while compiling.
+## manifest defaults
+Uses default fields (`name`, `version`, `description`) from your `package.json`
+## manifest vendor keys
+Allows you to define vendor specific manifest keys.
+### Example
 
-## Features
-
-<details>
-  <summary><b>react.js</b></summary>
-  <p>
-    Works with react.js out of the box!
-    <br />
-    Run <code>$ npm i react react-dom</code> and you are ready to go.
-  </p>
-</details>
-
-<details>
-  <summary><b>packing</b></summary>
-  <p>
-    The <code>build</code> task creates bundles for:
-    <ul>
-        <li>Firefox (<code>.xpi</code>)</li>
-        <li>Chrome (<code>.zip</code>)</li>
-        <li>Opera (<code>.crx</code>)</li>
-        <li>Edge (<code>.zip</code>)</li>
-    </ul>
-  </p>
-</details>
-
-<details>
-  <summary><b>manifest validation</b></summary>
-  <p>
-    Validates your <code>manifest.json</code> while compiling.
-  </p>
-</details>
-
-<details>
-  <summary><b>manifest defaults</b></summary>
-  <p>
-    Uses default fields (<code>name</code>, <code>version</code>, <code>description</code>) from your <code>package.json</code>
-  </p>
-</details>
-
-<details>
-  <summary><b>manifest vendor keys</b></summary>
-  <p>Allows you to define vendor specific manifest keys.</p>
-  <b>Example:</b> <code>manifest.json</code> 
-<pre>
-...
+`manifest.json` 
+```
 "name": "my-extension"
 "__chrome__key": "yourchromekey"
-...
-</pre>
-
-  <p>If the vendor is <code>chrome</code> it compiles to:</p>
-
-<pre>
-...
+```
+If the vendor is `chrome` it compiles to:
+```
 "name": "my-extension"
 "key": "yourchromekey"
-...
-</pre>
+```
+else it compiles to:
 
-  <p>else it compiles to:</p>
-
-<pre>
-...
+```
 "name": "my-extension"
-...
-</pre>
+```
+## polyfill
   
-</details>
+The [webextension standard](https://developer.mozilla.org/de/Add-ons/WebExtensions) is currently only supported by firefox and edge. This toolbox adds the necessary polyfills for chrome and opera. 
 
-<details>
-  <summary><b>polyfill</b></summary>
-  <p>
-    The <a href="https://developer.mozilla.org/de/Add-ons/WebExtensions">webextension standard</a> is currently only supported by firefox and edge. This toolbox adds the necessary polyfills for chrome and opera. 
-  </p>
-  <p>
-    This way many webextension apis will work in chrome and opera out of the box. 
-  </p>
-  <p>
-    In addition to that, this toolbox comes with <a href="https://github.com/babel/babel/tree/master/packages/babel-preset-env">babel-preset-env</a>.
-  </p>
-</details>
+This way many webextension apis will work in chrome and opera out of the box. 
+  
+In addition to that, this toolbox comes with <a href="https://github.com/babel/babel/tree/master/packages/babel-preset-env">babel-preset-env</a>.
+  
 
-## Usage
+# Usage
 
-### Install
+## Install
 
 ```shell
 $ npm install -g webextension-toolbox@next
 ```
 
-### Development
+## Development
 
 * Compiles the extension via webpack to `dist/<vendor>`.
 * Watches all extension files and recompiles on demand.
@@ -114,13 +73,13 @@ $ npm install -g webextension-toolbox@next
 * Sets `process.env.NODE_ENV` to `development`.
 * Sets `process.env.VENDOR` to the current vendor.
 
-#### Syntax
+### Syntax
 
 ```shell
 $ webextension-toolbox dev <vendor> [..options]
 ```
 
-#### Examples
+### Examples
 
 ```shell
 $ webextension-toolbox dev --help
@@ -130,7 +89,7 @@ $ webextension-toolbox dev opera
 $ webextension-toolbox dev edge
 ```
 
-### Build
+## Build
 
 * Compile extension via webpack to `dist/<vendor>`.
 * Minifies extension Code.
@@ -138,14 +97,14 @@ $ webextension-toolbox dev edge
 * Sets `process.env.VENDOR` to the current vendor.
 * Packs extension to `packages`.
 
-#### Syntax
+### Syntax
 
 ```shell
 $ webextension-toolbox build <vendor> [..options]
 ```
 
 
-#### Examples
+### Examples
 
 ```shell
 $ webextension-toolbox build --help
@@ -155,11 +114,11 @@ $ webextension-toolbox build opera
 $ webextension-toolbox build edge
 ```
 
-### Browser API
+## Browser API
 
 Always use the [webextension browser api](https://developer.mozilla.org/de/Add-ons/WebExtensions). Webextension-Toolbox will polyfill it for you in chrome and opera.
 
-### Entry points
+## Entry points
 
 All javascript files located at the root of your `./app` or `./app/scripts` directory will create a seperate bundle.
 
@@ -170,7 +129,7 @@ All javascript files located at the root of your `./app` or `./app/scripts` dire
 | `app/some-dir/some-file.js`         | Will be ignored as entry file.        |
 | `app/scripts/some-dir/some-file.js` | Will be ignored as entry file.        |
 
-### Customizing webpack config
+## Customizing webpack config
 
 In order to extend our usage of `webpack`, you can define a function that extends its config via `webextension-toolbox.js`.
 
@@ -188,9 +147,9 @@ module.exports = {
 }
 ```
 
-## FAQ
+# FAQ
 
-### What is the difference to [web-ext](https://github.com/mozilla/web-ext)?
+## What is the difference to [web-ext](https://github.com/mozilla/web-ext)?
 
 If want to develop browser extensions for Firefox only [web-ext](https://github.com/mozilla/web-ext) might be a better fit for you, since it supports, extension signing, better manifest validation and auto mounting.
 
@@ -203,7 +162,7 @@ Nevertheless if you want to develop cross browser extensions using
 
 webextension-toolbox might be your tool of choice. 
 
-## License
+# License
 
 Copyright 2018 Henrik Wenz
 
