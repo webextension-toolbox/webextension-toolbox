@@ -62,7 +62,7 @@ In addition to that, this toolbox comes with <a href="https://github.com/babel/b
 ## Install
 
 ```shell
-$ npm install -g webextension-toolbox@next
+$ npm install -g webextension-toolbox
 ```
 
 ## Development
