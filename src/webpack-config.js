@@ -171,6 +171,7 @@ module.exports = function webpackConfig ({
   if (mode === 'production') {
     config.plugins.push(new UglifyJsPlugin({
       parallel: true,
+      sourceMap: !!devtool,
       uglifyOptions: {
         ecma: 8
       }
