@@ -199,6 +199,18 @@ module.exports = function webpackConfig ({
     }))
   }
 
+  // Disable webpacks usage of eval by disabling nodes global
+  // @url https://github.com/webpack/webpack/blob/master/buildin/global.js
+  config.node = {
+    global: false
+  }
+  // In order to still be able to use global we use window instead
+  config.plugins.push(
+    new webpack.ProvidePlugin({
+      global: require.resolve('./utils/global.js')
+    })
+  )
+
   config.plugins.push(new WebpackBar())
 
   return config
