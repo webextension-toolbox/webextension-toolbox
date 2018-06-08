@@ -44,7 +44,7 @@
     "webextension-polyfill": "^0.2.1",
     "webpack": "^4.5.0",
     "webpack-watched-glob-entries-plugin": "^2.1.2",
-    "webpack-webextension-plugin": "^0.0.3",
+    "webpack-webextension-plugin": "^0.1.1",
     "webpackbar": "^2.6.1",
     "zip-webpack-plugin": "^3.0.0"
   },
