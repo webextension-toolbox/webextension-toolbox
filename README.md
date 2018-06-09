@@ -38,17 +38,25 @@ Allows you to define vendor specific manifest keys.
 ```
 "name": "my-extension"
 "__chrome__key": "yourchromekey"
+"__chrome|opera__key2: "yourblinkkey"
 ```
 If the vendor is `chrome` it compiles to:
 ```
 "name": "my-extension"
 "key": "yourchromekey"
+"key2": "yourblinkkey"
+```
+If the vendor is `opera` it compiles to:
+```
+"name": "my-extension"
+"key2": "yourblinkkey"
 ```
 else it compiles to:
 
 ```
 "name": "my-extension"
 ```
+
 ## polyfill
   
 The [webextension standard](https://developer.mozilla.org/de/Add-ons/WebExtensions) is currently only supported by firefox and edge. This toolbox adds the necessary polyfills for chrome and opera. 
