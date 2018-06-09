@@ -1,15 +1,15 @@
 [![webextension-toolbox](./assets/logo-repo.png)](https://www.npmjs.com/package/webextension-toolbox)
 
 [![npm package](https://badge.fury.io/js/webextension-toolbox.svg)](https://www.npmjs.com/package/webextension-toolbox)
-[![build status](https://travis-ci.org/webextension-tools/webextension-toolbox.svg?branch=master)](https://travis-ci.org/webextension-tools/webextension-toolbox) 
-[![dependencies](https://david-dm.org/webextension-tools/webextension-toolbox/status.svg)](https://david-dm.org/webextension-tools/webextension-toolbox)
-[![devDependencies](https://david-dm.org/webextension-tools/webextension-toolbox/dev-status.svg)](https://david-dm.org/webextension-tools/webextension-toolbox?type=dev)
+[![build status](https://travis-ci.org/webextension-toolbox/webextension-toolbox.svg?branch=master)](https://travis-ci.org/webextension-toolbox/webextension-toolbox) 
+[![dependencies](https://david-dm.org/webextension-toolbox/webextension-toolbox/status.svg)](https://david-dm.org/webextension-toolbox/webextension-toolbox)
+[![devDependencies](https://david-dm.org/webextension-toolbox/webextension-toolbox/dev-status.svg)](https://david-dm.org/webextension-toolbox/webextension-toolbox?type=dev)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-[![license](https://img.shields.io/npm/l/webextension-toolbox.svg)](https://github.com/webextension-tools/webextension-toolbox/blob/master/LICENSE) [![Greenkeeper badge](https://badges.greenkeeper.io/webextension-tools/webextension-toolbox.svg)](https://greenkeeper.io/)
+[![license](https://img.shields.io/npm/l/webextension-toolbox.svg)](https://github.com/webextension-toolbox/webextension-toolbox/blob/master/LICENSE) [![Greenkeeper badge](https://badges.greenkeeper.io/webextension-toolbox/webextension-toolbox.svg)](https://greenkeeper.io/)
 
 Small cli toolbox for creating cross-browser WebExtensions.
 
-If you want to get started quickly check out the [yeoman generator](https://github.com/HaNdTriX/generator-web-extension) for this project.
+If you want to get started quickly check out the [yeoman generator](https://github.com/webextension-toolbox/generator-web-extension) for this project.
 
 # Browser Support
 * `chrome` (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
