@@ -5,7 +5,7 @@
 [![dependencies](https://david-dm.org/webextension-tools/webextension-toolbox/status.svg)](https://david-dm.org/webextension-tools/webextension-toolbox)
 [![devDependencies](https://david-dm.org/webextension-tools/webextension-toolbox/dev-status.svg)](https://david-dm.org/webextension-tools/webextension-toolbox?type=dev)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-[![license](https://img.shields.io/npm/l/webextension-toolbox.svg)](https://github.com/webextension-tools/webextension-toolbox/blob/master/LICENSE)
+[![license](https://img.shields.io/npm/l/webextension-toolbox.svg)](https://github.com/webextension-tools/webextension-toolbox/blob/master/LICENSE) [![Greenkeeper badge](https://badges.greenkeeper.io/webextension-tools/webextension-toolbox.svg)](https://greenkeeper.io/)
 
 Small cli toolbox for creating cross-browser WebExtensions.
 
