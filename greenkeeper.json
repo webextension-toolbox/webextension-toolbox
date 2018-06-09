@@ -1,0 +1,10 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "examples/bookmark-it/package.json",
+        "package.json"
+      ]
+    }
+  }
+}
