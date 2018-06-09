@@ -140,7 +140,7 @@ All javascript files located at the root of your `./app` or `./app/scripts` dire
 
 ## Customizing webpack config
 
-In order to extend our usage of `webpack`, you can define a function that extends its config via `webextension-toolbox.js`.
+In order to extend our usage of `webpack`, you can define a function that extends its config via `webextension-toolbox-config.js`.
 
 ```js
 // This file is not going through babel transformation.
