@@ -38,17 +38,25 @@ Allows you to define vendor specific manifest keys.
 ```
 "name": "my-extension"
 "__chrome__key": "yourchromekey"
+"__chrome|opera__key2: "yourblinkkey"
 ```
 If the vendor is `chrome` it compiles to:
 ```
 "name": "my-extension"
 "key": "yourchromekey"
+"key2": "yourblinkkey"
+```
+If the vendor is `opera` it compiles to:
+```
+"name": "my-extension"
+"key2": "yourblinkkey"
 ```
 else it compiles to:
 
 ```
 "name": "my-extension"
 ```
+
 ## polyfill
   
 The [webextension standard](https://developer.mozilla.org/de/Add-ons/WebExtensions) is currently only supported by firefox and edge. This toolbox adds the necessary polyfills for chrome and opera. 
@@ -132,7 +140,7 @@ All javascript files located at the root of your `./app` or `./app/scripts` dire
 
 ## Customizing webpack config
 
-In order to extend our usage of `webpack`, you can define a function that extends its config via `webextension-toolbox.js`.
+In order to extend our usage of `webpack`, you can define a function that extends its config via `webextension-toolbox-config.js`.
 
 ```js
 // This file is not going through babel transformation.
