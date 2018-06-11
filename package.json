@@ -3,7 +3,7 @@
   "version": "1.0.5",
   "description": "Framework for browser webextensions (Chrome, Opera, Safai, Edge)",
   "main": "index.js",
-  "repository": "https://github.com/HaNdTriX/create-browserextension",
+  "repository": "https://github.com/webextension-toolbox/webextension-toolbox",
   "author": "Henrik Wenz <HaNdTriX@gmail.com> (https://github.com/HaNdTriX)",
   "license": "MIT",
   "bin": {
