@@ -1,6 +1,6 @@
 {
   "name": "webextension-toolbox",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "description": "Framework for browser webextensions (Chrome, Opera, Safai, Edge)",
   "main": "index.js",
   "repository": "https://github.com/webextension-toolbox/webextension-toolbox",
