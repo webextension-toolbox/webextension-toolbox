@@ -3,3 +3,4 @@
 appveyor.yml
 renovate.json
 .travis.yml
+/assets
