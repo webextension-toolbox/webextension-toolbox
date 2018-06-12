@@ -32,7 +32,7 @@
     "@babel/polyfill": "7.0.0-beta.49",
     "@babel/preset-env": "7.0.0-beta.49",
     "@babel/preset-react": "7.0.0-beta.49",
-    "@babel/runtime": "7.0.0-beta.49",
+    "@babel/runtime": "7.0.0-beta.50",
     "babel-loader": "8.0.0-beta.3",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.13",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
