@@ -1,2 +1,5 @@
 /examples
 /.github
+appveyor.yml
+renovate.json
+.travis.yml
