@@ -6,5 +6,5 @@
   },
   "assignees": ["balcsida"],
   "prHourlyLimit": 1,
-  "pinVersions": false
+  "rangeStrategy": "bump"
 }
