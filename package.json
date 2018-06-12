@@ -10,7 +10,8 @@
     "webextension-toolbox": "./bin/webextension-toolbox"
   },
   "scripts": {
-    "lint": "standard"
+    "lint": "standard",
+    "test": "npm run lint"
   },
   "standard": {
     "globals": [
