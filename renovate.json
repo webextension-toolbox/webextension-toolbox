@@ -5,5 +5,6 @@
     "automerge": false
   },
   "assignees": ["balcsida"],
-  "prHourlyLimit": 1
+  "prHourlyLimit": 1,
+  "pinVersions": false
 }
