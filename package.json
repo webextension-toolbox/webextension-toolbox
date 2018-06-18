@@ -39,7 +39,7 @@
     "clean-webpack-plugin": "^0.1.19",
     "commander": "^2.15.1",
     "copy-webpack-plugin": "^4.5.1",
-    "find-up": "^2.1.0",
+    "find-up": "^3.0.0",
     "string-replace-loader": "^2.1.1",
     "uglifyjs-webpack-plugin": "^1.2.5",
     "webextension-polyfill": "^0.2.1",
