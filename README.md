@@ -1,4 +1,5 @@
-[![webextension-toolbox](./assets/logo-repo.png)](https://www.npmjs.com/package/webextension-toolbox)
+[![webextension-toolbox](./assets/icon.svg)](https://www.npmjs.com/package/webextension-toolbox)
+# WebExtension Toolbox
 
 [![npm package](https://badge.fury.io/js/webextension-toolbox.svg)](https://www.npmjs.com/package/webextension-toolbox)
 [![build status](https://travis-ci.org/webextension-toolbox/webextension-toolbox.svg?branch=master)](https://travis-ci.org/webextension-toolbox/webextension-toolbox) 
