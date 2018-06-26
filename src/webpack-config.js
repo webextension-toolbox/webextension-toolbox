@@ -5,7 +5,6 @@ const GlobEntriesPlugin = require('webpack-watched-glob-entries-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const ZipPlugin = require('zip-webpack-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const WebextensionPlugin = require('webpack-webextension-plugin')
 const getExtensionInfo = require('./utils/get-extension-info')
 const getExtensionFileType = require('./utils/get-extension-file-type')
@@ -113,11 +112,6 @@ module.exports = function webpackConfig ({
   // Add Wilcard Entry Plugin
   config.plugins.push(new GlobEntriesPlugin())
 
-  // Add module names to factory functions so they appear in browser profiler
-  if (mode !== 'production') {
-    config.plugins.push(new webpack.NamedModulesPlugin())
-  }
-
   // Add webextension polyfill
   if (['chrome', 'opera'].includes(vendor)) {
     config.plugins.push(
@@ -142,7 +136,6 @@ module.exports = function webpackConfig ({
   // Set environment vars
   config.plugins.push(
     new webpack.EnvironmentPlugin({
-      NODE_ENV: mode,
       VENDOR: vendor,
       WEBEXTENSION_TOOLBOX_VERSION: version
     })
@@ -166,17 +159,6 @@ module.exports = function webpackConfig ({
       }
     ])
   )
-
-  // Minify in production
-  if (mode === 'production') {
-    config.plugins.push(new UglifyJsPlugin({
-      parallel: true,
-      sourceMap: !!devtool,
-      uglifyOptions: {
-        ecma: 8
-      }
-    }))
-  }
 
   // Compile and validate manifest and autoreload
   // extension in watch mode
