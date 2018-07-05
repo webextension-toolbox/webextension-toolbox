@@ -170,6 +170,14 @@ module.exports = {
 }
 ```
 
+As WebExtension Toolbox uses webpack’s [devtool]( https://webpack.js.org/configuration/devtool/) feature under the hood, you can also customize the desired devtool with the `--devtool` argument.
+For example, if you have problems with source maps on Firefox, you can try the following command:
+```
+webextension-toolbox build firefox --devtool=inline-cheap-source-map
+```
+Please see Issue #58 for more information on this
+
+
 # FAQ
 
 ## What is the difference to [web-ext](https://github.com/mozilla/web-ext)?
