@@ -1,4 +1,4 @@
-[![webextension-toolbox](./assets/icon.svg)](https://www.npmjs.com/package/webextension-toolbox)
+[<img align="right" src="./assets/icon.svg?sanitize=true"></a>](https://www.npmjs.com/package/webextension-toolbox)
 # WebExtension Toolbox
 
 [![npm package](https://badge.fury.io/js/webextension-toolbox.svg)](https://www.npmjs.com/package/webextension-toolbox)
