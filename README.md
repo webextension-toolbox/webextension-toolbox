@@ -99,8 +99,9 @@ $ webextension-toolbox dev opera
 $ webextension-toolbox dev edge
 ```
 
-Note: For Microsoft Edge, it is not allowed to connect to localhost with WebSocket. For this reason, you need to disable automatic detection for intranet network. You can do this under Internet options:
-![fix_edge_websocket](https://user-images.githubusercontent.com/1768446/39151474-a0ab6ea6-4745-11e8-8f59-b2aafd101da2.gif)
+Note: For Microsoft Edge, it is not allowed to connect to localhost with WebSocket.
+You need to disable "Include all local (intranet) sites not listed in other zones" under "Internet options":
+![GIF Animation showing a cursor turning off Include all local (intranet) sites not listed in other zones option under Internet properties, Security, Local intranet](https://i.imgur.com/puhk4gZ.gif)
 
 or using Registry Editor (regedit):
 ```
