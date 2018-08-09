@@ -2,7 +2,8 @@
 # WebExtension Toolbox
 
 [![npm package](https://badge.fury.io/js/webextension-toolbox.svg)](https://www.npmjs.com/package/webextension-toolbox)
-[![build status](https://travis-ci.org/webextension-toolbox/webextension-toolbox.svg?branch=master)](https://travis-ci.org/webextension-toolbox/webextension-toolbox) 
+[![build status](https://travis-ci.org/webextension-toolbox/webextension-toolbox.svg?branch=master)](https://travis-ci.org/webextension-toolbox/webextension-toolbox) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwebextension-toolbox%2Fwebextension-toolbox.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwebextension-toolbox%2Fwebextension-toolbox?ref=badge_shield)
+
 [![dependencies](https://david-dm.org/webextension-toolbox/webextension-toolbox/status.svg)](https://david-dm.org/webextension-toolbox/webextension-toolbox)
 [![devDependencies](https://david-dm.org/webextension-toolbox/webextension-toolbox/dev-status.svg)](https://david-dm.org/webextension-toolbox/webextension-toolbox?type=dev)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
@@ -199,3 +200,6 @@ webextension-toolbox might be your tool of choice.
 Copyright 2018 Henrik Wenz
 
 This project is free software released under the MIT license.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fwebextension-toolbox%2Fwebextension-toolbox.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fwebextension-toolbox%2Fwebextension-toolbox?ref=badge_large)
