@@ -128,7 +128,7 @@ module.exports = function webpackConfig ({
       loader: require.resolve('string-replace-loader'),
       query: {
         search: 'typeof browser === "undefined"',
-        replace: 'typeof window.browser === "undefined"'
+        replace: 'typeof window.browser === "undefined" || Object.getPrototypeOf(window.browser) !== Object.prototype'
       }
     })
   }
