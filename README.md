@@ -39,7 +39,7 @@ Allows you to define vendor specific manifest keys.
 ```
 "name": "my-extension"
 "__chrome__key": "yourchromekey"
-"__chrome|opera__key2: "yourblinkkey"
+"__chrome|opera__key2": "yourblinkkey"
 ```
 If the vendor is `chrome` it compiles to:
 ```
