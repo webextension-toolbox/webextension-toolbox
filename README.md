@@ -138,7 +138,7 @@ $ webextension-toolbox build edge
 
 ## Browser API
 
-Always use the [webextension browser api](https://developer.mozilla.org/de/Add-ons/WebExtensions). Webextension-Toolbox will polyfill it for you in chrome and opera.
+Always use the [webextension browser api](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions). Webextension-Toolbox will polyfill it for you in chrome and opera.
 
 ## Entry points
 
