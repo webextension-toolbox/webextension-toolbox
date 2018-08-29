@@ -37,19 +37,19 @@ Allows you to define vendor specific manifest keys.
 
 `manifest.json` 
 ```
-"name": "my-extension"
-"__chrome__key": "yourchromekey"
+"name": "my-extension",
+"__chrome__key": "yourchromekey",
 "__chrome|opera__key2": "yourblinkkey"
 ```
 If the vendor is `chrome` it compiles to:
 ```
-"name": "my-extension"
-"key": "yourchromekey"
+"name": "my-extension",
+"key": "yourchromekey",
 "key2": "yourblinkkey"
 ```
 If the vendor is `opera` it compiles to:
 ```
-"name": "my-extension"
+"name": "my-extension",
 "key2": "yourblinkkey"
 ```
 else it compiles to:
