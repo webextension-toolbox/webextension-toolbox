@@ -33,7 +33,7 @@
     "@babel/preset-env": "7.0.0",
     "@babel/preset-react": "7.0.0",
     "@babel/runtime": "7.0.0",
-    "babel-loader": "8.0.0",
+    "babel-loader": "8.0.1",
     "babel-plugin-transform-react-remove-prop-types": "^0.4.13",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "clean-webpack-plugin": "^0.1.19",
