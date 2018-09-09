@@ -50,7 +50,7 @@
   },
   "devDependencies": {
     "jest": "^23.1.0",
-    "standard": "^11.0.1"
+    "standard": "^12.0.0"
   },
   "engines": {
     "node": ">=v8.1.4"
