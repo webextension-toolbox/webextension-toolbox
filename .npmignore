@@ -1,6 +1,6 @@
 /examples
 /.github
-appveyor.yml
+azure-pipelines.yml
 renovate.json
 .travis.yml
 /assets

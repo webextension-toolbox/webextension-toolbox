@@ -1,0 +1,65 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+# Only trigger CI builds for the master branch, instead 
+# of every branch. You'll automatically be configured to 
+# build PRs, but you can't currently control that from the YAML directly
+# For details, see https://docs.microsoft.com/en-us/azure/devops/pipelines/build/triggers
+# trigger:
+# - master
+
+# We can run multiple jobs in parallel. For this project
+# I'm running Linux, Windows, and macOS jobs. For syntac details
+# see https://docs.microsoft.com/en-us/azure/devops/pipelines/process/phases
+jobs:
+
+# Provide a name for the job
+- job: Linux
+  pool:
+    vmImage: 'ubuntu-16.04'
+
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '8.x'
+    displayName: 'Install Node.js'
+
+  - script: |
+      npm install
+      npm run test
+    displayName: 'npm install and test'
+
+
+# Run a build on macOS at the same time
+- job: macOS
+  pool:
+    vmImage: 'macOS-10.13'
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '8.x'
+    displayName: 'Install Node.js'
+
+  - script: |
+      npm install
+      npm run test
+    displayName: 'npm install and test'
+
+# Run a build on Windows at the same time
+- job: Windows
+  pool:
+    vmImage: 'win1803'
+  # The Windows build involves running a powershell script
+  # to execute the Cake build script
+  steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '8.x'
+    displayName: 'Install Node.js'
+
+  - script: |
+      npm install
+      npm run test
+    displayName: 'npm install and test'
