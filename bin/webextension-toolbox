@@ -21,6 +21,7 @@ program
       dev: true,
       devtool: options.devtool,
       src: options.src,
+      minimize: false,
       target: options.target,
       autoReload: options.autoReload
     }).watch({}, logCompileOutput)
@@ -32,6 +33,7 @@ program
   .option('-s, --src [src]', 'specify source directory', 'app')
   .option('-t, --target [target]', 'specify target directory', 'dist/[vendor]')
   .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', false)
+  .option('-m, --disableminimize', 'disables code minification', false)
   .option('-vv, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
   .action(function build (vendor, options) {
     logBanner()
@@ -40,6 +42,7 @@ program
       devtool: options.devtool,
       src: options.src,
       target: options.target,
+      minimize: !options.disableminimize,
       autoReload: false
     }).run(logCompileOutput)
   })
