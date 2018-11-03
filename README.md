@@ -123,18 +123,17 @@ Windows Registry Editor Version 5.00
 ### Syntax
 
 ```shell
-$ webextension-toolbox build <vendor> [..options]
-```
+Usage: build [options] <vendor>
 
+Compiles extension for production
 
-### Examples
-
-```shell
-$ webextension-toolbox build --help
-$ webextension-toolbox build chrome
-$ webextension-toolbox build firefox
-$ webextension-toolbox build opera
-$ webextension-toolbox build edge
+Options:
+  -s, --src [src]                       specify source directory (default: "app")
+  -t, --target [target]                 specify target directory (default: "dist/[vendor]")
+  -d, --devtool [devtool]               controls if and how source maps are generated (default: false)
+  -m, --no-minimize                     disables code minification
+  -vv, --vendorVersion [vendorVersion]  last supported vendor (default: current)
+  -h, --help                            output usage information
 ```
 
 ## Browser API
