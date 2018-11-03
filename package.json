@@ -11,7 +11,7 @@
   },
   "scripts": {
     "lint": "standard",
-    "test": "npm run lint && cd examples && cd bookmark-it && npm install && npm run build chrome && npm run build firefox && npm run build opera && npm run build edge"
+    "test": "npm run lint && cd examples && cd bookmark-it && npm install && npm run build chrome && npm run build firefox && npm run build opera && npm run build edge && npm run build firefox -m"
   },
   "standard": {
     "globals": [
