@@ -18,6 +18,7 @@ module.exports = function webpackConfig ({
   dev = false,
   copyIgnore = [ '**/*.js', '**/*.json' ],
   devtool = false,
+  minimize = false,
   vendor = 'chrome',
   vendorVersion
 } = {}) {
@@ -73,6 +74,10 @@ module.exports = function webpackConfig ({
     filename: '[name].js',
     chunkFilename: '[id].chunk.js'
   }
+  /******************************/
+  /*    WEBPACK.OPTIMIZATION    */
+  /******************************/
+  config.optimization = { minimize: minimize }
 
   /******************************/
   /*       WEBPACK.LOADERS      */
