@@ -132,7 +132,7 @@ Options:
   -t, --target [target]                 specify target directory (default: "dist/[vendor]")
   -d, --devtool [devtool]               controls if and how source maps are generated (default: false)
   -m, --no-minimize                     disables code minification
-  -vv, --vendorVersion [vendorVersion]  last supported vendor (default: current)
+  -v, --vendorVersion [vendorVersion]   last supported vendor (default: current)
   -h, --help                            output usage information
 ```
 
