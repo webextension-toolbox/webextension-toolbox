@@ -13,7 +13,7 @@ program
   .option('-t, --target [target]', 'specify target directory', 'dist/[vendor]')
   .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', 'cheap-source-map')
   .option('-r, --autoReload [autoReload]', 'reload extension after rebuild', true)
-  .option('-vv, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
+  .option('-v, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
   .action(function watch (vendor, options) {
     logBanner()
     compile({
@@ -34,7 +34,7 @@ program
   .option('-t, --target [target]', 'specify target directory', 'dist/[vendor]')
   .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', false)
   .option('-m, --no-minimize', 'disables code minification', false)
-  .option('-vv, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
+  .option('-v, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
   .action(function build (vendor, options) {
     logBanner()
     compile({
