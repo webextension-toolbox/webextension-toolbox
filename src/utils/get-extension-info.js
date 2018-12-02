@@ -1,4 +1,5 @@
 const { resolve } = require('path')
+const { fs } = require('fs')
 
 function getExtensionInfo (src) {
   const manifestJSON = getManifestJSON(src)
@@ -16,8 +17,14 @@ function getExtensionInfo (src) {
 }
 
 function getManifestJSON (src) {
+  const manifestPath = resolve(src, 'manifest.json')
   try {
-    return require(resolve(src, 'manifest.json'))
+    fs.existsSync(manifestPath)
+  } catch (error) {
+    throw new Error('manifest.json is not present')
+  }
+  try {
+    return require(manifestPath)
   } catch (error) {
     throw new Error(`You need to provide a valid 'manifest.json'`)
   }
