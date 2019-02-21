@@ -8,7 +8,6 @@ const ZipPlugin = require('zip-webpack-plugin')
 const WebextensionPlugin = require('webpack-webextension-plugin')
 const getExtensionInfo = require('./utils/get-extension-info')
 const getExtensionFileType = require('./utils/get-extension-file-type')
-const createPreset = require('./preset')
 const WebpackBar = require('webpackbar')
 
 module.exports = function webpackConfig ({
@@ -94,10 +93,12 @@ module.exports = function webpackConfig ({
       loader: require.resolve('babel-loader'),
       options: {
         cacheDirectory: true,
-        ...createPreset({
-          vendor,
-          vendorVersion
-        })
+        presets: [
+          ['webextension-toolbox/src/preset', {
+            vendor,
+            vendorVersion
+          }]
+        ]
       }
     }
   })

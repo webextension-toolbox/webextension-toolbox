@@ -1,7 +1,6 @@
 const browserslist = require('browserslist')
 
-module.exports = ({ vendor, vendorVersion }) => {
-  const env = process.env.BABEL_ENV || process.env.NODE_ENV
+module.exports = (context, { vendor, vendorVersion }, env) => {
   const isProduction = env === 'production'
   const targets = {}
   targets[vendor] = vendorVersion || latest(vendor)
