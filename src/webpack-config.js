@@ -8,6 +8,7 @@ const ZipPlugin = require('zip-webpack-plugin')
 const WebextensionPlugin = require('webpack-webextension-plugin')
 const getExtensionInfo = require('./utils/get-extension-info')
 const getExtensionFileType = require('./utils/get-extension-file-type')
+const getLastNVendorVersion = require('./utils/get-latest-n-vendor-version')
 const WebpackBar = require('webpackbar')
 
 module.exports = function webpackConfig ({
@@ -90,13 +91,23 @@ module.exports = function webpackConfig ({
     test: /\.(js|jsx|mjs)$/,
     exclude: /node_modules/,
     use: {
-      loader: require.resolve('babel-loader'),
+      loader: 'babel-loader',
       options: {
-        cacheDirectory: true,
+        cacheDirectory: false,
         presets: [
-          ['webextension-toolbox/src/preset', {
-            vendor,
-            vendorVersion
+          ['@babel/preset-env', {
+            // `entry` transforms `@babel/polyfill` into individual requires for
+            // the targeted browsers. This is safer than `usage` which performs
+            // static code analysis to determine what's required.
+            // This is probably a fine default to help trim down bundles when
+            // end-users inevitably import '@babel/polyfill'.
+            useBuiltIns: 'entry',
+            // Do not transform modules to CJS
+            modules: false,
+            // Restrict to vendor
+            targets: {
+              [vendor]: vendorVersion || getLastNVendorVersion(3, vendor)
+            }
           }]
         ]
       }
