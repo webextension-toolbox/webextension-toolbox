@@ -108,7 +108,7 @@ module.exports = function webpackConfig ({
   config.plugins = []
 
   // Clear output directory
-  config.plugins.push(new CleanPlugin([target]))
+  config.plugins.push(new CleanPlugin())
 
   // Watcher doesn't work well if you mistype casing in a path so we use
   // a plugin that prints an error when you attempt to do this.
