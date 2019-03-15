@@ -23,7 +23,8 @@ program
       src: options.src,
       minimize: false,
       target: options.target,
-      autoReload: options.autoReload
+      autoReload: options.autoReload,
+      vendorVersion: options.vendorVersion
     }).watch({}, logCompileOutput)
   })
 
@@ -43,7 +44,8 @@ program
       src: options.src,
       target: options.target,
       minimize: options.minimize,
-      autoReload: false
+      autoReload: false,
+      vendorVersion: options.vendorVersion
     }).run(logCompileOutput)
   })
 
