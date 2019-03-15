@@ -19,8 +19,9 @@ function getExtensionInfo (src) {
 function getManifestJSON (src) {
   const manifestPath = resolve(src, 'manifest.json')
 
-  if (!existsSync(manifestPath))
+  if (!existsSync(manifestPath)) {
     throw new Error('manifest.json is not present on app path (' + manifestPath + ')')
+  }
 
   try {
     return require(manifestPath)
