@@ -12,6 +12,14 @@
     "default_icon": "icons/star-empty-38.png",
     "default_title": "Bookmark it!"
   },
+  "browser_specific_settings": {
+    "__firefox__gecko": {
+      "strict_min_version": "50.0",
+    },
+    "__edge__edge": {
+      "browser_action_next_to_addressbar": true
+    }
+  },
   "background": {
     "scripts": ["background.js"]
   }
