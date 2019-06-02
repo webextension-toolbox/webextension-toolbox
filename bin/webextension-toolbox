@@ -14,9 +14,10 @@ program
   .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', 'cheap-source-map')
   .option('-r, --autoReload [autoReload]', 'reload extension after rebuild', true)
   .option('-v, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
+  .option('--verbose [verbose]', 'print messages at the beginning and end of incremental build', false)
   .action(function watch (vendor, options) {
     logBanner()
-    compile({
+    const compiler = compile({
       vendor,
       dev: true,
       devtool: options.devtool,
@@ -25,7 +26,15 @@ program
       target: options.target,
       autoReload: options.autoReload,
       vendorVersion: options.vendorVersion
-    }).watch({}, logCompileOutput)
+    })
+
+    if (options.verbose) {
+      compiler.hooks.watchRun.tap('WebpackInfo', function () {
+        console.error('\nCompilation starting…\n')
+      })
+    }
+
+    compiler.watch({}, logCompileOutput.bind(null, options))
   })
 
 program
@@ -46,12 +55,12 @@ program
       minimize: options.minimize,
       autoReload: false,
       vendorVersion: options.vendorVersion
-    }).run(logCompileOutput)
+    }).run(logCompileOutput.bind(null, options))
   })
 
 program.parse(process.argv)
 
-function logCompileOutput (error, stats) {
+function logCompileOutput (options, error, stats) {
   if (error) {
     console.error(error)
   }
@@ -61,11 +70,15 @@ function logCompileOutput (error, stats) {
     version: false,
     hash: false
   }))
+
+  if (options.verbose) {
+    console.error('\nCompilation finished\n')
+  }
 }
 
 function logBanner () {
   const banner = `
-           ╔════════╗                     
+           ╔════════╗
 ╔══════════════════════════════╗
 ║     WEBEXTENSION-TOOLBOX     ║
 ╚══════════════════════════════╝`
