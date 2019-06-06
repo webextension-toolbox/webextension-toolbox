@@ -61,7 +61,7 @@ else it compiles to:
 
 ## polyfill
   
-The [webextension standard](https://developer.mozilla.org/de/Add-ons/WebExtensions) is currently only supported by firefox and edge. This toolbox adds the necessary polyfills for chrome and opera. 
+The [webextension standard](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions) is currently only supported by firefox and edge. This toolbox adds the necessary polyfills for chrome and opera. 
 
 This way many webextension apis will work in chrome and opera out of the box. 
   
