@@ -42,6 +42,7 @@ program
 program
   .command('build <vendor>')
   .description('Compiles extension for production')
+  .option('-c, --config [config]', 'specify config file path', './webextension-toolbox.config.js')
   .option('-s, --src [src]', 'specify source directory', 'app')
   .option('-t, --target [target]', 'specify target directory', 'dist/[vendor]')
   .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', false)
@@ -57,7 +58,7 @@ program
       minimize: options.minimize,
       autoReload: false,
       vendorVersion: options.vendorVersion,
-      config: options.configf
+      config: options.config
     }).run(logCompileOutput.bind(null, options))
   })
 
