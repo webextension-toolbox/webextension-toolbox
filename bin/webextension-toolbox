@@ -9,6 +9,7 @@ program.version(version)
 program
   .command('dev <vendor>')
   .description('Compiles extension in devmode')
+  .option('-c, --config [config]', 'specify config file path', './webextension-toolbox.config.js')
   .option('-s, --src [src]', 'specify source directory', 'app')
   .option('-t, --target [target]', 'specify target directory', 'dist/[vendor]')
   .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', 'cheap-source-map')
@@ -25,7 +26,8 @@ program
       minimize: false,
       target: options.target,
       autoReload: options.autoReload,
-      vendorVersion: options.vendorVersion
+      vendorVersion: options.vendorVersion,
+      config: options.config
     })
 
     if (options.verbose) {
@@ -54,7 +56,8 @@ program
       target: options.target,
       minimize: options.minimize,
       autoReload: false,
-      vendorVersion: options.vendorVersion
+      vendorVersion: options.vendorVersion,
+      config: options.configf
     }).run(logCompileOutput.bind(null, options))
   })
 
