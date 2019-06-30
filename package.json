@@ -39,7 +39,7 @@
     "clean-webpack-plugin": "^2.0.0",
     "commander": "^2.15.1",
     "copy-webpack-plugin": "^5.0.0",
-    "find-up": "^3.0.0",
+    "find-up": "^4.0.0",
     "string-replace-loader": "^2.1.1",
     "webextension-polyfill": "0.4.0",
     "webpack": "^4.12.0",
