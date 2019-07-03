@@ -1,6 +1,6 @@
 const { resolve } = require('path')
 const webpack = require('webpack')
-const CleanPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const GlobEntriesPlugin = require('webpack-watched-glob-entries-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
@@ -108,7 +108,7 @@ module.exports = function webpackConfig ({
   config.plugins = []
 
   // Clear output directory
-  config.plugins.push(new CleanPlugin())
+  config.plugins.push(new CleanWebpackPlugin())
 
   // Watcher doesn't work well if you mistype casing in a path so we use
   // a plugin that prints an error when you attempt to do this.
