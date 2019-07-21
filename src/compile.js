@@ -4,7 +4,7 @@ const getConfigFile = require('./utils/get-config-file-config')
 
 module.exports = (env = {}) => {
   // Get user config file
-  const { webpack, ...config } = getConfigFile()
+  const { webpack, ...config } = getConfigFile(env.config)
 
   // Configure userWebpackHook
   const userWebpackHook = webpack || (config => config)

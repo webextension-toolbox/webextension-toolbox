@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "webextension-toolbox dev",
-    "build": "webextension-toolbox build"
+    "build": "webextension-toolbox build",
+    "build:config": "webextension-toolbox build --config ./webext.config.js"
   },
   "devDependencies": {
     "webextension-toolbox": "latest"
