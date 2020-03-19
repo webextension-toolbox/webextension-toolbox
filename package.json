@@ -11,6 +11,7 @@
   },
   "scripts": {
     "lint": "standard",
+    "test": "npm run test:standard && npm run test:config",
     "test:standard": "npm run lint && cd examples/bookmark-it && npm install ../.. && npm run build chrome && npm run build firefox && npm run build opera && npm run build edge && npm run build firefox -m",
     "test:config": "npm run lint && cd examples/bookmark-it && npm install ../.. && npm run build:config chrome && npm run build:config firefox && npm run build:config opera && npm run build:config edge && npm run build:config firefox -m"
   },
