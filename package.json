@@ -50,7 +50,7 @@
     "zip-webpack-plugin": "^3.0.0"
   },
   "devDependencies": {
-    "jest": "^24.0.0",
+    "jest": "^25.5.3",
     "standard": "^13.0.0"
   },
   "engines": {
