@@ -1,59 +1,59 @@
 {
-  "name": "webextension-toolbox",
-  "version": "3.0.0",
-  "description": "Framework for WebExtensions (Firefox, Chrome, Opera, Edge)",
-  "main": "index.js",
-  "repository": "https://github.com/webextension-toolbox/webextension-toolbox",
-  "author": "Henrik Wenz <HaNdTriX@gmail.com> (https://github.com/HaNdTriX)",
-  "license": "MIT",
-  "bin": {
-    "webextension-toolbox": "./bin/webextension-toolbox"
-  },
-  "scripts": {
-    "lint": "standard",
-    "test:standard": "npm run lint && cd examples/bookmark-it && npm install ../.. && npm run build chrome && npm run build firefox && npm run build opera && npm run build edge && npm run build firefox -m",
-    "test:config": "npm run lint && cd examples/bookmark-it && npm install ../.. && npm run build:config chrome && npm run build:config firefox && npm run build:config opera && npm run build:config edge && npm run build:config firefox -m"
-  },
-  "standard": {
-    "globals": [
-      "browser"
-    ],
-    "ignore": [
-      "**/dist",
-      "**/node_modules"
-    ]
-  },
-  "dependencies": {
-    "@babel/core": "7.5.5",
-    "@babel/plugin-proposal-class-properties": "7.5.5",
-    "@babel/plugin-proposal-object-rest-spread": "7.5.5",
-    "@babel/plugin-transform-destructuring": "7.5.0",
-    "@babel/plugin-transform-react-jsx": "7.3.0",
-    "@babel/plugin-transform-runtime": "7.5.5",
-    "@babel/polyfill": "7.4.4",
-    "@babel/preset-env": "7.5.5",
-    "@babel/preset-react": "7.0.0",
-    "@babel/runtime": "7.5.5",
-    "babel-loader": "8.0.6",
-    "babel-plugin-transform-react-remove-prop-types": "^0.4.13",
-    "case-sensitive-paths-webpack-plugin": "^2.1.2",
-    "clean-webpack-plugin": "^3.0.0",
-    "commander": "^2.15.1",
-    "copy-webpack-plugin": "^5.0.0",
-    "find-up": "^4.0.0",
-    "string-replace-loader": "^2.1.1",
-    "webextension-polyfill": "0.4.0",
-    "webpack": "^4.12.0",
-    "webpack-watched-glob-entries-plugin": "^2.1.2",
-    "webpack-webextension-plugin": "^0.2.0",
-    "webpackbar": "^4.0.0",
-    "zip-webpack-plugin": "^3.0.0"
-  },
-  "devDependencies": {
-    "jest": "^24.0.0",
-    "standard": "^13.0.0"
-  },
-  "engines": {
-    "node": ">=v8.1.4"
-  }
+	"name": "@rsoury/webextension-toolbox",
+	"version": "3.0.0",
+	"description": "Framework for WebExtensions (Firefox, Chrome, Opera, Edge)",
+	"main": "index.js",
+	"repository": "https://github.com/webextension-toolbox/webextension-toolbox",
+	"author": "Henrik Wenz <HaNdTriX@gmail.com> (https://github.com/HaNdTriX)",
+	"license": "MIT",
+	"bin": {
+		"webextension-toolbox": "./bin/webextension-toolbox"
+	},
+	"scripts": {
+		"lint": "standard",
+		"test:standard": "npm run lint && cd examples/bookmark-it && npm install ../.. && npm run build chrome && npm run build firefox && npm run build opera && npm run build edge && npm run build firefox -m",
+		"test:config": "npm run lint && cd examples/bookmark-it && npm install ../.. && npm run build:config chrome && npm run build:config firefox && npm run build:config opera && npm run build:config edge && npm run build:config firefox -m"
+	},
+	"standard": {
+		"globals": [
+			"browser"
+		],
+		"ignore": [
+			"**/dist",
+			"**/node_modules"
+		]
+	},
+	"dependencies": {
+		"@babel/core": "7.5.5",
+		"@babel/plugin-proposal-class-properties": "7.5.5",
+		"@babel/plugin-proposal-object-rest-spread": "7.5.5",
+		"@babel/plugin-transform-destructuring": "7.5.0",
+		"@babel/plugin-transform-react-jsx": "7.3.0",
+		"@babel/plugin-transform-runtime": "7.5.5",
+		"@babel/polyfill": "7.4.4",
+		"@babel/preset-env": "7.5.5",
+		"@babel/preset-react": "7.0.0",
+		"@babel/runtime": "7.5.5",
+		"babel-loader": "8.0.6",
+		"babel-plugin-transform-react-remove-prop-types": "^0.4.13",
+		"case-sensitive-paths-webpack-plugin": "^2.1.2",
+		"clean-webpack-plugin": "^3.0.0",
+		"commander": "^2.15.1",
+		"copy-webpack-plugin": "^5.0.0",
+		"find-up": "^4.0.0",
+		"string-replace-loader": "^2.1.1",
+		"webextension-polyfill": "0.4.0",
+		"webpack": "^4.12.0",
+		"webpack-watched-glob-entries-plugin": "^2.1.2",
+		"webpack-webextension-plugin": "^0.2.0",
+		"webpackbar": "^4.0.0",
+		"zip-webpack-plugin": "^3.0.0"
+	},
+	"devDependencies": {
+		"jest": "^24.0.0",
+		"standard": "^13.0.0"
+	},
+	"engines": {
+		"node": ">=v8.1.4"
+	}
 }

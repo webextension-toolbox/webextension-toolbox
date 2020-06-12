@@ -1,93 +1,150 @@
 #!/usr/bin/env node
-const program = require('commander')
-const chalk = require('chalk')
-const { version } = require('../package.json')
-const { compile } = require('..')
+const program = require("commander");
+const chalk = require("chalk");
+const WebpackDevServer = require("webpack-dev-server");
+const { version } = require("../package.json");
+const { compile } = require("..");
 
-program.version(version)
-
-program
-  .command('dev <vendor>')
-  .description('Compiles extension in devmode')
-  .option('-c, --config [config]', 'specify config file path', './webextension-toolbox.config.js')
-  .option('-s, --src [src]', 'specify source directory', 'app')
-  .option('-t, --target [target]', 'specify target directory', 'dist/[vendor]')
-  .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', 'cheap-source-map')
-  .option('-r, --autoReload [autoReload]', 'reload extension after rebuild', true)
-  .option('-v, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
-  .option('--verbose [verbose]', 'print messages at the beginning and end of incremental build', false)
-  .action(function watch (vendor, options) {
-    logBanner()
-    const compiler = compile({
-      vendor,
-      dev: true,
-      devtool: options.devtool,
-      src: options.src,
-      minimize: false,
-      target: options.target,
-      autoReload: options.autoReload,
-      vendorVersion: options.vendorVersion,
-      config: options.config
-    })
-
-    if (options.verbose) {
-      compiler.hooks.watchRun.tap('WebpackInfo', function () {
-        console.error('\nCompilation starting…\n')
-      })
-    }
-
-    compiler.watch({}, logCompileOutput.bind(null, options))
-  })
+program.version(version);
 
 program
-  .command('build <vendor>')
-  .description('Compiles extension for production')
-  .option('-c, --config [config]', 'specify config file path', './webextension-toolbox.config.js')
-  .option('-s, --src [src]', 'specify source directory', 'app')
-  .option('-t, --target [target]', 'specify target directory', 'dist/[vendor]')
-  .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', false)
-  .option('-m, --no-minimize', 'disables code minification', false)
-  .option('-v, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
-  .action(function build (vendor, options) {
-    logBanner()
-    compile({
-      vendor,
-      devtool: options.devtool,
-      src: options.src,
-      target: options.target,
-      minimize: options.minimize,
-      autoReload: false,
-      vendorVersion: options.vendorVersion,
-      config: options.config
-    }).run(logCompileOutput.bind(null, options))
-  })
+	.command("dev <vendor>")
+	.description("Compiles extension in devmode")
+	.option(
+		"-c, --config [config]",
+		"specify config file path",
+		"./webextension-toolbox.config.js"
+	)
+	.option("-s, --src [src]", "specify source directory", "app")
+	.option("-t, --target [target]", "specify target directory", "dist/[vendor]")
+	.option(
+		"-d, --devtool [devtool]",
+		"controls if and how source maps are generated",
+		"cheap-source-map"
+	)
+	.option(
+		"-r, --autoReload [autoReload]",
+		"reload extension after rebuild",
+		true
+	)
+	.option(
+		"-v, --vendorVersion [vendorVersion]",
+		"last supported vendor (default: current)"
+	)
+	.option(
+		"--dev-server [devServer]",
+		"use webpack dev server to serve bundled files",
+		false
+	)
+	.option(
+		"--verbose [verbose]",
+		"print messages at the beginning and end of incremental build",
+		false
+	)
+	.action(function watch(vendor, options) {
+		logBanner();
+		const compiler = compile({
+			vendor,
+			dev: true,
+			devtool: options.devtool,
+			src: options.src,
+			minimize: false,
+			target: options.target,
+			autoReload: options.autoReload,
+			vendorVersion: options.vendorVersion,
+			config: options.config
+		});
 
-program.parse(process.argv)
+		if (options.verbose) {
+			compiler.hooks.watchRun.tap("WebpackInfo", function () {
+				console.error("\nCompilation starting…\n");
+			});
+		}
 
-function logCompileOutput (options, error, stats) {
-  if (error) {
-    console.error(error)
-  }
+		compiler.watch({}, logCompileOutput.bind(null, options));
 
-  console.log(stats.toString({
-    colors: true,
-    version: false,
-    hash: false
-  }))
+		if (options.devServer) {
+			const devServerPort = process.env.DEV_SERVER_PORT || 9000;
+			const server = new WebpackDevServer(compiler, {
+				contentBase: path.join(process.cwd(), `dist/${vendor}`),
+				compress: true,
+				port: devServerPort,
+				open: true,
+				stats: {
+					colors: true
+				}
+			});
+			server.listen(devServerPort, "127.0.0.1", () => {
+				console.log(`Starting dev server on http://localhost:${devServerPort}`);
+			});
+		}
+	});
 
-  if (options.verbose) {
-    console.error('\nCompilation finished\n')
-  }
+program
+	.command("build <vendor>")
+	.description("Compiles extension for production")
+	.option(
+		"-c, --config [config]",
+		"specify config file path",
+		"./webextension-toolbox.config.js"
+	)
+	.option("-s, --src [src]", "specify source directory", "app")
+	.option("-t, --target [target]", "specify target directory", "dist/[vendor]")
+	.option(
+		"-d, --devtool [devtool]",
+		"controls if and how source maps are generated",
+		false
+	)
+	.option("-m, --no-minimize", "disables code minification", false)
+	.option(
+		"-v, --vendorVersion [vendorVersion]",
+		"last supported vendor (default: current)"
+	)
+	.action(function build(vendor, options) {
+		logBanner();
+		compile({
+			vendor,
+			devtool: options.devtool,
+			src: options.src,
+			target: options.target,
+			minimize: options.minimize,
+			autoReload: false,
+			vendorVersion: options.vendorVersion,
+			config: options.config
+		}).run(logCompileOutput.bind(null, options));
+	});
+
+program.parse(process.argv);
+
+function logCompileOutput(options, error, stats) {
+	if (error) {
+		console.error(error);
+	}
+
+	console.log(
+		stats.toString({
+			colors: true,
+			version: false,
+			hash: false
+		})
+	);
+
+	if (options.verbose) {
+		console.error("\nCompilation finished\n");
+	}
 }
 
-function logBanner () {
-  const banner = `
+function logBanner() {
+	const banner = `
            ╔════════╗
 ╔══════════════════════════════╗
 ║     WEBEXTENSION-TOOLBOX     ║
-╚══════════════════════════════╝`
-  const colouredBanner = chalk.blue(
-    banner.replace('WEBEXTENSION-TOOLBOX', chalk.bold.yellow('WEBEXTENSION-TOOLBOX'))
-  )
-  console.log(colouredBanner)
+╚══════════════════════════════╝`;
+	const colouredBanner = chalk.blue(
+		banner.replace(
+			"WEBEXTENSION-TOOLBOX",
+			chalk.bold.yellow("WEBEXTENSION-TOOLBOX")
+		)
+	);
+	console.log(colouredBanner);
 }
