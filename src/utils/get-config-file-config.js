@@ -1,14 +1,14 @@
-const findUp = require('find-up')
+const findUp = require("find-up");
 
-module.exports = function getConfig (customFilePath) {
-  const path = findUp.sync(customFilePath)
+module.exports = function getConfig(customFilePath) {
+	const path = findUp.sync(customFilePath);
 
-  let config = {}
+	let config = {};
 
-  if (path && path.length) {
-    const configModule = require(path)
-    config = configModule.default || configModule
-  }
+	if (path && path.length) {
+		const configModule = require(path);
+		config = configModule.default || configModule;
+	}
 
-  return config
-}
+	return config;
+};

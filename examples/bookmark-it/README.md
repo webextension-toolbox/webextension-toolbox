@@ -8,18 +8,18 @@ A background script will listen for tab events and update the browserAction icon
 
 What it shows:
 
-* how to use the various `bookmarks` apis
-  * create a bookmark
-  * remove a bookmark
-  * search bookmarks by url
-* how to register a browserAction
-* how to listen for tab changes
-* how to use es6-modules
-* how to use default manifest fields (`name`, `version` and `description` are taken from `package.json`)
+- how to use the various `bookmarks` apis
+  - create a bookmark
+  - remove a bookmark
+  - search bookmarks by url
+- how to register a browserAction
+- how to listen for tab changes
+- how to use es6-modules
+- how to use default manifest fields (`name`, `version` and `description` are taken from `package.json`)
 
 ## Usage
 
-### Install 
+### Install
 
     $ npm install
 

@@ -12,7 +12,8 @@
 	"scripts": {
 		"lint": "standard",
 		"test:standard": "npm run lint && cd examples/bookmark-it && npm install ../.. && npm run build chrome && npm run build firefox && npm run build opera && npm run build edge && npm run build firefox -m",
-		"test:config": "npm run lint && cd examples/bookmark-it && npm install ../.. && npm run build:config chrome && npm run build:config firefox && npm run build:config opera && npm run build:config edge && npm run build:config firefox -m"
+		"test:config": "npm run lint && cd examples/bookmark-it && npm install ../.. && npm run build:config chrome && npm run build:config firefox && npm run build:config opera && npm run build:config edge && npm run build:config firefox -m",
+		"format": "prettier --write \"./**/*.{js,jsx,mjs,ts,tsx,json,css,scss,md}\""
 	},
 	"standard": {
 		"globals": [
@@ -52,6 +53,7 @@
 	},
 	"devDependencies": {
 		"jest": "^24.0.0",
+		"prettier": "^2.0.5",
 		"standard": "^13.0.0"
 	},
 	"engines": {
