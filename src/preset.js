@@ -17,6 +17,8 @@ module.exports = ({ vendor, vendorVersion }) => {
 					// This is probably a fine default to help trim down bundles when
 					// end-users inevitably import '@babel/polyfill'.
 					useBuiltIns: "entry",
+					// Declare corejs version to prevent warnings
+					corejs: 2,
 					// Do not transform modules to CJS
 					modules: false,
 					// Restrict to current vendor
