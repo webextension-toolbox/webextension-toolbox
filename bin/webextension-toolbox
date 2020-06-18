@@ -23,13 +23,9 @@ program
 		"controls if and how source maps are generated",
 		"cheap-source-map"
 	)
+	.option("-r, --auto-reload [autoReload]", "reload extension after rebuild")
 	.option(
-		"-r, --autoReload [autoReload]",
-		"reload extension after rebuild",
-		true
-	)
-	.option(
-		"-v, --vendorVersion [vendorVersion]",
+		"-v, --vendor-version [vendorVersion]",
 		"last supported vendor (default: current)"
 	)
 	.option(

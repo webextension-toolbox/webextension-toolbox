@@ -6,10 +6,10 @@ const CaseSensitivePathsPlugin = require("case-sensitive-paths-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const ZipPlugin = require("zip-webpack-plugin");
 const WebextensionPlugin = require("webpack-webextension-plugin");
+const WebpackBar = require("webpackbar");
 const getExtensionInfo = require("./utils/get-extension-info");
 const getExtensionFileType = require("./utils/get-extension-file-type");
 const createPreset = require("./preset");
-const WebpackBar = require("webpackbar");
 
 module.exports = function webpackConfig({
 	src = "app",
@@ -20,6 +20,7 @@ module.exports = function webpackConfig({
 	devtool = false,
 	minimize = false,
 	vendor = "chrome",
+	autoReload = false,
 	vendorVersion
 } = {}) {
 	const mode = dev ? "development" : "production";
@@ -172,6 +173,7 @@ module.exports = function webpackConfig({
 	// extension in watch mode
 	config.plugins.push(
 		new WebextensionPlugin({
+			autoreload: autoReload,
 			vendor,
 			manifestDefaults: {
 				name,
