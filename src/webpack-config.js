@@ -118,7 +118,7 @@ module.exports = function webpackConfig ({
   config.plugins.push(new GlobEntriesPlugin())
 
   // Add webextension polyfill
-  if (['chrome', 'opera'].includes(vendor)) {
+  if (['chrome', 'opera', 'edge'].includes(vendor)) {
     config.plugins.push(
       new webpack.ProvidePlugin({
         browser: require.resolve('webextension-polyfill')
