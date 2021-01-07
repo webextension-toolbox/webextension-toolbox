@@ -39,7 +39,7 @@
     "babel-plugin-transform-react-remove-prop-types": "^0.4.13",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "clean-webpack-plugin": "^3.0.0",
-    "commander": "^2.15.1",
+    "commander": "^6.2.1",
     "copy-webpack-plugin": "^5.0.0",
     "find-up": "^5.0.0",
     "string-replace-loader": "^2.1.1",
