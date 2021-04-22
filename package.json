@@ -25,7 +25,7 @@
     ]
   },
   "dependencies": {
-    "@babel/core": "7.12.17",
+    "@babel/core": "7.13.16",
     "@babel/plugin-proposal-class-properties": "7.12.13",
     "@babel/plugin-proposal-object-rest-spread": "7.12.13",
     "@babel/plugin-transform-destructuring": "7.12.13",
