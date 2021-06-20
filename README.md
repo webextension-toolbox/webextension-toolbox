@@ -15,10 +15,10 @@ If you want to get started quickly check out the [yeoman generator](https://gith
 
 # Browser Support
 
-* `Chrome` (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
-* `Opera` (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
-* `Firefox`
-* `Edge`
+* Chrome (`chrome`) (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
+* Opera (`opera`) (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
+* Firefox (`firefox`)
+* Edge (`edge`)
 
 # Features
 
