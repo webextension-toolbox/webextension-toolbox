@@ -131,7 +131,7 @@ module.exports = function webpackConfig ({
     config.module.rules.push({
       test: /webextension-polyfill[\\/]+dist[\\/]+browser-polyfill\.js$/,
       loader: require.resolve('string-replace-loader'),
-      query: {
+      options: {
         search: 'typeof browser === "undefined"',
         replace: 'typeof window.browser === "undefined" || Object.getPrototypeOf(window.browser) !== Object.prototype'
       }
@@ -148,21 +148,25 @@ module.exports = function webpackConfig ({
 
   // Copy non js files & compile manifest
   config.plugins.push(
-    new CopyPlugin([
-      {
-        // Copy all files except (.js, .json, _locales)
-        context: resolve(src),
-        from: resolve(src, '**/*'),
-        ignore: copyIgnore,
-        to: target
-      },
-      {
-        // Copy all language json files
-        context: resolve(src),
-        from: resolve(src, '_locales/**/*.json'),
-        to: target
-      }
-    ])
+    new CopyPlugin({
+      patterns: [
+        {
+          // Copy all files except (.js, .json, _locales)
+          context: resolve(src),
+          from: resolve(src, '**/*'),
+          globOptions: {
+            ignore: copyIgnore
+          },
+          to: target
+        },
+        {
+          // Copy all language json files
+          context: resolve(src),
+          from: resolve(src, '_locales/**/*.json'),
+          to: target
+        }
+      ]
+    })
   )
 
   // Compile and validate manifest and autoreload
