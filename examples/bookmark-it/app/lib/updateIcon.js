@@ -18,7 +18,7 @@ export default async function updateIcon (tabId, hasBookmark) {
     }),
     browser.browserAction.setTitle({
       tabId,
-      title: hasBookmark ? 'Unbookmark it!' : 'Bookmark it!'
+      title: hasBookmark ? browser.i18n.getMessage('unbookmarkTitle') : browser.i18n.getMessage('bookmarkTitle')
     })
   ])
 }
