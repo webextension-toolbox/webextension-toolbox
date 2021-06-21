@@ -78,7 +78,7 @@ else it compiles to:
 
 ## Polyfill
   
-The [WebExtension specification](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions) is currently only supported by Firefox and Edge (Trident version). This toolbox adds the necessary polyfills for Chrome and Opera. 
+The [WebExtension specification](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions) is currently only supported by Firefox and Edge (Trident version). This toolbox adds the necessary polyfills for Chrome, Edge (Chromium version) and Opera. 
 
 This way many webextension apis will work in Chrome and Opera out of the box. 
   
@@ -115,19 +115,6 @@ $ webextension-toolbox dev chrome
 $ webextension-toolbox dev firefox
 $ webextension-toolbox dev opera
 $ webextension-toolbox dev edge
-```
-
-Note: For Microsoft Edge, it is not allowed to connect to localhost with WebSocket.
-You need to disable "Include all local (intranet) sites not listed in other zones" under "Internet options":
-![GIF Animation showing a cursor turning off Include all local (intranet) sites not listed in other zones option under Internet properties, Security, Local intranet](https://i.imgur.com/puhk4gZ.gif)
-
-or using Registry Editor (regedit):
-
-```
-Windows Registry Editor Version 5.00
-
-[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Internet Settings\ZoneMap]
-"IntranetName"=dword:00000000
 ```
 
 ## Build
