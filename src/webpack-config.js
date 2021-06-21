@@ -153,7 +153,7 @@ module.exports = function webpackConfig ({
         {
           // Copy all files except (.js, .json, _locales)
           context: resolve(src),
-          from: resolve(src, '**/*'),
+          from: resolve(src, '**/*').replace(/\\/g, "/"),
           globOptions: {
             ignore: copyIgnore
           },
@@ -162,7 +162,7 @@ module.exports = function webpackConfig ({
         {
           // Copy all language json files
           context: resolve(src),
-          from: resolve(src, '_locales/**/*.json'),
+          from: resolve(src, '_locales/**/*.json').replace(/\\/g, "/"),
           to: target
         }
       ]
