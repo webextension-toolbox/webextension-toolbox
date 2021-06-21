@@ -56,6 +56,6 @@
     "standard": "latest"
   },
   "engines": {
-    "node": ">=v8.1.4"
+    "node": ">=v10.x"
   }
 }
