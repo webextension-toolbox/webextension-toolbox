@@ -11,9 +11,10 @@
   },
   "scripts": {
     "lint": "standard",
-    "test": "npm run test:standard && npm run test:config",
-    "test:standard": "npm link && cd examples/bookmark-it && npm link webextension-toolbox && npm run build chrome && npm run build firefox && npm run build opera && npm run build edge && npm run build firefox -m",
-    "test:config": "npm link && cd examples/bookmark-it && npm link webextension-toolbox && npm run build:config chrome && npm run build:config firefox && npm run build:config opera && npm run build:config edge && npm run build:config firefox -m"
+    "link": "npm link && cd examples/bookmark-it && npm link webextension-toolbox",
+    "test": "npm run link && npm run test:standard && npm run test:config",
+    "test:standard": "cd examples/bookmark-it && npm run build chrome && npm run build firefox && npm run build opera && npm run build edge && npm run build firefox -m",
+    "test:config": "cd examples/bookmark-it && npm run build:config chrome && npm run build:config firefox && npm run build:config opera && npm run build:config edge && npm run build:config firefox -m"
   },
   "standard": {
     "globals": [
