@@ -1,5 +1,8 @@
 {
   "manifest_version": 2,
+  "name": "__MSG_extensionName__",
+  "description": "__MSG_extensionDescription__",
+  "default_locale": "en",
   "icons": {
     "48": "icons/bookmark-it.png",
     "96": "icons/bookmark-it@2x.png"

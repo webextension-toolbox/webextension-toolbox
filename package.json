@@ -11,8 +11,9 @@
   },
   "scripts": {
     "lint": "standard",
-    "test:standard": "npm run lint && cd examples/bookmark-it && npm install ../.. && npm run build chrome && npm run build firefox && npm run build opera && npm run build edge && npm run build firefox -m",
-    "test:config": "npm run lint && cd examples/bookmark-it && npm install ../.. && npm run build:config chrome && npm run build:config firefox && npm run build:config opera && npm run build:config edge && npm run build:config firefox -m"
+    "test": "npm run test:standard && npm run test:config",
+    "test:standard": "cd examples/bookmark-it && npm install ../.. && npm run build chrome && npm run build firefox && npm run build opera && npm run build edge && npm run build firefox -m",
+    "test:config": "cd examples/bookmark-it && npm install ../.. && npm run build:config chrome && npm run build:config firefox && npm run build:config opera && npm run build:config edge && npm run build:config firefox -m"
   },
   "standard": {
     "globals": [
@@ -24,34 +25,35 @@
     ]
   },
   "dependencies": {
-    "@babel/core": "7.5.5",
-    "@babel/plugin-proposal-class-properties": "7.5.5",
-    "@babel/plugin-proposal-object-rest-spread": "7.5.5",
-    "@babel/plugin-transform-destructuring": "7.5.0",
-    "@babel/plugin-transform-react-jsx": "7.3.0",
-    "@babel/plugin-transform-runtime": "7.5.5",
-    "@babel/polyfill": "7.4.4",
-    "@babel/preset-env": "7.5.5",
-    "@babel/preset-react": "7.0.0",
-    "@babel/runtime": "7.5.5",
-    "babel-loader": "8.0.6",
-    "babel-plugin-transform-react-remove-prop-types": "^0.4.13",
-    "case-sensitive-paths-webpack-plugin": "^2.1.2",
-    "clean-webpack-plugin": "^3.0.0",
-    "commander": "^2.15.1",
-    "copy-webpack-plugin": "^5.0.0",
-    "find-up": "^4.0.0",
-    "string-replace-loader": "^2.1.1",
-    "webextension-polyfill": "0.4.0",
-    "webpack": "^4.12.0",
-    "webpack-watched-glob-entries-plugin": "^2.1.2",
-    "webpack-webextension-plugin": "^0.2.0",
-    "webpackbar": "^4.0.0",
-    "zip-webpack-plugin": "^3.0.0"
+    "@babel/core": "7.14.6",
+    "@babel/plugin-proposal-class-properties": "7.14.5",
+    "@babel/plugin-proposal-object-rest-spread": "7.14.5",
+    "@babel/plugin-transform-destructuring": "7.14.5",
+    "@babel/plugin-transform-react-jsx": "7.14.5",
+    "@babel/plugin-transform-runtime": "7.14.5",
+    "@babel/polyfill": "7.12.1",
+    "@babel/preset-env": "7.14.5",
+    "@babel/preset-react": "7.14.5",
+    "@babel/runtime": "7.14.6",
+    "babel-loader": "8.2.2",
+    "babel-plugin-transform-react-remove-prop-types": "0.4.24",
+    "case-sensitive-paths-webpack-plugin": "2.4.0",
+    "clean-webpack-plugin": "4.0.0-alpha.0",
+    "commander": "8.0.0-2",
+    "copy-webpack-plugin": "9.0.0",
+    "core-js": "^3.15.0",
+    "find-up": "5.0.0",
+    "string-replace-loader": "3.0.2",
+    "webextension-polyfill": "0.8.0",
+    "webpack": "5.39.1",
+    "webpack-watched-glob-entries-plugin": "2.1.9",
+    "webpack-webextension-plugin": "0.3.0",
+    "webpackbar": "5.0.0-3",
+    "zip-webpack-plugin": "4.0.1"
   },
   "devDependencies": {
-    "jest": "^24.0.0",
-    "standard": "^13.0.0"
+    "jest": "^26.6.3",
+    "standard": "^16.0.3"
   },
   "engines": {
     "node": ">=v8.1.4"

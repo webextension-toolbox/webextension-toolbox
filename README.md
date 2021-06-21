@@ -14,56 +14,73 @@ Small cli toolbox for creating cross-browser WebExtensions.
 If you want to get started quickly check out the [yeoman generator](https://github.com/webextension-toolbox/generator-web-extension) for this project.
 
 # Browser Support
-* `chrome` (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
-* `opera` (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
-* `edge` (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
-* `firefox`
+
+* Chrome (`chrome`) (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
+* Opera (`opera`) (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
+* Edge (`edge`) (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
+* Firefox (`firefox`)
+
 # Features
-## react.js
-Works with react.js out of the box!  
+
+## React.js
+Works with [React](https://reactjs.org/) out of the box!  
 Run `$ npm i react react-dom` and you are ready to go.
-## packing
+
+## Packing
+
 The `build` task creates bundles for:
 * Firefox (`.xpi`)
 * Chrome (`.zip`)
 * Opera (`.crx`)
 * Edge (`.zip`)
-## manifest validation
+
+## Manifest validation
+
 Validates your `manifest.json` while compiling.
-## manifest defaults
+
+## Manifest defaults
+
 Uses default fields (`name`, `version`, `description`) from your `package.json`
-## manifest vendor keys
+
+## Manifest vendor keys
 Allows you to define vendor specific manifest keys.
+
 ### Example
 
-`manifest.json` 
+`manifest.json`
+
 ```
 "name": "my-extension",
 "__chrome__key": "yourchromekey",
 "__chrome|opera__key2": "yourblinkkey"
 ```
+
 If the vendor is `chrome` it compiles to:
+
 ```
 "name": "my-extension",
 "key": "yourchromekey",
 "key2": "yourblinkkey"
 ```
+
 If the vendor is `opera` it compiles to:
+
 ```
 "name": "my-extension",
 "key2": "yourblinkkey"
 ```
+
 else it compiles to:
 
 ```
 "name": "my-extension"
 ```
 
-## polyfill
+## Polyfill
   
-The [webextension standard](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions) is currently only supported by firefox. This toolbox adds the necessary polyfills for chrome and opera. 
+The [WebExtension specification](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions) is currently only supported by Firefox and Edge (Trident version). This toolbox adds the necessary polyfills for Chrome, Edge (Chromium) and Opera. 
 
-This way many webextension apis will work in chrome and opera out of the box. 
+This way many webextension apis will work in Chrome, Edge (Chromium) and Opera out of the box. 
   
 In addition to that, this toolbox comes with <a href="https://github.com/babel/babel/tree/master/packages/babel-preset-env">babel-preset-env</a>.
   
@@ -126,7 +143,7 @@ Options:
 
 ## Browser API
 
-Always use the [webextension browser api](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions). Webextension-Toolbox will polyfill it for you in chrome and opera.
+Always use the [WebExtension browser API](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions). Webextension-Toolbox will polyfill it for you in chrome and opera.
 
 ## Entry points
 
@@ -160,10 +177,13 @@ module.exports = {
 ```
 
 As WebExtension Toolbox uses webpack’s [devtool]( https://webpack.js.org/configuration/devtool/) feature under the hood, you can also customize the desired devtool with the `--devtool` argument.
+
 For example, if you have problems with source maps on Firefox, you can try the following command:
+
 ```
 webextension-toolbox build firefox --devtool=inline-cheap-source-map
 ```
+
 Please see Issue #58 for more information on this
 
 # CI/CD
@@ -172,12 +192,15 @@ For testing WebExtension Toolbox, we rely mainly on [Azure Pipelines](https://do
 
 We try to target every platform our users use: Linux, macOS or Windows
 Regarding Node.js versions, we try to target what would our users would use:
+
 * Last version in Maintenance LTS (currentl: v8)
 * Active LTS (currently v10)
 * Current (currently: v11)
 
 Currently, passing all tests is required to merge a Pull Request
+
 ## Test matrix
+
 <table>
   <tr>
     <th>CI/CD vendor</th>
@@ -212,8 +235,8 @@ Currently, passing all tests is required to merge a Pull Request
     </td>
   </tr>
 </table>
-In other words, every pull request goes through on 11 test environment
 
+In other words, every pull request goes through on 11 test environment
 
 # FAQ
 
