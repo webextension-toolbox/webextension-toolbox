@@ -5,6 +5,13 @@
   "main": "index.js",
   "repository": "https://github.com/webextension-toolbox/webextension-toolbox",
   "author": "Henrik Wenz <HaNdTriX@gmail.com> (https://github.com/HaNdTriX)",
+  "contributors": [
+    {
+      "name" : "Dávid Balatoni",
+      "email" : "balcsida@gmail.com",
+      "url" : "https://github.com/balcsida"
+    }
+  ],
   "license": "MIT",
   "bin": {
     "webextension-toolbox": "./bin/webextension-toolbox"
