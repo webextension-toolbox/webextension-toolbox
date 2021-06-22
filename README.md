@@ -181,7 +181,7 @@ For example, if you have problems with source maps on Firefox, you can try the f
 webextension-toolbox build firefox --devtool=inline-cheap-source-map
 ```
 
-Please see Issue #58 for more information on this
+Please see [Issue #58](https://github.com/webextension-toolbox/webextension-toolbox/issues/58) for more information on this
 
 # FAQ
 
@@ -200,6 +200,6 @@ webextension-toolbox might be your tool of choice.
 
 # License
 
-Copyright 2018 Henrik Wenz
+Copyright 2021 Henrik Wenz
 
 This project is free software released under the MIT license.
