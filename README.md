@@ -181,59 +181,7 @@ For example, if you have problems with source maps on Firefox, you can try the f
 webextension-toolbox build firefox --devtool=inline-cheap-source-map
 ```
 
-Please see Issue #58 for more information on this
-
-# CI/CD
-
-For testing WebExtension Toolbox, we rely mainly on [Azure Pipelines](https://docs.microsoft.com/azure/devops/pipelines/) and [Travis](https://travis-ci.org/).
-
-We try to target every platform our users use: Linux, macOS or Windows
-Regarding Node.js versions, we try to target what would our users would use:
-
-* Last version in Maintenance LTS (currentl: v8)
-* Active LTS (currently v10)
-* Current (currently: v11)
-
-Currently, passing all tests is required to merge a Pull Request
-
-## Test matrix
-
-<table>
-  <tr>
-    <th>CI/CD vendor</th>
-    <th>Operating System</th>
-    <th>NodeJS versions</th>
-  </tr>
-  <tr>
-    <td rowspan="3">Azure Pipelines</td>
-    <td>Ubuntu (ubuntu-16.04)</td>
-    <td rowspan="3">
-      <ul>
-        <li>8.x</li>
-        <li>10.x</li> 
-        <li>11.x</li>
-      </ul>
-    </td>
-  </tr>
-  <tr>
-    <td>macOS (macOS-10.13)</td>
-  </tr>
-  <tr>
-    <td>Windows (win1803)</td>
-  </tr>
-  <tr>
-    <td>Travis CI</td>
-    <td>Ubuntu Xenial 16.04</td>
-    <td>
-      <ul>
-        <li>lts (10.x)</li>
-        <li>current (11.x)</li>
-      </ul>
-    </td>
-  </tr>
-</table>
-
-In other words, every pull request goes through on 11 test environment
+Please see [Issue #58](https://github.com/webextension-toolbox/webextension-toolbox/issues/58) for more information on this
 
 # FAQ
 
@@ -252,6 +200,6 @@ webextension-toolbox might be your tool of choice.
 
 # License
 
-Copyright 2018 Henrik Wenz
+Copyright 2021 Henrik Wenz
 
 This project is free software released under the MIT license.
