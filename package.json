@@ -51,7 +51,7 @@
     "copy-webpack-plugin": "9.0.1",
     "core-js": "3.15.0",
     "find-up": "5.0.0",
-    "string-replace-loader": "3.0.2",
+    "string-replace-loader": "3.0.3",
     "webextension-polyfill": "0.8.0",
     "webpack": "5.40.0",
     "webpack-watched-glob-entries-plugin": "2.1.9",
