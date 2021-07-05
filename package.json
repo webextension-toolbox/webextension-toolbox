@@ -55,7 +55,7 @@
     "webextension-polyfill": "0.8.0",
     "webpack": "5.42.0",
     "webpack-watched-glob-entries-plugin": "2.1.9",
-    "webpack-webextension-plugin": "0.4.0",
+    "webpack-webextension-plugin": "0.4.1",
     "webpackbar": "5.0.0-3",
     "zip-webpack-plugin": "4.0.1"
   },
