@@ -1,10 +1,7 @@
-const browserslist = require('browserslist')
-
 module.exports = ({ vendor, vendorVersion }) => {
   const env = process.env.BABEL_ENV || process.env.NODE_ENV
   const isProduction = env === 'production'
-  const targets = {}
-  targets[vendor] = vendorVersion || latest(vendor)
+  const targets = getBrowserslistQuery(vendor, vendorVersion)
   return {
     presets: [
       // Latest stable ECMAScript features
@@ -70,12 +67,16 @@ module.exports = ({ vendor, vendorVersion }) => {
 }
 
 /**
- * Returns the latest
- * vendor version
+ * Returns a Browserslist query string
+ * for the target vendor and version
  * @param {String} vendor
- * @return {Number} version
+ * @param {String} [version]
+ * @return {string}
  */
-function latest (vendor) {
-  const { versions } = browserslist.data[vendor]
-  return versions[versions.length - 1]
+function getBrowserslistQuery (vendor, version = null) {
+  if (!isNaN(version)) {
+    return `${vendor} ${version}`
+  }
+
+  return `browserslist config and ${vendor} > 0 or defaults`
 }
