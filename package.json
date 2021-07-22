@@ -53,7 +53,7 @@
     "find-up": "5.0.0",
     "string-replace-loader": "3.0.3",
     "webextension-polyfill": "0.8.0",
-    "webpack": "5.42.0",
+    "webpack": "5.46.0",
     "webpack-watched-glob-entries-plugin": "2.1.10",
     "webpack-webextension-plugin": "0.4.1",
     "webpackbar": "5.0.0-3",
