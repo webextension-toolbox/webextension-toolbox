@@ -74,7 +74,7 @@ module.exports = ({ vendor, vendorVersion }) => {
  * @return {string}
  */
 function getBrowserslistQuery (vendor, version = null) {
-  if (!isNaN(version)) {
+  if (version && !isNaN(version)) {
     return `${vendor} ${version}`
   }
 
