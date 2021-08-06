@@ -155,14 +155,9 @@ All javascript files located at the root of your `./app` or `./app/scripts` dire
 
 ## Customizing webpack config
 
-In order to extend our usage of `webpack`, you can define a function that extends its config via `webextension-toolbox-config.js`.
+In order to extend our usage of `webpack`, you can define a function that extends its config via `webextension-toolbox.config.js` in your project root.
 
 ```js
-// This file is not going through babel transformation.
-// So, we write it in vanilla JS
-// (But you could use ES2015 features supported by your Node.js version)
-const webpack = require('webpack')
-
 module.exports = {
   webpack: (config, { dev, vendor }) => {
     // Perform customizations to webpack config
