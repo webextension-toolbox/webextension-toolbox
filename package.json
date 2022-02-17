@@ -49,7 +49,7 @@
     "clean-webpack-plugin": "4.0.0-alpha.0",
     "commander": "8.1.0",
     "copy-webpack-plugin": "9.0.1",
-    "core-js": "3.16.0",
+    "core-js": "3.21.1",
     "find-up": "5.0.0",
     "string-replace-loader": "3.0.3",
     "webextension-polyfill": "0.8.0",
