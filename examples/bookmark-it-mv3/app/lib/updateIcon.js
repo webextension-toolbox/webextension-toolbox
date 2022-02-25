@@ -10,15 +10,15 @@ const emtyStarIcon = {
 
 export default async function updateIcon (tabId, hasBookmark) {
   return Promise.all([
-    browser.browserAction.setIcon({
+    chrome.action.setIcon({
       tabId,
       path: hasBookmark
         ? filledStarIcon
         : emtyStarIcon
     }),
-    browser.browserAction.setTitle({
+    chrome.action.setTitle({
       tabId,
-      title: hasBookmark ? browser.i18n.getMessage('unbookmarkTitle') : browser.i18n.getMessage('bookmarkTitle')
+      title: hasBookmark ? chrome.i18n.getMessage('unbookmarkTitle') : chrome.i18n.getMessage('bookmarkTitle')
     })
   ])
 }
