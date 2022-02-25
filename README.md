@@ -135,6 +135,7 @@ Options:
   -d, --devtool [devtool]               controls if and how source maps are generated (default: false)
   -m, --no-minimize                     disables code minification
   -v, --vendorVersion [vendorVersion]   last supported vendor (default: current)
+  --validateManifest [validateManifest] validate manifest syntax (default: false)
   -h, --help                            output usage information
 ```
 

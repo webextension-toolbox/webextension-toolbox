@@ -20,6 +20,7 @@ module.exports = function webpackConfig ({
   devtool = false,
   minimize = false,
   vendor = 'chrome',
+  validateManifest = false,
   vendorVersion
 } = {}) {
   const mode = dev ? 'development' : 'production'
@@ -178,7 +179,8 @@ module.exports = function webpackConfig ({
         name,
         description,
         version
-      }
+      },
+      skipManifestValidation: !validateManifest
     })
   )
 
