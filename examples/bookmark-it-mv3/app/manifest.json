@@ -13,7 +13,7 @@
     "bookmarks",
     "tabs"
   ],
-  "browser_action": {
+  "action": {
     "default_icon": "icons/star-empty-38.png",
     "default_title": "Bookmark it!"
   },
