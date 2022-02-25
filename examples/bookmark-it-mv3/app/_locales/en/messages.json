@@ -1,0 +1,22 @@
+{
+    "extensionName": {
+      "message": "Bookmark it!",
+      "description": "Name of the extension."
+    },
+  
+    "extensionDescription": {
+      "message": "Bookmark the current page.",
+      "description": "Description of the extension."
+    },
+  
+    "bookmarkTitle": {
+      "message": "Bookmark it!",
+      "description": "Title text to bookmark the current page."
+    },
+
+    "unbookmarkTitle": {
+      "message": "Unbookmark it!",
+      "description": "Title text to bookmark the current page."
+    }
+  
+}
