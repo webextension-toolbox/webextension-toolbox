@@ -118,27 +118,6 @@ module.exports = function webpackConfig ({
   // Add Wilcard Entry Plugin
   config.plugins.push(new GlobEntriesPlugin())
 
-  // Add webextension polyfill
-  if (['chrome', 'opera', 'edge'].includes(vendor)) {
-    config.plugins.push(
-      new webpack.ProvidePlugin({
-        browser: require.resolve('webextension-polyfill')
-      })
-    )
-
-    // The webextension-polyill doesn't work well with webpacks ProvidePlugin.
-    // So we need to monkey patch it on the fly
-    // More info: https://github.com/mozilla/webextension-polyfill/pull/86
-    config.module.rules.push({
-      test: /webextension-polyfill[\\/]+dist[\\/]+browser-polyfill\.js$/,
-      loader: require.resolve('string-replace-loader'),
-      options: {
-        search: 'typeof browser === "undefined"',
-        replace: 'typeof window.browser === "undefined" || Object.getPrototypeOf(window.browser) !== Object.prototype'
-      }
-    })
-  }
-
   // Set environment vars
   config.plugins.push(
     new webpack.EnvironmentPlugin({
