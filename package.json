@@ -25,7 +25,8 @@
   },
   "standard": {
     "globals": [
-      "browser"
+      "browser",
+      "chrome"
     ],
     "ignore": [
       "**/dist",
