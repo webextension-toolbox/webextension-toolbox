@@ -16,6 +16,7 @@ If you want to get started quickly check out the [yeoman generator](https://gith
 * Opera (`opera`) (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
 * Edge (`edge`) (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
 * Firefox (`firefox`)
+* Safari (`safari`)
 
 # Features
 
@@ -74,12 +75,11 @@ else it compiles to:
 ```
 
 ## Polyfill
-  
-The [WebExtension specification](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions) is currently only supported by Firefox and Edge (Trident version). This toolbox adds the necessary polyfills for Chrome, Edge (Chromium) and Opera. 
+The [WebExtension specification](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions) is currently supported on Chrome, Firefox, Edge (Chromium) and Safari ([Safari Web Extension’s Browser Compatibility](https://developer.apple.com/documentation/safariservices/safari_web_extensions/assessing_your_safari_web_extension_s_browser_compatibility)).
 
-This way many webextension apis will work in Chrome, Edge (Chromium) and Opera out of the box. 
+This toolbox no longer provides any polyfills for cross-browser support. If you need polyfills e.g. between 'browser' and 'chrome', we recommend detecting the browser during the build time using process.env.VENDOR.
   
-In addition to that, this toolbox comes with <a href="https://github.com/babel/babel/tree/master/packages/babel-preset-env">babel-preset-env</a>.
+This toolbox comes with <a href="https://github.com/babel/babel/tree/master/packages/babel-preset-env">babel-preset-env</a>. Feel free add custom configuration if you need any custom polyfills.
   
 
 # Usage
