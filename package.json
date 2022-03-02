@@ -55,7 +55,7 @@
     "string-replace-loader": "3.0.3",
     "webextension-polyfill": "0.8.0",
     "webpack": "5.68.0",
-    "webpack-watched-glob-entries-plugin": "2.1.10",
+    "webpack-watched-glob-entries-plugin": "2.2.4",
     "webpack-webextension-plugin": "^1.0.0",
     "webpackbar": "5.0.0-3",
     "zip-webpack-plugin": "4.0.1"
