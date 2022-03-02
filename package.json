@@ -34,25 +34,16 @@
     ]
   },
   "dependencies": {
-    "@babel/core": "7.15.0",
-    "@babel/polyfill": "7.12.1",
-    "@babel/preset-env": "7.15.0",
-    "@babel/runtime": "7.14.8",
-    "babel-loader": "8.2.2",
-    "babel-plugin-transform-react-remove-prop-types": "0.4.24",
-    "case-sensitive-paths-webpack-plugin": "2.4.0",
-    "clean-webpack-plugin": "4.0.0-alpha.0",
-    "commander": "8.1.0",
-    "copy-webpack-plugin": "9.0.1",
-    "core-js": "3.16.0",
-    "find-up": "5.0.0",
-    "string-replace-loader": "3.0.3",
-    "webextension-polyfill": "0.8.0",
-    "webpack": "5.68.0",
-    "webpack-watched-glob-entries-plugin": "2.1.10",
+    "case-sensitive-paths-webpack-plugin": "^2.4.0",
+    "clean-webpack-plugin": "^4.0.0",
+    "commander": "^9.0.0",
+    "copy-webpack-plugin": "^10.2.4",
+    "find-up": "^6.3.0",
+    "webpack": "^5.69.1",
+    "webpack-watched-glob-entries-plugin": "^2.2.4",
     "webpack-webextension-plugin": "^1.0.0",
-    "webpackbar": "5.0.0-3",
-    "zip-webpack-plugin": "4.0.1"
+    "webpackbar": "^5.0.2",
+    "zip-webpack-plugin": "^4.0.1"
   },
   "devDependencies": {
     "standard": "latest"
