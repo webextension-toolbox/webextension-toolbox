@@ -15,6 +15,7 @@ program
   .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', 'cheap-source-map')
   .option('-r, --autoReload [autoReload]', 'reload extension after rebuild', true)
   .option('-v, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
+  .option('--validateManifest [validateManifest]', 'validate manifest syntax', false)
   .option('--verbose [verbose]', 'print messages at the beginning and end of incremental build', false)
   .action(function watch (vendor, options) {
     logBanner()
@@ -27,6 +28,7 @@ program
       target: options.target,
       autoReload: options.autoReload,
       vendorVersion: options.vendorVersion,
+      validateManifest: options.validateManifest,
       config: options.config
     })
 
@@ -48,6 +50,7 @@ program
   .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', false)
   .option('-m, --no-minimize', 'disables code minification', false)
   .option('-v, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
+  .option('--validateManifest [validateManifest]', 'validate manifest syntax', false)
   .action(function build (vendor, options) {
     logBanner()
     compile({
@@ -58,6 +61,7 @@ program
       minimize: options.minimize,
       autoReload: false,
       vendorVersion: options.vendorVersion,
+      validateManifest: options.validateManifest,
       config: options.config
     }).run(logCompileOutput.bind(null, options))
   })
