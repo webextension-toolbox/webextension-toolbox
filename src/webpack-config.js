@@ -1,6 +1,6 @@
 const { resolve } = require('path')
 const webpack = require('webpack')
-const CleanPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const GlobEntriesPlugin = require('webpack-watched-glob-entries-plugin')
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
@@ -16,7 +16,7 @@ module.exports = function webpackConfig ({
   target = 'build/[vendor]',
   packageTarget = 'packages',
   dev = false,
-  copyIgnore = [ '**/*.js', '**/*.json' ],
+  copyIgnore = ['**/*.js', '**/*.json'],
   devtool = false,
   minimize = false,
   vendor = 'chrome',
@@ -120,7 +120,7 @@ module.exports = function webpackConfig ({
   config.plugins = []
 
   // Clear output directory
-  config.plugins.push(new CleanPlugin([target], { allowExternal: true }))
+  config.plugins.push(new CleanWebpackPlugin())
 
   // Watcher doesn't work well if you mistype casing in a path so we use
   // a plugin that prints an error when you attempt to do this.
@@ -130,7 +130,7 @@ module.exports = function webpackConfig ({
   config.plugins.push(new GlobEntriesPlugin())
 
   // Add webextension polyfill
-  if (['chrome', 'opera'].includes(vendor)) {
+  if (['chrome', 'opera', 'edge'].includes(vendor)) {
     config.plugins.push(
       new webpack.ProvidePlugin({
         browser: require.resolve('webextension-polyfill')
@@ -143,7 +143,7 @@ module.exports = function webpackConfig ({
     config.module.rules.push({
       test: /webextension-polyfill[\\/]+dist[\\/]+browser-polyfill\.js$/,
       loader: require.resolve('string-replace-loader'),
-      query: {
+      options: {
         search: 'typeof browser === "undefined"',
         replace: 'typeof window.browser === "undefined" || Object.getPrototypeOf(window.browser) !== Object.prototype'
       }
@@ -160,21 +160,25 @@ module.exports = function webpackConfig ({
 
   // Copy non js files & compile manifest
   config.plugins.push(
-    new CopyPlugin([
-      {
-        // Copy all files except (.js, .json, _locales)
-        context: resolve(src),
-        from: resolve(src, '**/*'),
-        ignore: copyIgnore,
-        to: target
-      },
-      {
-        // Copy all language json files
-        context: resolve(src),
-        from: resolve(src, '_locales/**/*.json'),
-        to: target
-      }
-    ])
+    new CopyPlugin({
+      patterns: [
+        {
+          // Copy all files except (.js, .json, _locales)
+          context: resolve(src),
+          from: resolve(src, '**/*').replace(/\\/g, '/'),
+          globOptions: {
+            ignore: copyIgnore
+          },
+          to: target
+        },
+        {
+          // Copy all language json files
+          context: resolve(src),
+          from: resolve(src, '_locales/**/*.json').replace(/\\/g, '/'),
+          to: target
+        }
+      ]
+    })
   )
 
   // Compile and validate manifest and autoreload

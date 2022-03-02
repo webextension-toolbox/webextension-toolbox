@@ -9,27 +9,40 @@ program.version(version)
 program
   .command('dev <vendor>')
   .description('Compiles extension in devmode')
+  .option('-c, --config [config]', 'specify config file path', './webextension-toolbox.config.js')
   .option('-s, --src [src]', 'specify source directory', 'app')
   .option('-t, --target [target]', 'specify target directory', 'dist/[vendor]')
   .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', 'cheap-source-map')
   .option('-r, --autoReload [autoReload]', 'reload extension after rebuild', true)
   .option('-v, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
+  .option('--verbose [verbose]', 'print messages at the beginning and end of incremental build', false)
   .action(function watch (vendor, options) {
     logBanner()
-    compile({
+    const compiler = compile({
       vendor,
       dev: true,
       devtool: options.devtool,
       src: options.src,
       minimize: false,
       target: options.target,
-      autoReload: options.autoReload
-    }).watch({}, logCompileOutput)
+      autoReload: options.autoReload,
+      vendorVersion: options.vendorVersion,
+      config: options.config
+    })
+
+    if (options.verbose) {
+      compiler.hooks.watchRun.tap('WebpackInfo', function () {
+        console.error('\nCompilation starting…\n')
+      })
+    }
+
+    compiler.watch({}, logCompileOutput.bind(null, options))
   })
 
 program
   .command('build <vendor>')
   .description('Compiles extension for production')
+  .option('-c, --config [config]', 'specify config file path', './webextension-toolbox.config.js')
   .option('-s, --src [src]', 'specify source directory', 'app')
   .option('-t, --target [target]', 'specify target directory', 'dist/[vendor]')
   .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', false)
@@ -43,13 +56,15 @@ program
       src: options.src,
       target: options.target,
       minimize: options.minimize,
-      autoReload: false
-    }).run(logCompileOutput)
+      autoReload: false,
+      vendorVersion: options.vendorVersion,
+      config: options.config
+    }).run(logCompileOutput.bind(null, options))
   })
 
 program.parse(process.argv)
 
-function logCompileOutput (error, stats) {
+function logCompileOutput (options, error, stats) {
   if (error) {
     console.error(error)
   }
@@ -59,11 +74,15 @@ function logCompileOutput (error, stats) {
     version: false,
     hash: false
   }))
+
+  if (options.verbose) {
+    console.error('\nCompilation finished\n')
+  }
 }
 
 function logBanner () {
   const banner = `
-           ╔════════╗                     
+           ╔════════╗
 ╔══════════════════════════════╗
 ║     WEBEXTENSION-TOOLBOX     ║
 ╚══════════════════════════════╝`

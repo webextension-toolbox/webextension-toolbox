@@ -1,7 +1,7 @@
 const findUp = require('find-up')
 
-module.exports = function getConfig () {
-  const path = findUp.sync('webextension-toolbox-config.js')
+module.exports = function getConfig (customFilePath) {
+  const path = findUp.sync(customFilePath)
 
   let config = {}
 

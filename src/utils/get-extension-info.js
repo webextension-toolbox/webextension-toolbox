@@ -19,7 +19,7 @@ function getManifestJSON (src) {
   try {
     return require(resolve(src, 'manifest.json'))
   } catch (error) {
-    throw new Error(`You need to provide a valid 'manifest.json'`)
+    throw new Error('You need to provide a valid \'manifest.json\'')
   }
 }
 
