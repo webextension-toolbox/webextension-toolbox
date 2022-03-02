@@ -1,0 +1,41 @@
+name: Github Release
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: npm ci
+      - run: npm run lint
+      - run: npm test
+  create-release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+      - run: npm ci
+      - run: npm pack
+      - id: get_version
+        uses: battila7/get-version-action@v2
+      - name: Get Changelog Entry
+        id: changelog_reader
+        uses: mindsers/changelog-reader-action@v2
+        with:
+          version: ${{ steps.get_version.outputs.version }}
+      - uses: softprops/action-gh-release@v1
+        with:
+          body: ${{ steps.changelog_reader.outputs.changes }}
+          tag_name: ${{ steps.get_version.outputs.version }}
+          files: webextension-toolbox-${{ steps.get_version.outputs.version }}.tgz
