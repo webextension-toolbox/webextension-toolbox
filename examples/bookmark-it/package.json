@@ -8,6 +8,12 @@
     "build": "webextension-toolbox build",
     "build:config": "webextension-toolbox build --config ./webext.config.js"
   },
+  "browserslist": [
+    "chrome >= 17",
+    "edge >= 15",
+    "firefox >= 52",
+    "opera >= 15"
+  ],
   "devDependencies": {
     "webextension-toolbox": "latest"
   }
