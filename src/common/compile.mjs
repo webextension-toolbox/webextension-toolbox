@@ -23,11 +23,14 @@ export default async (options = {}) => {
 }
 
 async function getConfigFile (customFilePath) {
-  const path = findUpSync(customFilePath)
+  let path = findUpSync(customFilePath)
 
   let config = {}
 
   if (path && path.length) {
+    if(process.platform === "win32") {
+      path = `file:///${path}`
+    }
     const configModule = await import(path)
     config = configModule.default || configModule
   } else {
