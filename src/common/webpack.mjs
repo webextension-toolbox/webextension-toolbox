@@ -8,11 +8,11 @@ import ZipPlugin from 'zip-webpack-plugin'
 import WebextensionPlugin from 'webpack-webextension-plugin'
 import getExtensionInfo from './utils/getExtensionInfo.mjs'
 import WebpackBar from 'webpackbar'
-import browserslist from "browserslist";
+import browserslist from 'browserslist'
 
-const { EnvironmentPlugin, ProvidePlugin } = webpack;
-const { data: browserslistData } = browserslist;
-const { getEntries } = GlobEntriesPlugin;
+const { EnvironmentPlugin } = webpack
+const { data: browserslistData } = browserslist
+const { getEntries } = GlobEntriesPlugin
 
 export default async function webpackConfig ({
   src = 'app',
@@ -81,7 +81,7 @@ export default async function webpackConfig ({
   /******************************/
   /*    WEBPACK.OPTIMIZATION    */
   /******************************/
-  config.optimization = { minimize: minimize }
+  config.optimization = { minimize }
 
   /******************************/
   /*       WEBPACK.LOADERS      */
@@ -205,18 +205,18 @@ export default async function webpackConfig ({
  * @param {string} vendor
  * @return {Number} version
  */
- function getLastNVendorVersion (n, vendor) {
-  const { released } = browserslistData[vendor];
-  return released[released.length - n];
+function getLastNVendorVersion (n, vendor) {
+  const { released } = browserslistData[vendor]
+  return released[released.length - n]
 }
 
 function getExtensionFileType (vendor) {
   switch (vendor) {
-    case "firefox":
-      return "xpi";
-    case "opera":
-      return "crx";
+    case 'firefox':
+      return 'xpi'
+    case 'opera':
+      return 'crx'
     default:
-      return "zip";
+      return 'zip'
   }
 }

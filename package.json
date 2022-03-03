@@ -18,6 +18,7 @@
   },
   "scripts": {
     "lint": "standard",
+    "lint-fix": "standard --fix",
     "link": "npm link && cd examples/bookmark-it && npm link webextension-toolbox",
     "test": "npm run link && npm run test:standard && npm run test:config",
     "test:standard": "cd examples/bookmark-it && npm run build chrome && npm run build firefox && npm run build opera && npm run build edge && npm run build firefox -m",
@@ -44,14 +45,15 @@
     "copy-webpack-plugin": "^10.2.4",
     "find-up": "^6.3.0",
     "webpack": "^5.69.1",
+    "webpack-dev-server": "^4.7.4",
     "webpack-watched-glob-entries-plugin": "^2.2.4",
     "webpack-webextension-plugin": "^1.0.0",
     "webpackbar": "^5.0.2",
     "zip-webpack-plugin": "^4.0.1"
   },
   "devDependencies": {
-    "prettier": "2.5.1",
-    "standard": "latest"
+    "prettier": "^2.5.1",
+    "standard": "^17.0.0-2"
   },
   "engines": {
     "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
