@@ -1,4 +1,4 @@
 #!/usr/bin/env sh
 
-BASEDIR=$(dirname $(dirname $(readlink -f "$0")))
+BASEDIR=$(dirname $(dirname $(node -e "var fs = require('fs');console.log(fs.realpathSync('$0'));")))
 env node $BASEDIR/index.mjs "$@"
