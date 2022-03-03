@@ -1,6 +1,6 @@
 import compileWebpack from 'webpack'
 import configureWebpack from './webpack.mjs'
-import { findUpSync } from 'find-up'
+import { findUp } from 'find-up'
 
 export default async (options = {}) => {
   // Get user config file
@@ -23,12 +23,12 @@ export default async (options = {}) => {
 }
 
 async function getConfigFile (customFilePath) {
-  let path = findUpSync(customFilePath)
+  let path = await findUp(customFilePath)
 
   let config = {}
 
   if (path && path.length) {
-    if(process.platform === "win32") {
+    if (process.platform === 'win32') {
       path = `file:///${path}`
     }
     const configModule = await import(path)
