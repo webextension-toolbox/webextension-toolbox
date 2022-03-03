@@ -1,4 +1,5 @@
-#!/usr/bin/env sh
+#!/usr/bin/env node
 
-BASEDIR=$(dirname $(dirname $(node -e "var fs = require('fs');console.log(fs.realpathSync('$0'));")))
-env node $BASEDIR/index.mjs "$@"
+(async function () {
+	await import('../index.mjs')
+})()
