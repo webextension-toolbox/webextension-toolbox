@@ -1,17 +1,20 @@
-const { resolve } = require('path')
-const webpack = require('webpack')
-const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-const GlobEntriesPlugin = require('webpack-watched-glob-entries-plugin')
-const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin')
-const ZipPlugin = require('zip-webpack-plugin')
-const WebextensionPlugin = require('webpack-webextension-plugin')
-const getExtensionInfo = require('./utils/get-extension-info')
-const getExtensionFileType = require('./utils/get-extension-file-type')
-const getLastNVendorVersion = require('./utils/get-latest-n-vendor-version')
-const WebpackBar = require('webpackbar')
+import { resolve } from 'path'
+import webpack from 'webpack'
+import { CleanWebpackPlugin } from 'clean-webpack-plugin'
+import GlobEntriesPlugin from 'webpack-watched-glob-entries-plugin'
+import CaseSensitivePathsPlugin from 'case-sensitive-paths-webpack-plugin'
+import CopyPlugin from 'copy-webpack-plugin'
+import ZipPlugin from 'zip-webpack-plugin'
+import WebextensionPlugin from 'webpack-webextension-plugin'
+import getExtensionInfo from './utils/getExtensionInfo.mjs'
+import WebpackBar from 'webpackbar'
+import browserslist from "browserslist";
 
-module.exports = function webpackConfig ({
+const { EnvironmentPlugin, ProvidePlugin } = webpack;
+const { data: browserslistData } = browserslist;
+const { getEntries } = GlobEntriesPlugin;
+
+export default async function webpackConfig ({
   src = 'app',
   target = 'build/[vendor]',
   packageTarget = 'packages',
@@ -33,7 +36,7 @@ module.exports = function webpackConfig ({
   packageTarget = resolve(packageTarget.replace('[vendor]', vendor))
 
   // Get some defaults
-  const { version, name, description } = getExtensionInfo(src)
+  const { version, name, description } = await getExtensionInfo(src)
 
   /******************************/
   /*      WEBPACK               */
@@ -63,7 +66,7 @@ module.exports = function webpackConfig ({
   // We use the GlobEntriesPlugin in order to
   // restart the compiler in watch mode, when new
   // files got added.
-  config.entry = GlobEntriesPlugin.getEntries(
+  config.entry = getEntries(
     entries
   )
 
@@ -97,12 +100,6 @@ module.exports = function webpackConfig ({
         cacheDirectory: false,
         presets: [
           ['@babel/preset-env', {
-            // `entry` transforms `@babel/polyfill` into individual requires for
-            // the targeted browsers. This is safer than `usage` which performs
-            // static code analysis to determine what's required.
-            // This is probably a fine default to help trim down bundles when
-            // end-users inevitably import '@babel/polyfill'.
-            useBuiltIns: 'entry',
             // Do not transform modules to CJS
             modules: false,
             // Restrict to vendor
@@ -132,7 +129,7 @@ module.exports = function webpackConfig ({
 
   // Set environment vars
   config.plugins.push(
-    new webpack.EnvironmentPlugin({
+    new EnvironmentPlugin({
       VENDOR: vendor,
       WEBEXTENSION_TOOLBOX_VERSION: version
     })
@@ -188,13 +185,38 @@ module.exports = function webpackConfig ({
   config.node = false
 
   // In order to still be able to use global we use window instead
+  /*
   config.plugins.push(
-    new webpack.ProvidePlugin({
+    new ProvidePlugin({
       global: require.resolve('./utils/global.js')
     })
   )
+  */
 
   config.plugins.push(new WebpackBar())
 
   return config
+}
+
+/**
+ * Returns last n
+ * vendor version
+ * @param {integer} n
+ * @param {string} vendor
+ * @return {Number} version
+ */
+ function getLastNVendorVersion (n, vendor) {
+  const { released } = browserslistData[vendor];
+  return released[released.length - n];
+}
+
+function getExtensionFileType (vendor) {
+  switch (vendor) {
+    case "firefox":
+      return "xpi";
+    case "opera":
+      return "crx";
+    default:
+      return "zip";
+  }
 }

@@ -2,7 +2,7 @@
   "name": "webextension-toolbox",
   "version": "4.0.3",
   "description": "Framework for WebExtensions (Firefox, Chrome, Opera, Edge)",
-  "main": "index.js",
+  "main": "index.mjs",
   "repository": "https://github.com/webextension-toolbox/webextension-toolbox",
   "author": "Henrik Wenz <HaNdTriX@gmail.com> (https://github.com/HaNdTriX)",
   "contributors": [
@@ -34,6 +34,10 @@
     ]
   },
   "dependencies": {
+    "@babel/core": "^7.17.5",
+    "@babel/preset-env": "^7.16.11",
+    "@babel/runtime": "^7.17.2",
+    "babel-loader": "^8.2.3",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "clean-webpack-plugin": "^4.0.0",
     "commander": "^9.0.0",
@@ -46,9 +50,10 @@
     "zip-webpack-plugin": "^4.0.1"
   },
   "devDependencies": {
+    "prettier": "2.5.1",
     "standard": "latest"
   },
   "engines": {
-    "node": ">=v12.x"
+    "node": "^12.20.0 || ^14.13.1 || >=16.0.0"
   }
 }
