@@ -6,7 +6,7 @@ import path from 'node:path'
 import build from './src/build.mjs'
 import dev from './src/dev.mjs'
 
-(async function() {
+(async function () {
   const __filename = fileURLToPath(import.meta.url)
   const { version } = JSON.parse(await fs.readFile('package.json'))
 
@@ -75,4 +75,4 @@ import dev from './src/dev.mjs'
     .action(build)
 
   program.parse()
-})();
+})()
