@@ -49,7 +49,10 @@
     "webpack-watched-glob-entries-plugin": "^2.2.4",
     "webpack-webextension-plugin": "^1.0.0",
     "webpackbar": "^5.0.2",
-    "zip-webpack-plugin": "^4.0.1"
+    "zip-webpack-plugin": "^4.0.1",
+    "ts-loader": "^8.0.13",
+    "typescript": "^4.4.4",
+    "tsconfig-paths-webpack-plugin": "^3.5.2"
   },
   "devDependencies": {
     "prettier": "^2.5.1",

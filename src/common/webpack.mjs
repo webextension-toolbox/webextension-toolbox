@@ -9,6 +9,7 @@ import WebextensionPlugin from 'webpack-webextension-plugin'
 import getExtensionInfo from './utils/getExtensionInfo.mjs'
 import WebpackBar from 'webpackbar'
 import browserslist from 'browserslist'
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
 const { EnvironmentPlugin } = webpack
 const { data: browserslistData } = browserslist
@@ -19,7 +20,7 @@ export default async function webpackConfig ({
   target = 'build/[vendor]',
   packageTarget = 'packages',
   dev = false,
-  copyIgnore = ['**/*.js', '**/*.json'],
+  copyIgnore = ['**/*.js', '**/*.json', '**/*.ts', '**/*.tsx'],
   devtool = false,
   minimize = false,
   vendor = 'chrome',
@@ -36,7 +37,7 @@ export default async function webpackConfig ({
   packageTarget = resolve(packageTarget.replace('[vendor]', vendor))
 
   // Get some defaults
-  const { version, name, description } = await getExtensionInfo(src)
+  const { version, name, description, typescript } = await getExtensionInfo(src)
 
   /******************************/
   /*      WEBPACK               */
@@ -47,8 +48,14 @@ export default async function webpackConfig ({
   }
 
   // Automatically resolve the following extensions:
-  config.resolve = {
-    extensions: ['.js', '.json', '.mjs', '.jsx']
+  if(typescript) {
+    config.resolve = {
+      extensions: ['.js', '.json', '.mjs', '.jsx', '.ts', '.tsx']
+    }
+  } else {
+    config.resolve = {
+      extensions: ['.js', '.json', '.mjs', '.jsx']
+    }
   }
 
   // Source-Maps
@@ -60,14 +67,22 @@ export default async function webpackConfig ({
   const entries = []
 
   // Add main entry glob
-  entries.push(resolve(src, '*.{js,mjs,jsx}'))
-  entries.push(resolve(src, '?(scripts)/*.{js,mjs,jsx}'))
+  if(typescript) {
+    entries.push(resolve(src, '*.{js,mjs,jsx,ts,tsx}'))
+    entries.push(resolve(src, '?(scripts)/*.{js,mjs,jsx,ts,tsx}'))
+  } else {
+    entries.push(resolve(src, '*.{js,mjs,jsx}'))
+    entries.push(resolve(src, '?(scripts)/*.{js,mjs,jsx}'))
+  }
 
   // We use the GlobEntriesPlugin in order to
   // restart the compiler in watch mode, when new
   // files got added.
   config.entry = getEntries(
-    entries
+    entries,
+    {
+      ignore: []
+    }
   )
 
   /******************************/
@@ -112,10 +127,25 @@ export default async function webpackConfig ({
     }
   })
 
+  //Add TypeScript support
+  if(typescript) {
+    config.module.rules.push({
+      test: /\.tsx?$/,
+      loader: 'ts-loader'
+    })
+  }
+
+
   /******************************/
   /*     WEBPACK.PLUGINS        */
   /******************************/
   config.plugins = []
+
+  //Use this to load modules whose location is specified in the paths section of tsconfig.json
+  if(typescript) {
+    config.resolve.plugins = [];
+    config.resolve.plugins.push(new TsconfigPathsPlugin())
+  }
 
   // Clear output directory
   config.plugins.push(new CleanWebpackPlugin())
