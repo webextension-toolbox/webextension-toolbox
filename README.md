@@ -2,7 +2,7 @@
 # WebExtension Toolbox
 
 [![npm version](https://badge.fury.io/js/webextension-toolbox.svg)](https://badge.fury.io/js/webextension-toolbox)
-[![Node.js CI](https://github.com/webextension-toolbox/webextension-toolbox/actions/workflows/nodejs.yml/badge.svg)](https://github.com/webextension-toolbox/webextension-toolbox/actions/workflows/nodejs.yml)
+[![Node.js CI](https://github.com/webextension-toolbox/webextension-toolbox/actions/workflows/build.yml/badge.svg)](https://github.com/webextension-toolbox/webextension-toolbox/actions/workflows/build.yml)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 [![license](https://img.shields.io/npm/l/webextension-toolbox.svg)](https://github.com/webextension-toolbox/webextension-toolbox/blob/master/LICENSE)
 
