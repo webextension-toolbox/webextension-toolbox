@@ -6,7 +6,7 @@ import path from 'node:path'
 import build from './src/build.mjs'
 import dev from './src/dev.mjs'
 
-(async function () {
+;(async function () {
   const __filename = fileURLToPath(import.meta.url)
   const { version } = JSON.parse(await fs.readFile('package.json'))
 
@@ -14,10 +14,12 @@ import dev from './src/dev.mjs'
 
   program
     .name(path.basename(__filename))
-    .description(blue(`              ╔════════╗
+    .description(
+      blue(`              ╔════════╗
     ╔══════════════════════════════╗
     ║     ${bold.yellow('WEBEXTENSION-TOOLBOX')}     ║
-    ╚══════════════════════════════╝`))
+    ╚══════════════════════════════╝`)
+    )
     .version(version)
 
   program
@@ -30,7 +32,11 @@ import dev from './src/dev.mjs'
       './webextension-toolbox.config.js'
     )
     .option('-s, --src [src]', 'specify source directory', 'app')
-    .option('-t, --target [target]', 'specify target directory', 'dist/[vendor]')
+    .option(
+      '-t, --target [target]',
+      'specify target directory',
+      'dist/[vendor]'
+    )
     .option(
       '-d, --devtool [devtool]',
       'controls if and how source maps are generated',
@@ -65,13 +71,33 @@ import dev from './src/dev.mjs'
   program
     .command('build')
     .description('Compiles extension for production')
-    .argument('<vendor>', 'The Vendor to compile').option('-c, --config [config]', 'specify config file path', './webextension-toolbox.config.js')
+    .argument('<vendor>', 'The Vendor to compile')
+    .option(
+      '-c, --config [config]',
+      'specify config file path',
+      './webextension-toolbox.config.js'
+    )
     .option('-s, --src [src]', 'specify source directory', 'app')
-    .option('-t, --target [target]', 'specify target directory', 'dist/[vendor]')
-    .option('-d, --devtool [devtool]', 'controls if and how source maps are generated', false)
+    .option(
+      '-t, --target [target]',
+      'specify target directory',
+      'dist/[vendor]'
+    )
+    .option(
+      '-d, --devtool [devtool]',
+      'controls if and how source maps are generated',
+      false
+    )
     .option('-m, --no-minimize', 'disables code minification', false)
-    .option('-v, --vendorVersion [vendorVersion]', 'last supported vendor (default: current)')
-    .option('--validateManifest [validateManifest]', 'validate manifest syntax', false)
+    .option(
+      '-v, --vendorVersion [vendorVersion]',
+      'last supported vendor (default: current)'
+    )
+    .option(
+      '--validateManifest [validateManifest]',
+      'validate manifest syntax',
+      false
+    )
     .action(build)
 
   program.parse()

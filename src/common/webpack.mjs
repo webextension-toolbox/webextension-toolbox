@@ -9,7 +9,7 @@ import WebextensionPlugin from 'webpack-webextension-plugin'
 import getExtensionInfo from './utils/getExtensionInfo.mjs'
 import WebpackBar from 'webpackbar'
 import browserslist from 'browserslist'
-import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
 
 const { EnvironmentPlugin } = webpack
 const { data: browserslistData } = browserslist
@@ -48,7 +48,7 @@ export default async function webpackConfig ({
   }
 
   // Automatically resolve the following extensions:
-  if(typescript) {
+  if (typescript) {
     config.resolve = {
       extensions: ['.js', '.json', '.mjs', '.jsx', '.ts', '.tsx']
     }
@@ -67,7 +67,7 @@ export default async function webpackConfig ({
   const entries = []
 
   // Add main entry glob
-  if(typescript) {
+  if (typescript) {
     entries.push(resolve(src, '*.{js,mjs,jsx,ts,tsx}'))
     entries.push(resolve(src, '?(scripts)/*.{js,mjs,jsx,ts,tsx}'))
   } else {
@@ -78,12 +78,9 @@ export default async function webpackConfig ({
   // We use the GlobEntriesPlugin in order to
   // restart the compiler in watch mode, when new
   // files got added.
-  config.entry = getEntries(
-    entries,
-    {
-      ignore: []
-    }
-  )
+  config.entry = getEntries(entries, {
+    ignore: []
+  })
 
   /******************************/
   /*       WEBPACK.OUTPUT       */
@@ -114,36 +111,38 @@ export default async function webpackConfig ({
       options: {
         cacheDirectory: false,
         presets: [
-          ['@babel/preset-env', {
-            // Do not transform modules to CJS
-            modules: false,
-            // Restrict to vendor
-            targets: {
-              [vendor]: vendorVersion || getLastNVendorVersion(3, vendor)
+          [
+            '@babel/preset-env',
+            {
+              // Do not transform modules to CJS
+              modules: false,
+              // Restrict to vendor
+              targets: {
+                [vendor]: vendorVersion || getLastNVendorVersion(3, vendor)
+              }
             }
-          }]
+          ]
         ]
       }
     }
   })
 
-  //Add TypeScript support
-  if(typescript) {
+  // Add TypeScript support
+  if (typescript) {
     config.module.rules.push({
       test: /\.tsx?$/,
       loader: 'ts-loader'
     })
   }
 
-
   /******************************/
   /*     WEBPACK.PLUGINS        */
   /******************************/
   config.plugins = []
 
-  //Use this to load modules whose location is specified in the paths section of tsconfig.json
-  if(typescript) {
-    config.resolve.plugins = [];
+  // Use this to load modules whose location is specified in the paths section of tsconfig.json
+  if (typescript) {
+    config.resolve.plugins = []
     config.resolve.plugins.push(new TsconfigPathsPlugin())
   }
 
@@ -204,10 +203,14 @@ export default async function webpackConfig ({
 
   // Pack extension
   if (mode === 'production') {
-    config.plugins.push(new ZipPlugin({
-      path: packageTarget,
-      filename: `${name}.v${version}.${vendor}.${getExtensionFileType(vendor)}`
-    }))
+    config.plugins.push(
+      new ZipPlugin({
+        path: packageTarget,
+        filename: `${name}.v${version}.${vendor}.${getExtensionFileType(
+          vendor
+        )}`
+      })
+    )
   }
 
   // Disable webpacks usage of eval & function string constructor
