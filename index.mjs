@@ -48,6 +48,11 @@ import dev from './src/dev.mjs'
       true
     )
     .option(
+      '-p, --port [port]',
+      'Define the port for the websocket development server',
+      35729
+    )
+    .option(
       '-v, --vendorVersion [vendorVersion]',
       'last supported vendor (default: current)'
     )

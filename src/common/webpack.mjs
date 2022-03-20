@@ -25,6 +25,7 @@ export default async function webpackConfig ({
   minimize = false,
   vendor = 'chrome',
   validateManifest = false,
+  port = 35729,
   vendorVersion
 } = {}) {
   const mode = dev ? 'development' : 'production'
@@ -197,7 +198,8 @@ export default async function webpackConfig ({
         description,
         version
       },
-      skipManifestValidation: !validateManifest
+      skipManifestValidation: !validateManifest,
+      port
     })
   )
 

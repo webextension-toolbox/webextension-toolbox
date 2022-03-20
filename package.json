@@ -10,6 +10,10 @@
       "name": "Dávid Balatoni",
       "email": "balcsida@gmail.com",
       "url": "https://github.com/balcsida"
+    },
+    {
+      "name": "Andrew Nagy",
+      "url": "https://github.com/tm1000"
     }
   ],
   "license": "MIT",
@@ -35,27 +39,27 @@
     ]
   },
   "dependencies": {
-    "@babel/core": "^7.17.5",
+    "@babel/core": "^7.17.8",
     "@babel/preset-env": "^7.16.11",
-    "@babel/runtime": "^7.17.2",
+    "@babel/runtime": "^7.17.8",
     "babel-loader": "^8.2.3",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
     "clean-webpack-plugin": "^4.0.0",
-    "commander": "^9.0.0",
+    "commander": "^9.1.0",
     "copy-webpack-plugin": "^10.2.4",
     "find-up": "^6.3.0",
-    "webpack": "^5.69.1",
+    "webpack": "^5.70.0",
     "webpack-dev-server": "^4.7.4",
     "webpack-watched-glob-entries-plugin": "^2.2.4",
     "webpack-webextension-plugin": "^1.0.0",
     "webpackbar": "^5.0.2",
     "zip-webpack-plugin": "^4.0.1",
-    "ts-loader": "^8.0.13",
-    "typescript": "^4.4.4",
+    "ts-loader": "^9.2.8",
+    "typescript": "^4.6.2",
     "tsconfig-paths-webpack-plugin": "^3.5.2"
   },
   "devDependencies": {
-    "prettier": "^2.5.1",
+    "prettier": "^2.6.0",
     "standard": "^17.0.0-2"
   },
   "engines": {

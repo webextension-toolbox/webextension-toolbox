@@ -13,7 +13,8 @@ export default async function (vendor, options) {
     autoReload: options.autoReload,
     vendorVersion: options.vendorVersion,
     validateManifest: options.validateManifest,
-    config: options.config
+    config: options.config,
+    port: options.port ?? 35729
   })
 
   if (options.verbose) {
