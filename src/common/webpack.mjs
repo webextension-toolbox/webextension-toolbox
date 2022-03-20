@@ -10,7 +10,10 @@ import getExtensionInfo from './utils/getExtensionInfo.mjs'
 import WebpackBar from 'webpackbar'
 import browserslist from 'browserslist'
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin'
+import { promisify } from 'util'
+import g from 'glob'
 
+const glob = promisify(g)
 const { EnvironmentPlugin } = webpack
 const { data: browserslistData } = browserslist
 const { getEntries } = GlobEntriesPlugin
@@ -165,26 +168,32 @@ export default async function webpackConfig ({
     })
   )
 
+  const copyPatterns = [{
+    // Copy all files except (.js, .json, _locales)
+    context: resolve(src),
+    from: resolve(src, '**/*').replace(/\\/g, '/'),
+    globOptions: {
+      ignore: copyIgnore
+    },
+    to: target
+  }]
+
+  // Copy language files (_locales) if they exist
+  const resolvedFrom = resolve(src, '_locales/**/*.json').replace(/\\/g, '/')
+  const resolvedFromGlob = await glob(resolvedFrom)
+  if (resolvedFromGlob.length) {
+    copyPatterns.push({
+      // Copy all language json files
+      context: resolve(src),
+      from: resolvedFrom,
+      to: target
+    })
+  }
+
   // Copy non js files & compile manifest
   config.plugins.push(
     new CopyPlugin({
-      patterns: [
-        {
-          // Copy all files except (.js, .json, _locales)
-          context: resolve(src),
-          from: resolve(src, '**/*').replace(/\\/g, '/'),
-          globOptions: {
-            ignore: copyIgnore
-          },
-          to: target
-        },
-        {
-          // Copy all language json files
-          context: resolve(src),
-          from: resolve(src, '_locales/**/*.json').replace(/\\/g, '/'),
-          to: target
-        }
-      ]
+      patterns: copyPatterns
     })
   )
 
