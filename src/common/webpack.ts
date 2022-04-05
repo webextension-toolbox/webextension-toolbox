@@ -5,7 +5,7 @@ import GlobEntriesPlugin from "webpack-watched-glob-entries-plugin";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CopyPlugin from "copy-webpack-plugin";
 import ZipPlugin from "zip-webpack-plugin";
-import WebextensionPlugin from "webpack-webextension-plugin";
+import WebextensionPlugin from "@webextension-toolbox/webpack-webextension-plugin";
 import getExtensionInfo from "./utils/getExtensionInfo";
 import WebpackBar from "webpackbar";
 import { data as browserslistData } from "browserslist";

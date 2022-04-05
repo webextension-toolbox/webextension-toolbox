@@ -1,6 +1,6 @@
 {
-  "name": "webextension-toolbox",
-  "version": "4.0.3",
+  "name": "@webextension-toolbox/webextension-toolbox",
+  "version": "5.0.0",
   "description": "Framework for WebExtensions (Firefox, Chrome, Opera, Edge)",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -52,7 +52,7 @@
     "webpack": "^5.70.0",
     "webpack-dev-server": "^4.7.4",
     "webpack-watched-glob-entries-plugin": "^2.2.4",
-    "webpack-webextension-plugin": "^1.0.0",
+    "@webextension-toolbox/webpack-webextension-plugin": "^2.0.0",
     "webpackbar": "^5.0.2",
     "zip-webpack-plugin": "^4.0.1"
   },
