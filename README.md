@@ -1,11 +1,10 @@
-[<img align="right" src="./assets/icon.svg?sanitize=true">](https://www.npmjs.com/package/webextension-toolbox)
+[<img align="right" src="./assets/icon.svg?sanitize=true">](https://www.npmjs.com/package/@webextension-toolbox/webextension-toolbox)
 
 # WebExtension Toolbox
 
-[![npm version](https://badge.fury.io/js/webextension-toolbox.svg)](https://badge.fury.io/js/webextension-toolbox)
+[![npm version](https://badge.fury.io/js/@webextension-toolbox%2Fwebextension-toolbox.svg)](https://badge.fury.io/js/webextension-toolbox%2Fwebextension-toolbox)
 [![Node.js CI](https://github.com/webextension-toolbox/webextension-toolbox/actions/workflows/build.yml/badge.svg)](https://github.com/webextension-toolbox/webextension-toolbox/actions/workflows/build.yml)
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
-[![license](https://img.shields.io/npm/l/webextension-toolbox.svg)](https://github.com/webextension-toolbox/webextension-toolbox/blob/master/LICENSE)
+[![license](https://img.shields.io/npm/l/@webextension-toolbox%2Fwebextension-toolbox.svg)](https://github.com/webextension-toolbox/webextension-toolbox/blob/master/LICENSE)
 
 Small cli toolbox for creating cross-browser WebExtensions.
 
@@ -101,8 +100,16 @@ This toolbox comes with <a href="https://github.com/babel/babel/tree/master/pack
 
 ## Install
 
+#### Globally
+
 ```shell
-$ npm install -g webextension-toolbox
+$ npm install -g @webextension-toolbox/webextension-toolbox
+```
+
+#### Locally
+
+```shell
+$ npm install -D @webextension-toolbox/webextension-toolbox
 ```
 
 ## Development
