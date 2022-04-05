@@ -44,7 +44,7 @@ import { build, dev } from "./index";
       "cheap-source-map"
     )
     .option(
-      "-r, --autoReload [autoReload]",
+      "-r, --auto-reload [autoReload]",
       "reload extension after rebuild",
       true
     )
@@ -54,7 +54,7 @@ import { build, dev } from "./index";
       "35729"
     )
     .option(
-      "-v, --vendorVersion [vendorVersion]",
+      "-v, --vendor-version [vendorVersion]",
       "last supported vendor (default: current)"
     )
     .option(
@@ -62,15 +62,10 @@ import { build, dev } from "./index";
       "use webpack dev server to serve bundled files",
       false
     )
+    .option("--skip-manifest-validation", "validate manifest syntax")
     .option(
-      "--validateManifest [validateManifest]",
-      "validate manifest syntax",
-      false
-    )
-    .option(
-      "--verbose [verbose]",
-      "print messages at the beginning and end of incremental build",
-      false
+      "--verbose",
+      "print messages at the beginning and end of incremental build"
     )
     .action(dev);
 
@@ -94,16 +89,12 @@ import { build, dev } from "./index";
       "controls if and how source maps are generated",
       false
     )
-    .option("-m, --no-minimize", "disables code minification", false)
+    .option("-m, --no-minimize", "disables code minification", true)
     .option(
-      "-v, --vendorVersion [vendorVersion]",
+      "-v, --vendor-version [vendorVersion]",
       "last supported vendor (default: current)"
     )
-    .option(
-      "--validateManifest [validateManifest]",
-      "validate manifest syntax",
-      false
-    )
+    .option("--skip-manifest-validation", "validate manifest syntax", true)
     .action(build);
 
   program.parse();

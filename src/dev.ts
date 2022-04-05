@@ -9,10 +9,11 @@ export default async function (vendor: string, options: CompileOptions) {
     devtool: options.devtool,
     src: options.src,
     minimize: false,
+    dev: true,
     target: options.target,
     autoReload: options.autoReload,
     vendorVersion: options.vendorVersion,
-    validateManifest: options.validateManifest,
+    skipManifestValidation: options.skipManifestValidation,
     config: options.config,
     port: options.port ?? 35729,
   });

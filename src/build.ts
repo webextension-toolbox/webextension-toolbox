@@ -10,7 +10,7 @@ export default async function (vendor: string, options: CompileOptions) {
     minimize: options.minimize,
     autoReload: false,
     vendorVersion: options.vendorVersion,
-    validateManifest: options.validateManifest,
+    skipManifestValidation: options.skipManifestValidation,
     config: options.config,
   });
 

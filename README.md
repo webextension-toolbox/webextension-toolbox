@@ -1,4 +1,5 @@
 [<img align="right" src="./assets/icon.svg?sanitize=true">](https://www.npmjs.com/package/webextension-toolbox)
+
 # WebExtension Toolbox
 
 [![npm version](https://badge.fury.io/js/webextension-toolbox.svg)](https://badge.fury.io/js/webextension-toolbox)
@@ -12,35 +13,49 @@ If you want to get started quickly check out the [yeoman generator](https://gith
 
 # Browser Support
 
-* Chrome (`chrome`) (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
-* Opera (`opera`) (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
-* Edge (`edge`) (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
-* Firefox (`firefox`)
-* Safari (`safari`)
+- Chrome (`chrome`) (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
+- Opera (`opera`) (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
+- Edge (`edge`) (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
+- Firefox (`firefox`)
+- Safari (`safari`)
 
 # Features
 
 ## React.js
-Works with [React](https://reactjs.org/) out of the box!  
-Run `$ npm i react react-dom` and you are ready to go.
+
+1. `npm install @babel/preset-react --save-dev`
+2. Create a .babelrc file next to your package.json file and insert the following contents:
+
+```
+{
+  "presets": [
+    "@babel/preset-react"
+  ]
+}
+```
 
 ## Packing
 
 The `build` task creates bundles for:
-* Firefox (`.xpi`)
-* Chrome (`.zip`)
-* Opera (`.crx`)
-* Edge (`.zip`)
+
+- Firefox (`.xpi`)
+- Chrome (`.zip`)
+- Opera (`.crx`)
+- Edge (`.zip`)
+- Safari (`.zip`)
 
 ## Manifest validation
 
 Validates your `manifest.json` while compiling.
+
+You can skip this by adding `--validateManifest` to your `build` or `dev` command.
 
 ## Manifest defaults
 
 Uses default fields (`name`, `version`, `description`) from your `package.json`
 
 ## Manifest vendor keys
+
 Allows you to define vendor specific manifest keys.
 
 ### Example
@@ -75,12 +90,12 @@ else it compiles to:
 ```
 
 ## Polyfill
+
 The [WebExtension specification](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions) is currently supported on Chrome, Firefox, Edge (Chromium) and Safari ([Safari Web Extension’s Browser Compatibility](https://developer.apple.com/documentation/safariservices/safari_web_extensions/assessing_your_safari_web_extension_s_browser_compatibility)).
 
 This toolbox no longer provides any polyfills for cross-browser support. If you need polyfills e.g. between 'browser' and 'chrome', we recommend detecting the browser during the build time using process.env.VENDOR.
-  
+
 This toolbox comes with <a href="https://github.com/babel/babel/tree/master/packages/babel-preset-env">babel-preset-env</a>. Feel free add custom configuration if you need any custom polyfills.
-  
 
 # Usage
 
@@ -92,11 +107,11 @@ $ npm install -g webextension-toolbox
 
 ## Development
 
-* Compiles the extension via webpack to `dist/<vendor>`.
-* Watches all extension files and recompiles on demand.
-* Reloads extension or extension page as soon something changed.
-* Sets `process.env.NODE_ENV` to `development`.
-* Sets `process.env.VENDOR` to the current vendor.
+- Compiles the extension via webpack to `dist/<vendor>`.
+- Watches all extension files and recompiles on demand.
+- Reloads extension or extension page as soon something changed.
+- Sets `process.env.NODE_ENV` to `development`.
+- Sets `process.env.VENDOR` to the current vendor.
 
 ### Syntax
 
@@ -116,11 +131,11 @@ $ webextension-toolbox dev edge
 
 ## Build
 
-* Compile extension via webpack to `dist/<vendor>`.
-* Minifies extension Code.
-* Sets `process.env.NODE_ENV` to `production`.
-* Sets `process.env.VENDOR` to the current vendor.
-* Packs extension to `packages`.
+- Compile extension via webpack to `dist/<vendor>`.
+- Minifies extension Code.
+- Sets `process.env.NODE_ENV` to `production`.
+- Sets `process.env.VENDOR` to the current vendor.
+- Packs extension to `packages`.
 
 ### Syntax
 
@@ -148,7 +163,7 @@ Always use the [WebExtension browser API](https://developer.mozilla.org/docs/Moz
 All javascript files located at the root of your `./app` or `./app/scripts` directory will create a seperate bundle.
 
 | app                                 | dist                                  |
-|-------------------------------------|---------------------------------------|
+| ----------------------------------- | ------------------------------------- |
 | `app/background.js`                 | `dist/<vendor>/background.js`         |
 | `app/scripts/background.js`         | `dist/<vendor>/scripts/background.js` |
 | `app/some-dir/some-file.js`         | Will be ignored as entry file.        |
@@ -164,12 +179,12 @@ module.exports = {
     // Perform customizations to webpack config
 
     // Important: return the modified config
-    return config
-  }
-}
+    return config;
+  },
+};
 ```
 
-As WebExtension Toolbox uses webpack’s [devtool]( https://webpack.js.org/configuration/devtool/) feature under the hood, you can also customize the desired devtool with the `--devtool` argument.
+As WebExtension Toolbox uses webpack’s [devtool](https://webpack.js.org/configuration/devtool/) feature under the hood, you can also customize the desired devtool with the `--devtool` argument.
 
 For example, if you have problems with source maps on Firefox, you can try the following command:
 
@@ -187,12 +202,12 @@ If want to develop browser extensions for Firefox only [web-ext](https://github.
 
 Nevertheless if you want to develop cross browser extensions using
 
-* the same development experience in every browser
-* a single codebase
-* react
-* and custom webpack configuration
+- the same development experience in every browser
+- a single codebase
+- react
+- and custom webpack configuration
 
-webextension-toolbox might be your tool of choice. 
+webextension-toolbox might be your tool of choice.
 
 # License
 

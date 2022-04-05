@@ -6,11 +6,12 @@ export interface CompileOptions {
   vendor: string;
   src: string;
   target: string;
+  dev?: boolean;
   devtool?: string | false;
   minimize?: boolean;
   autoReload?: boolean;
   vendorVersion?: string;
-  validateManifest?: boolean;
+  skipManifestValidation?: boolean;
   config?: string;
   port?: number;
   verbose?: boolean;
@@ -26,6 +27,7 @@ export default async (
     vendor: "chrome",
     target: "dist/[vendor]",
     src: "app",
+    dev: false,
   }
 ) => {
   // Get user config file

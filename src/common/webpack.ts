@@ -25,7 +25,7 @@ export interface WebpackConfig {
   devtool?: string | false | undefined;
   minimize?: boolean;
   vendor?: string;
-  validateManifest?: boolean;
+  skipManifestValidation?: boolean;
   port?: number;
   vendorVersion?: string;
 }
@@ -39,7 +39,7 @@ export default async function webpackConfig({
   devtool = false,
   minimize = false,
   vendor = "chrome",
-  validateManifest = false,
+  skipManifestValidation = false,
   port = 35729,
   vendorVersion,
 }: WebpackConfig = {}) {
@@ -236,7 +236,7 @@ export default async function webpackConfig({
         description,
         version,
       },
-      skipManifestValidation: !validateManifest,
+      skipManifestValidation,
       port,
     })
   );
