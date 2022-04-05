@@ -1,5 +1,5 @@
 #!/usr/bin/env node
 
 (async function () {
-	await import('../index.mjs')
-})()
+  await import("../dist/command.js");
+})();
