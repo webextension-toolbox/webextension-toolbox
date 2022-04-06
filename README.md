@@ -43,7 +43,7 @@ Uses default fields (`name`, `version`, `description`) from your `package.json`
 ## Typescript Support
 
 Native typescript support (but not enforced!)
- (see section [How do I use Typescript?](#How-do-I-use-Typescript?))
+ (see section [How do I use Typescript?](#how-do-i-use-typescript))
 
 ## Manifest vendor keys
 
