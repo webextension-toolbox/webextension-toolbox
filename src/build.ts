@@ -1,7 +1,7 @@
 import compile, { CompileOptions } from "./common/compile";
 import logCompileOutput from "./common/utils/logCompileOutput";
 
-export default async function (vendor: string, options: CompileOptions) {
+export default async function build(vendor: string, options: CompileOptions) {
   const compiler = await compile({
     vendor,
     devtool: options.devtool,

@@ -1,12 +1,12 @@
 import { program } from "commander";
 import chalk from "chalk";
 import { promises as fs } from "node:fs";
-//import { fileURLToPath } from "node:url";
+// import { fileURLToPath } from "node:url";
 import path from "node:path";
 import { build, dev } from "./index";
 
-(async function () {
-  //const __filename = fileURLToPath(import.meta.url);
+(async function main() {
+  // const __filename = fileURLToPath(import.meta.url);
   const { version } = JSON.parse(
     (await fs.readFile("package.json")).toString()
   );

@@ -1,9 +1,9 @@
-import compile, { CompileOptions } from "./common/compile";
 import WebpackDevServer from "webpack-dev-server";
 import path from "path";
+import compile, { CompileOptions } from "./common/compile";
 import logCompileOutput from "./common/utils/logCompileOutput";
 
-export default async function (vendor: string, options: CompileOptions) {
+export default async function dev(vendor: string, options: CompileOptions) {
   const compiler = await compile({
     vendor,
     devtool: options.devtool,
@@ -19,7 +19,7 @@ export default async function (vendor: string, options: CompileOptions) {
   });
 
   if (options.verbose) {
-    compiler.hooks.watchRun.tap("WebpackInfo", function () {
+    compiler.hooks.watchRun.tap("WebpackInfo", () => {
       console.error("\nCompilation starting…\n");
     });
   }

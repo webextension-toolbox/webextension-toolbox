@@ -1,6 +1,6 @@
 import compileWebpack, { Configuration } from "webpack";
-import configureWebpack from "./webpack";
 import findUp from "find-up";
+import configureWebpack from "./webpack";
 
 export interface CompileOptions {
   vendor: string;
@@ -22,33 +22,6 @@ export interface UserWebpack extends CompileOptions {
   webpack?: any;
 }
 
-export default async (
-  options: CompileOptions = {
-    vendor: "chrome",
-    target: "dist/[vendor]",
-    src: "app",
-    dev: false,
-  }
-) => {
-  // Get user config file
-  const { webpack, ...config } = await getConfigFile(options);
-
-  // Configure userWebpackHook
-  const userWebpackHook = webpack || ((config: Configuration) => config);
-
-  // Create webpack configuration
-  let webpackConfig = await configureWebpack({
-    ...options,
-    ...config,
-  });
-
-  // Let the user overwrite webpack config
-  webpackConfig = userWebpackHook(webpackConfig, options);
-
-  // Run webpack
-  return compileWebpack(webpackConfig);
-};
-
 async function getConfigFile(options: CompileOptions): Promise<UserWebpack> {
   if (!options.config) {
     return options;
@@ -66,3 +39,30 @@ async function getConfigFile(options: CompileOptions): Promise<UserWebpack> {
 
   return options;
 }
+
+export default async (
+  options: CompileOptions = {
+    vendor: "chrome",
+    target: "dist/[vendor]",
+    src: "app",
+    dev: false,
+  }
+) => {
+  // Get user config file
+  const { webpack, ...config } = await getConfigFile(options);
+
+  // Configure userWebpackHook
+  const userWebpackHook = webpack || ((conf: Configuration) => conf);
+
+  // Create webpack configuration
+  let webpackConfig = await configureWebpack({
+    ...options,
+    ...config,
+  });
+
+  // Let the user overwrite webpack config
+  webpackConfig = userWebpackHook(webpackConfig, options);
+
+  // Run webpack
+  return compileWebpack(webpackConfig);
+};

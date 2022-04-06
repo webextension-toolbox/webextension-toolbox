@@ -6,16 +6,38 @@ import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CopyPlugin from "copy-webpack-plugin";
 import ZipPlugin from "zip-webpack-plugin";
 import WebextensionPlugin from "@webextension-toolbox/webpack-webextension-plugin";
-import getExtensionInfo from "./utils/getExtensionInfo";
 import WebpackBar from "webpackbar";
 import { data as browserslistData } from "browserslist";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import { promisify } from "util";
 import g from "glob";
+import getExtensionInfo from "./utils/getExtensionInfo";
 
 const glob = promisify(g);
 const { getEntries } = GlobEntriesPlugin;
 
+/**
+ * Returns last n
+ * vendor version
+ * @param {integer} n
+ * @param {string} vendor
+ * @return {string} version
+ */
+function getLastNVendorVersion(n: number, vendor: string): string | undefined {
+  const { released } = browserslistData[vendor] ?? { released: [] };
+  return released[released.length - n] ?? undefined;
+}
+
+function getExtensionFileType(vendor: string): string {
+  switch (vendor) {
+    case "firefox":
+      return "xpi";
+    case "opera":
+      return "crx";
+    default:
+      return "zip";
+  }
+}
 export interface WebpackConfig {
   src?: string;
   target?: string;
@@ -53,25 +75,18 @@ export default async function webpackConfig({
 
   const mode = dev ? "development" : "production";
 
-  // Set the NODE_ENV (needed for babel)
-  process.env.NODE_ENV = mode;
-
-  // Compile variable targets
-  target = resolve(target.replace("[vendor]", vendor));
-  packageTarget = resolve(packageTarget.replace("[vendor]", vendor));
-
   // Get some defaults
   const { version, name, description, typescript } = await getExtensionInfo(
     src
   );
 
-  /******************************/
+  /** *************************** */
   /*      WEBPACK               */
-  /******************************/
+  /** *************************** */
   const config: Configuration = {
     mode,
     context: resolve(src),
-    //Turn off warnings that dont really apply to extensions
+    // Turn off warnings that dont really apply to extensions
     performance: {
       hints: false,
       maxEntrypointSize: 512000,
@@ -92,9 +107,9 @@ export default async function webpackConfig({
   // Source-Maps
   config.devtool = devtool;
 
-  /******************************/
+  /** *************************** */
   /*       WEBPACK.ENTRY        */
-  /******************************/
+  /** *************************** */
   const entries = [];
 
   // Add main entry glob
@@ -113,32 +128,33 @@ export default async function webpackConfig({
     ignore: [],
   });
 
-  /******************************/
+  /** *************************** */
   /*       WEBPACK.OUTPUT       */
-  /******************************/
+  /** *************************** */
   config.output = {
-    path: target,
+    path: resolve(target.replace("[vendor]", vendor)),
     filename: "[name].js",
     chunkFilename: "[id].chunk.js",
   };
-  /******************************/
+  /** *************************** */
   /*    WEBPACK.OPTIMIZATION    */
-  /******************************/
+  /** *************************** */
   config.optimization = { minimize };
 
-  /******************************/
+  /** *************************** */
   /*       WEBPACK.LOADERS      */
-  /******************************/
+  /** *************************** */
   config.module = {};
   config.module.rules = [];
 
   // Add babel support
   config.module.rules.push({
-    test: /\.(js|jsx|mjs)$/,
+    test: /\.m?jsx?$/,
     exclude: /node_modules/,
     use: {
       loader: "babel-loader",
       options: {
+        envName: mode,
         cacheDirectory: false,
         presets: [
           [
@@ -161,13 +177,14 @@ export default async function webpackConfig({
   if (typescript) {
     config.module.rules.push({
       test: /\.tsx?$/,
+      exclude: /node_modules/,
       loader: "ts-loader",
     });
   }
 
-  /******************************/
+  /** *************************** */
   /*     WEBPACK.PLUGINS        */
-  /******************************/
+  /** *************************** */
   config.plugins = [];
 
   // Use this to load modules whose location is specified in the paths section of tsconfig.json
@@ -245,7 +262,7 @@ export default async function webpackConfig({
   if (mode === "production") {
     config.plugins.push(
       new ZipPlugin({
-        path: packageTarget,
+        path: resolve(packageTarget.replace("[vendor]", vendor)),
         filename: `${name}.v${version}.${vendor}.${getExtensionFileType(
           vendor
         )}`,
@@ -269,27 +286,4 @@ export default async function webpackConfig({
   config.plugins.push(new WebpackBar());
 
   return config;
-}
-
-/**
- * Returns last n
- * vendor version
- * @param {integer} n
- * @param {string} vendor
- * @return {string} version
- */
-function getLastNVendorVersion(n: number, vendor: string): string {
-  const { released } = browserslistData[vendor] ?? { released: [] };
-  return released[released.length - n];
-}
-
-function getExtensionFileType(vendor: string): string {
-  switch (vendor) {
-    case "firefox":
-      return "xpi";
-    case "opera":
-      return "crx";
-    default:
-      return "zip";
-  }
 }
