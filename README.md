@@ -146,19 +146,21 @@ $ webextension-toolbox dev edge
 
 ### Syntax
 
+#### Building
 ```shell
 Usage: build [options] <vendor>
 
 Compiles extension for production
 
 Options:
+  -c, --config [config]                 specify config file path (default: "./webextension-toolbox.config.js")
   -s, --src [src]                       specify source directory (default: "app")
   -t, --target [target]                 specify target directory (default: "dist/[vendor]")
-  -d, --devtool [devtool]               controls if and how source maps are generated (default: false)
-  -m, --no-minimize                     disables code minification
-  -v, --vendorVersion [vendorVersion]   last supported vendor (default: current)
-  --validateManifest [validateManifest] validate manifest syntax (default: false)
-  -h, --help                            output usage information
+  -d, --devtool [string | false]        controls if and how source maps are generated (default: false)
+  --no-minimize                         disables code minification
+  -v, --vendor-version [vendorVersion]  last supported vendor (default: current)
+  --no-manifest-validation              validate manifest syntax
+  -h, --help                            display help for command
 ```
 
 ## Browser API
