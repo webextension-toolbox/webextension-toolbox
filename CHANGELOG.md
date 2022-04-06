@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Typescript support
+- Service Worker client support
+- Support \_\_ENV\_\_ variable replacement in manifest
+
+### Changes
+
+- Removed native React support see Section on React.JS in README
+
 ## [4.0.3] - 2021-07-05
 
 ### Changed
