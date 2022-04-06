@@ -43,11 +43,7 @@ import { build, dev } from "./index";
       "controls if and how source maps are generated",
       "cheap-source-map"
     )
-    .option(
-      "-r, --auto-reload [autoReload]",
-      "reload extension after rebuild",
-      true
-    )
+    .option("-r, --no-auto-reload", "reload extension after rebuild", true)
     .option(
       "-p, --port [port]",
       "Define the port for the websocket development server",
