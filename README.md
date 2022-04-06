@@ -12,9 +12,9 @@ If you want to get started quickly check out the [yeoman generator](https://gith
 
 # Browser Support
 
-- Chrome (`chrome`) (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
-- Opera (`opera`) (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
-- Edge (`edge`) (auto [polyfilled](https://github.com/mozilla/webextension-polyfill))
+- Chrome (`chrome`)
+- Opera (`opera`)
+- Edge (`edge`)
 - Firefox (`firefox`)
 - Safari (`safari`)
 
