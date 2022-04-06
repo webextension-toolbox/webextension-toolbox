@@ -39,11 +39,15 @@ import { build, dev } from "./index";
       "dist/[vendor]"
     )
     .option(
-      "-d, --devtool [devtool]",
+      "-d, --devtool [string | false]",
       "controls if and how source maps are generated",
       "cheap-source-map"
     )
-    .option("-r, --no-auto-reload", "reload extension after rebuild", true)
+    .option(
+      "-r, --no-auto-reload",
+      "Do not inject auto reload scripts into background objects",
+      true
+    )
     .option(
       "-p, --port [port]",
       "Define the port for the websocket development server",
@@ -58,7 +62,7 @@ import { build, dev } from "./index";
       "use webpack dev server to serve bundled files",
       false
     )
-    .option("--skip-manifest-validation", "validate manifest syntax")
+    .option("--no-manifest-validation", "Skip Manifest Validation")
     .option(
       "--verbose",
       "print messages at the beginning and end of incremental build"
@@ -81,16 +85,16 @@ import { build, dev } from "./index";
       "dist/[vendor]"
     )
     .option(
-      "-d, --devtool [devtool]",
+      "-d, --devtool [string | false]",
       "controls if and how source maps are generated",
       false
     )
-    .option("-m, --no-minimize", "disables code minification", true)
+    .option("--no-minimize", "disables code minification", true)
     .option(
       "-v, --vendor-version [vendorVersion]",
       "last supported vendor (default: current)"
     )
-    .option("--skip-manifest-validation", "validate manifest syntax", true)
+    .option("--no-manifest-validation", "validate manifest syntax", true)
     .action(build);
 
   program.parse();

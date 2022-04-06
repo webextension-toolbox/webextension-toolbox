@@ -11,7 +11,7 @@ export interface CompileOptions {
   minimize?: boolean;
   autoReload?: boolean;
   vendorVersion?: string;
-  skipManifestValidation?: boolean;
+  manifestValidation?: boolean;
   config?: string;
   port?: number;
   verbose?: boolean;

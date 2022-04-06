@@ -47,9 +47,10 @@ export interface WebpackConfig {
   devtool?: string | false | undefined;
   minimize?: boolean;
   vendor?: string;
-  skipManifestValidation?: boolean;
+  manifestValidation?: boolean;
   port?: number;
   vendorVersion?: string;
+  autoReload?: boolean;
 }
 
 export default async function webpackConfig({
@@ -61,8 +62,9 @@ export default async function webpackConfig({
   devtool = false,
   minimize = false,
   vendor = "chrome",
-  skipManifestValidation = false,
+  manifestValidation = true,
   port = 35729,
+  autoReload = false,
   vendorVersion,
 }: WebpackConfig = {}) {
   if (!browserslistData[vendor]) {
@@ -105,7 +107,7 @@ export default async function webpackConfig({
   };
 
   // Source-Maps
-  config.devtool = devtool;
+  config.devtool = devtool === "false" ? false : devtool;
 
   /** *************************** */
   /*       WEBPACK.ENTRY        */
@@ -247,13 +249,14 @@ export default async function webpackConfig({
   // extension in watch mode
   config.plugins.push(
     new WebextensionPlugin({
+      autoreload: autoReload,
       vendor,
       manifestDefaults: {
         name,
         description,
         version,
       },
-      skipManifestValidation,
+      skipManifestValidation: !manifestValidation,
       port,
     })
   );

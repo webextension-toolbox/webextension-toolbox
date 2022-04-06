@@ -10,7 +10,7 @@ export default async function build(vendor: string, options: CompileOptions) {
     minimize: options.minimize,
     autoReload: false,
     vendorVersion: options.vendorVersion,
-    skipManifestValidation: options.skipManifestValidation,
+    manifestValidation: options.manifestValidation,
     config: options.config,
   });
 

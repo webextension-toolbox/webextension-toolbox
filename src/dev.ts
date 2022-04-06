@@ -13,7 +13,7 @@ export default async function dev(vendor: string, options: CompileOptions) {
     target: options.target,
     autoReload: options.autoReload,
     vendorVersion: options.vendorVersion,
-    skipManifestValidation: options.skipManifestValidation,
+    manifestValidation: options.manifestValidation,
     config: options.config,
     port: options.port ?? 35729,
   });
