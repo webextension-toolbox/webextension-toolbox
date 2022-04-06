@@ -1,5 +1,5 @@
 import { resolve } from "path";
-import { promises as fs } from "node:fs";
+import { promises as fs } from "fs";
 
 interface NodePackage {
   name?: string;

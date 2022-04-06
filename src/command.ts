@@ -1,8 +1,8 @@
 import { program } from "commander";
 import chalk from "chalk";
-import { promises as fs } from "node:fs";
+import { promises as fs } from "fs";
 // import { fileURLToPath } from "node:url";
-import path from "node:path";
+import path from "path";
 import { build, dev } from "./index";
 
 (async function main() {
