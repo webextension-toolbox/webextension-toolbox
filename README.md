@@ -40,13 +40,14 @@ You can skip this by adding `--validateManifest` to your `build` or `dev` comman
 
 Uses default fields (`name`, `version`, `description`) from your `package.json`
 
-## Manifest vendor keys
-
-Allows you to define vendor specific manifest keys.
-
 ## Typescript Support
 
 Native typescript support (but not enforced!)
+ (see section [How do I use Typescript?](#How-do-I-use-Typescript?))
+
+## Manifest vendor keys
+
+Allows you to define vendor specific manifest keys.
 
 ### Example
 
