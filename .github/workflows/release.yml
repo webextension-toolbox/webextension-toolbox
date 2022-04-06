@@ -7,7 +7,7 @@ on:
       - "*"
 
 jobs:
-  build:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -16,9 +16,8 @@ jobs:
           node-version: '16'
       - run: npm ci
       - run: npm run lint
-      - run: npm test
   create-release:
-    needs: build
+    needs: lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -26,6 +25,7 @@ jobs:
         with:
           node-version: '16'
       - run: npm ci
+      - run: npm run build
       - run: npm pack
       - id: get_version
         uses: battila7/get-version-action@v2
@@ -38,4 +38,4 @@ jobs:
         with:
           body: ${{ steps.changelog_reader.outputs.changes }}
           tag_name: ${{ steps.get_version.outputs.version }}
-          files: webextension-toolbox-${{ steps.get_version.outputs.version }}.tgz
+          files: webextension-toolbox-webextension-toolbox-${{ steps.get_version.outputs.version }}.tgz

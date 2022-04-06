@@ -7,15 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [5.0.1] - 2021-04-06
+### Changes
+
+- Added support for GPR
+
+## [5.0.0] - 2021-04-05
+
 ### Added
 
-- Typescript support
+- Native Typescript support #93
 - Service Worker client support
 - Support \_\_ENV\_\_ variable replacement in manifest
+- Support for Manifest v3 #196
+- Added Option to disable manifest validation (`--no-manifest-validation`)
+- Option to define development server port (`--port`) #592
+- Manifest.json enviroment keys #158
 
+### Fixed
+
+- Doesn't build when there is no /app/_locales/**/*.json #523
 ### Changes
 
 - Removed native React support see Section on React.JS in README
+
+### Removed
+- [https://github.com/mozilla/webextension-polyfill](https://github.com/mozilla/webextension-polyfill). All browsers now support the `browser` global and thus this should be used over `chrome`. Therefore the removal of pollyfill was nessecary. You can add it back yourself in your own projects if needed
 
 ## [4.0.3] - 2021-07-05
 

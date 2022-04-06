@@ -1,10 +1,10 @@
 {
   "name": "@webextension-toolbox/webextension-toolbox",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "description": "Framework for WebExtensions (Firefox, Chrome, Opera, Edge)",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "repository": "https://github.com/webextension-toolbox/webextension-toolbox",
+  "repository": "git@github.com:webextension-toolbox/webextension-toolbox.git",
   "author": "Henrik Wenz <HaNdTriX@gmail.com> (https://github.com/HaNdTriX)",
   "contributors": [
     {

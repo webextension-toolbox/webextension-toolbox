@@ -209,6 +209,7 @@ export default async function webpackConfig({
   // Set environment vars
   config.plugins.push(
     new EnvironmentPlugin({
+      NODE_ENV: mode,
       VENDOR: vendor,
       WEBEXTENSION_TOOLBOX_VERSION: version,
     })
