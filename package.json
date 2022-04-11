@@ -1,6 +1,6 @@
 {
   "name": "@webextension-toolbox/webextension-toolbox",
-  "version": "5.0.1",
+  "version": "5.1.0",
   "description": "Framework for WebExtensions (Firefox, Chrome, Opera, Edge)",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -42,7 +42,6 @@
     "@babel/runtime": "^7.17.8",
     "babel-loader": "^8.2.4",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
-    "clean-webpack-plugin": "^4.0.0",
     "commander": "^9.1.0",
     "copy-webpack-plugin": "^10.2.4",
     "find-up": "^5.0.0",

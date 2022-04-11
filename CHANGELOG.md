@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [5.0.2] - 2021-04-11
+
+### Fixed
+- Target resolution was incorrect and thus detroying most of the built modules
+### Changes
+
+- In the past the `node` option was set to false in webpack config to prevent security issues with usage of eval (See https://github.com/webextension-toolbox/webextension-toolbox/pull/34). This was resolved at the end of life of webpack 4 and does not exist in webpack 5. This option is now set to true by default (not set). This means global is now set by webpack itself. If you want to disable this behavior you can set the `node` option to false in your webpack config. See: https://webpack.js.org/configuration/node/
+- Clean webpack plugin was removed in favor of https://webpack.js.org/guides/output-management/#cleaning-up-the-dist-folder which is native in webpack 5.
+
 ## [5.0.1] - 2021-04-06
 ### Changes
 

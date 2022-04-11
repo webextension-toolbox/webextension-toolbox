@@ -1,6 +1,5 @@
 import { resolve } from "path";
 import { Configuration, EnvironmentPlugin } from "webpack";
-import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import GlobEntriesPlugin from "webpack-watched-glob-entries-plugin";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CopyPlugin from "copy-webpack-plugin";
@@ -75,6 +74,7 @@ export default async function webpackConfig({
     );
   }
 
+  const resolvedTarget = resolve(target.replace("[vendor]", vendor));
   const mode = dev ? "development" : "production";
 
   // Get some defaults
@@ -134,9 +134,10 @@ export default async function webpackConfig({
   /*       WEBPACK.OUTPUT       */
   /** *************************** */
   config.output = {
-    path: resolve(target.replace("[vendor]", vendor)),
+    path: resolvedTarget,
     filename: "[name].js",
     chunkFilename: "[id].chunk.js",
+    clean: true,
   };
   /** *************************** */
   /*    WEBPACK.OPTIMIZATION    */
@@ -195,9 +196,6 @@ export default async function webpackConfig({
     config.resolve.plugins.push(new TsconfigPathsPlugin());
   }
 
-  // Clear output directory
-  config.plugins.push(new CleanWebpackPlugin());
-
   // Watcher doesn't work well if you mistype casing in a path so we use
   // a plugin that prints an error when you attempt to do this.
   config.plugins.push(new CaseSensitivePathsPlugin());
@@ -223,7 +221,7 @@ export default async function webpackConfig({
       globOptions: {
         ignore: copyIgnore,
       },
-      to: target,
+      to: resolvedTarget,
     },
   ];
 
@@ -235,7 +233,7 @@ export default async function webpackConfig({
       // Copy all language json files
       context: resolve(src),
       from: resolvedFrom,
-      to: target,
+      to: resolvedTarget,
     });
   }
 
@@ -273,19 +271,6 @@ export default async function webpackConfig({
       })
     );
   }
-
-  // Disable webpacks usage of eval & function string constructor
-  // @url https://github.com/webpack/webpack/blob/master/buildin/global.js
-  config.node = false;
-
-  // In order to still be able to use global we use window instead
-  /*
-	config.plugins.push(
-	  new ProvidePlugin({
-		global: require.resolve('./utils/global.js')
-	  })
-	)
-	*/
 
   config.plugins.push(new WebpackBar());
 
