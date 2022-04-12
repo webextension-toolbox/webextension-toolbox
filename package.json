@@ -45,7 +45,7 @@
     "commander": "^9.1.0",
     "copy-webpack-plugin": "^10.2.4",
     "find-up": "^5.0.0",
-    "glob": "^7.2.0",
+    "glob": "^8.0.1",
     "ts-loader": "^9.2.8",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
     "webpack": "^5.72.0",
