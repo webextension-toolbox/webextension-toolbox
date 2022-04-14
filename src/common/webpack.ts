@@ -180,7 +180,7 @@ export default async function webpackConfig({
   if (typescript) {
     config.module.rules.push({
       test: /\.tsx?$/,
-      exclude: /node_modules/,
+      exclude: /node_modules|service_worker/,
       loader: "ts-loader",
     });
   }

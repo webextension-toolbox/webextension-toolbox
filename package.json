@@ -1,6 +1,6 @@
 {
   "name": "@webextension-toolbox/webextension-toolbox",
-  "version": "5.1.1",
+  "version": "5.2.0",
   "description": "Framework for WebExtensions (Firefox, Chrome, Opera, Edge)",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -45,13 +45,13 @@
     "commander": "^9.1.0",
     "copy-webpack-plugin": "^10.2.4",
     "find-up": "^5.0.0",
-    "glob": "^7.2.0",
+    "glob": "^8.0.1",
     "ts-loader": "^9.2.8",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
     "webpack": "^5.72.0",
     "webpack-dev-server": "^4.8.1",
     "webpack-watched-glob-entries-plugin": "^2.2.4",
-    "@webextension-toolbox/webpack-webextension-plugin": "^2.0.4",
+    "@webextension-toolbox/webpack-webextension-plugin": "^2.1.1",
     "webpackbar": "^5.0.2",
     "zip-webpack-plugin": "^4.0.1"
   },

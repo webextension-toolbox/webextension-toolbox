@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [5.2.0] - 2021-04-14
+
+### Changes
+- Updated `@webextension-toolbox/webpack-webextension-plugin` and `glob` to latest versions.
+
 ## [5.1.1] - 2021-04-11
 
 ### Fixed
