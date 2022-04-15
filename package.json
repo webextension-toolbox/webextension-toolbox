@@ -1,6 +1,6 @@
 {
   "name": "@webextension-toolbox/webextension-toolbox",
-  "version": "5.2.0",
+  "version": "5.2.1",
   "description": "Framework for WebExtensions (Firefox, Chrome, Opera, Edge)",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
