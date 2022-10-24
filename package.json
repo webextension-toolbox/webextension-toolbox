@@ -57,7 +57,7 @@
     "zip-webpack-plugin": "^4.0.1"
   },
   "devDependencies": {
-    "@tsconfig/node12": "^1.0.11",
+    "@tsconfig/node14": "^1.0.3",
     "@types/case-sensitive-paths-webpack-plugin": "^2.1.6",
     "@types/firefox-webext-browser": "^94.0.1",
     "@types/webpack-watched-glob-entries-plugin": "^2.1.3",
