@@ -7,8 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.0.0] - 2023-03-13
+
 ### Changed
 - Updated Dependencies
+- Require webpack-webextension-plugin 3.0.0
 ### Removed
 - Support for NodeJS 12.x
 
