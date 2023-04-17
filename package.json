@@ -44,7 +44,7 @@
     "babel-loader": "^9.1.2",
     "browserslist": "^4.21.5",
     "case-sensitive-paths-webpack-plugin": "^2.4.0",
-    "commander": "^9.5.0",
+    "commander": "^10.0.1",
     "copy-webpack-plugin": "^11.0.0",
     "find-up": "^5.0.0",
     "glob": "^8.1.0",
