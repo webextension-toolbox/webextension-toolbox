@@ -7,39 +7,54 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [6.1.0] - 2023-06-13
+
+### Changed
+
+- Updated Dependencies
+
 ## [6.0.0] - 2023-03-13
 
 ### Changed
+
 - Updated Dependencies
 - Require webpack-webextension-plugin 3.0.0
+
 ### Removed
+
 - Support for NodeJS 12.x
 
 ## [5.2.2] - 2021-04-19
 
 ### Fixed
+
 - Add missing browserlist to package.json
 
 ## [5.2.1] - 2021-04-14
 
 ### Fixed
+
 - ts-loader should load service_worker to parse if its written in typescript
 
 ## [5.2.0] - 2021-04-14
 
 ### Changes
+
 - Updated `@webextension-toolbox/webpack-webextension-plugin` and `glob` to latest versions.
 
 ## [5.1.1] - 2021-04-11
 
 ### Fixed
+
 - Target resolution was incorrect and thus detroying most of the built modules
+
 ### Changes
 
 - In the past the `node` option was set to false in webpack config to prevent security issues with usage of eval (See https://github.com/webextension-toolbox/webextension-toolbox/pull/34). This was resolved at the end of life of webpack 4 and does not exist in webpack 5. This option is now set to true by default (not set). This means global is now set by webpack itself. If you want to disable this behavior you can set the `node` option to false in your webpack config. See: https://webpack.js.org/configuration/node/
 - Clean webpack plugin was removed in favor of https://webpack.js.org/guides/output-management/#cleaning-up-the-dist-folder which is native in webpack 5.
 
 ## [5.0.1] - 2021-04-06
+
 ### Changes
 
 - Added support for GPR
@@ -58,12 +73,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Doesn't build when there is no /app/_locales/**/*.json #523
+- Doesn't build when there is no /app/\_locales/\*_/_.json #523
+
 ### Changes
 
 - Removed native React support see Section on React.JS in README
 
 ### Removed
+
 - [https://github.com/mozilla/webextension-polyfill](https://github.com/mozilla/webextension-polyfill). All browsers now support the `browser` global and thus this should be used over `chrome`. Therefore the removal of pollyfill was nessecary. You can add it back yourself in your own projects if needed
 
 ## [4.0.3] - 2021-07-05

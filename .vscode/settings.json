@@ -4,5 +4,6 @@
   "eslint.format.enable": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
-  }
+  },
+  "prettier.prettierPath": "node_modules/prettier"
 }
