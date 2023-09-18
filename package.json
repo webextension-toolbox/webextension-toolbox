@@ -61,6 +61,7 @@
     "@types/case-sensitive-paths-webpack-plugin": "^2.1.7",
     "@types/firefox-webext-browser": "^111.0.2",
     "@types/webpack-watched-glob-entries-plugin": "^2.1.4",
+    "@types/webpackbar": "^4.0.3",
     "@types/zip-webpack-plugin": "^3.0.4",
     "@typescript-eslint/eslint-plugin": "^6.7.2",
     "@typescript-eslint/parser": "^6.7.2",
