@@ -59,7 +59,7 @@
   "devDependencies": {
     "@tsconfig/node18": "^18.2.2",
     "@types/case-sensitive-paths-webpack-plugin": "^2.1.8",
-    "@types/firefox-webext-browser": "^111.0.3",
+    "@types/firefox-webext-browser": "^120.0.0",
     "@types/webpack-watched-glob-entries-plugin": "^2.1.6",
     "@types/webpackbar": "^4.0.5",
     "@types/zip-webpack-plugin": "^3.0.5",
