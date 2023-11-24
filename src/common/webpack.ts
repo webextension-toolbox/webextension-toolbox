@@ -9,7 +9,6 @@ import WebpackBar from "webpackbar";
 import { data as browserslistData } from "browserslist";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import { glob } from "glob";
-import chalk from "chalk";
 import getExtensionInfo from "./utils/getExtensionInfo";
 import { BuildCompileOptions, DevCompileOptions } from "./interfaces";
 
@@ -142,12 +141,21 @@ export default async function webpackConfig({
   config.module.rules = [];
 
   if (swc) {
+    console.log("SWC!!");
     // SWC Mode
     config.module.rules.push({
       test: /\.m?(t|j)sx?$/,
       exclude: /(node_modules)/,
       use: {
         loader: "swc-loader",
+        options: {
+          env: {
+            targets: {
+              [vendor]: getLastNVendorVersion(3, vendor),
+            },
+          },
+          minify: minimize,
+        },
       },
     });
   } else {

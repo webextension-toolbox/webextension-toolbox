@@ -32,8 +32,8 @@ async function saveConfig(options: CompileOptions) {
   process.exit(0);
 }
 
-function addSharedOptions(command: Command): Command {
-  return command
+function addSharedOptions(cmd: Command): Command {
+  return cmd
     .option("--swc", "Use SWC instead of Babel")
     .option("-c, --config [config]", "specify config file path")
     .option("-s, --src [src]", "specify source directory", "app")
@@ -67,7 +67,7 @@ function addSharedOptions(command: Command): Command {
     );
 }
 
-(async function main() {
+export default async function command() {
   const { findUp } = await import("find-up");
   const webextensiontoolboxrcPath = await findUp(configFile);
 
@@ -156,4 +156,4 @@ function addSharedOptions(command: Command): Command {
     });
 
   program.parse();
-})();
+}

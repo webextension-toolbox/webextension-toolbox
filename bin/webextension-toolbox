@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
 (async function () {
-  await import("../dist/command.js");
+  const toolbox = await import("../dist/index.js");
+  await toolbox.command();
 })();
