@@ -1,37 +1,41 @@
-import { program } from "commander";
+import { Command, program } from "commander";
 import chalk from "chalk";
 import { promises as fs } from "fs";
-// import { fileURLToPath } from "node:url";
 import path from "path";
-import { build, dev } from "./index";
+import { parse, stringify } from "yaml";
+import { build, dev } from "./commands";
+import { CompileOptions } from "./common";
 
-(async function main() {
-  // const __filename = fileURLToPath(import.meta.url);
-  const { version } = JSON.parse(
-    (await fs.readFile("package.json")).toString()
+const { blue, bold, green, dim } = chalk;
+
+const configFile = ".webextensiontoolboxrc";
+
+async function saveConfig(options: CompileOptions) {
+  if (!options.save) {
+    return;
+  }
+  const cwd = process.cwd();
+
+  const webextensiontoolboxrcPath = path.resolve(cwd, configFile);
+
+  const filteredOptions = Object.fromEntries(
+    Object.entries(options).filter(([key]) => key !== "save")
   );
 
-  const { blue, bold } = chalk;
+  await fs.writeFile(webextensiontoolboxrcPath, stringify(filteredOptions));
 
-  program
-    .name(path.basename(__filename))
-    .description(
-      blue(`              ╔════════╗
-	  ╔══════════════════════════════╗
-	  ║     ${bold.yellow("WEBEXTENSION-TOOLBOX")}     ║
-	  ╚══════════════════════════════╝`)
-    )
-    .version(version);
+  console.log(
+    `${green(bold("✔"))} Saved ${dim(".webextensiontoolboxrc")} to ${green(
+      bold(webextensiontoolboxrcPath)
+    )}`
+  );
+  process.exit(0);
+}
 
-  program
-    .command("dev")
-    .description("Compiles extension in devmode")
-    .argument("<vendor>", "The Vendor to compile")
-    .option(
-      "-c, --config [config]",
-      "specify config file path",
-      "./webextension-toolbox.config.js"
-    )
+function addSharedOptions(command: Command): Command {
+  return command
+    .option("--swc", "Use SWC instead of Babel")
+    .option("-c, --config [config]", "specify config file path")
     .option("-s, --src [src]", "specify source directory", "app")
     .option(
       "-t, --target [target]",
@@ -44,8 +48,84 @@ import { build, dev } from "./index";
       "cheap-source-map"
     )
     .option(
-      "-r, --no-auto-reload",
-      "Do not inject auto reload scripts into background objects",
+      "--vendor-version [vendorVersion]",
+      "last supported vendor (default: current)"
+    )
+    .option(
+      "--copy-ignore [copyIgnore...]",
+      "Do not copy the files in this list, glob pattern"
+    )
+    .option(
+      "--compile-ignore [compileIgnore...]",
+      "Do not compile the files in this list, glob pattern"
+    )
+    .option("--no-manifest-validation", "Skip Manifest Validation")
+    .option("--save", `Save config to ${dim(".webextensiontoolboxrc")}`)
+    .option(
+      "--verbose",
+      "print messages at the beginning and end of incremental build"
+    );
+}
+
+(async function main() {
+  const { findUp } = await import("find-up");
+  const webextensiontoolboxrcPath = await findUp(configFile);
+
+  let config = {};
+  if (webextensiontoolboxrcPath) {
+    const webextensiontoolboxrc = await fs.readFile(webextensiontoolboxrcPath);
+    config = parse(webextensiontoolboxrc.toString());
+  }
+
+  const { version } = JSON.parse(
+    (await fs.readFile(`${__dirname}/../package.json`)).toString()
+  );
+
+  program
+    .name("webextension-toolbox")
+    .description(
+      blue(
+        `
+                  ╔══════════╗
+    ╔═════════════════════════════════════╗
+    ║     ${bold.yellow(`WEBEXTENSION-TOOLBOX v${version}`)}     ║
+    ╚═════════════════════════════════════╝
+`
+          .replace(/^\n*/g, "")
+          .replace(/\n*$/g, "")
+      )
+    )
+    .version(version)
+    .hook(
+      "preSubcommand",
+      async (hookedCommand: Command, subCommand: Command) => {
+        const supportedOptions = subCommand.opts();
+
+        if (webextensiontoolboxrcPath) {
+          console.log(
+            `${green(bold("✔"))} Loaded ${dim(
+              ".webextensiontoolboxrc"
+            )} from ${green(bold(webextensiontoolboxrcPath))}`
+          );
+        }
+
+        Object.entries(config)
+          .filter(([key]) => supportedOptions[key] !== undefined)
+          .forEach(([key, value]) => {
+            subCommand.setOptionValue(key, value);
+          });
+      }
+    );
+
+  addSharedOptions(
+    program
+      .command("dev")
+      .description("Compiles extension in devmode")
+      .argument("<vendor>", "The Vendor to compile")
+  )
+    .option(
+      "--no-auto-reload",
+      "Do not inject auto reload scripts into background pages or service workers",
       true
     )
     .option(
@@ -54,48 +134,26 @@ import { build, dev } from "./index";
       "35729"
     )
     .option(
-      "-v, --vendor-version [vendorVersion]",
-      "last supported vendor (default: current)"
-    )
-    .option(
       "--dev-server [devServer]",
       "use webpack dev server to serve bundled files",
       false
     )
-    .option("--no-manifest-validation", "Skip Manifest Validation")
-    .option(
-      "--verbose",
-      "print messages at the beginning and end of incremental build"
-    )
-    .action(dev);
+    .action(async (vendor: string, options: CompileOptions) => {
+      await saveConfig(options);
+      return dev(vendor, options);
+    });
 
-  program
-    .command("build")
-    .description("Compiles extension for production")
-    .argument("<vendor>", "The Vendor to compile")
-    .option(
-      "-c, --config [config]",
-      "specify config file path",
-      "./webextension-toolbox.config.js"
-    )
-    .option("-s, --src [src]", "specify source directory", "app")
-    .option(
-      "-t, --target [target]",
-      "specify target directory",
-      "dist/[vendor]"
-    )
-    .option(
-      "-d, --devtool [string | false]",
-      "controls if and how source maps are generated",
-      false
-    )
+  addSharedOptions(
+    program
+      .command("build")
+      .description("Compiles extension for production")
+      .argument("<vendor>", "The Vendor to compile")
+  )
     .option("--no-minimize", "disables code minification", true)
-    .option(
-      "-v, --vendor-version [vendorVersion]",
-      "last supported vendor (default: current)"
-    )
-    .option("--no-manifest-validation", "validate manifest syntax", true)
-    .action(build);
+    .action(async (vendor: string, options: CompileOptions) => {
+      await saveConfig(options);
+      return build(vendor, options);
+    });
 
   program.parse();
 })();

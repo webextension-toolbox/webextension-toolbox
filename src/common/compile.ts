@@ -1,55 +1,59 @@
 import compileWebpack, { Configuration } from "webpack";
-import findUp from "find-up";
+import chalk from "chalk";
 import configureWebpack from "./webpack";
+import { CompileOptions, UserWebpack } from "./interfaces";
 
-export interface CompileOptions {
-  vendor: string;
-  src: string;
-  target: string;
-  dev?: boolean;
-  devtool?: string | false;
-  minimize?: boolean;
-  autoReload?: boolean;
-  vendorVersion?: string;
-  manifestValidation?: boolean;
-  config?: string;
-  port?: number;
-  verbose?: boolean;
-  devServer?: boolean;
-}
+const { bold, green, red, grey, italic } = chalk;
 
-export interface UserWebpack extends CompileOptions {
-  webpack?: any;
-}
+async function loadWebpackConfig(
+  options: CompileOptions
+): Promise<UserWebpack> {
+  const { findUp } = await import("find-up");
 
-async function getConfigFile(options: CompileOptions): Promise<UserWebpack> {
   if (!options.config) {
+    const path = await findUp("webextension-toolbox.config.js");
+    if (path) {
+      console.error(
+        bold(
+          red(`--config option not provided but ${italic(grey(path))} exists.`)
+        )
+      );
+      console.error(
+        bold(
+          red(
+            `The config option is now required. Provide ${grey(
+              "--config"
+            )} or delete/rename ${grey(path)}`
+          )
+        )
+      );
+      process.exit(-1);
+    }
     return options;
   }
 
-  let path = await findUp(options.config);
+  const path = await findUp(options.config);
 
-  if (path && path.length) {
-    if (process.platform === "win32") {
-      path = `file:///${path}`;
-    }
-    const configModule = await import(path);
-    return configModule.default || configModule;
+  if (!path) {
+    console.log(
+      `${red(bold("x"))} No webpack config found at ${green(
+        bold(options.config)
+      )}`
+    );
+
+    process.exit(-1);
   }
 
-  return options;
+  console.log(
+    `${green(bold("✔"))} Loading webpack config from ${green(bold(path))}`
+  );
+  const configModule = await import(path);
+  return configModule.default || configModule;
 }
 
-export default async (
-  options: CompileOptions = {
-    vendor: "chrome",
-    target: "dist/[vendor]",
-    src: "app",
-    dev: false,
-  }
-) => {
+export default async (options: CompileOptions) => {
   // Get user config file
-  const { webpack, ...config } = await getConfigFile(options);
+  const { webpack, ...config } = await loadWebpackConfig(options);
 
   // Configure userWebpackHook
   const userWebpackHook = webpack || ((conf: Configuration) => conf);

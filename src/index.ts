@@ -1,4 +1,1 @@
-import build from "./build";
-import dev from "./dev";
-
-export { build, dev };
+export type { CompileOptions } from "./common/interfaces";

@@ -1,7 +1,7 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Node.js CI
+name: Build
 
 on:
   push:
@@ -9,21 +9,65 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  tests:
+    uses: ./.github/workflows/lint.yml
   build:
     runs-on: ${{ matrix.os }}
+    needs: [tests]
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [18.x, 20.x, 21.x]
+        vendor: [chrome, edge, safari, firefox]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
         os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Toolbox
+        uses: actions/checkout@v4
+        with:
+          path: 'toolbox'
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run build
+          cache: 'npm'
+          cache-dependency-path: |
+            ./toolbox/package-lock.json
+            ./js-extension-template/package-lock.json
+      - name: Install Toolbox dependencies
+        run: npm ci
+        working-directory: ./toolbox
+      - name: Build Toolbox binary
+        run: npm run build
+        working-directory: ./toolbox
+      - name: Checkout JS Extension Template
+        uses: actions/checkout@v4
+        with:
+          repository: webextension-toolbox/js-extension-template
+          ref: refs/heads/main
+          path: 'js-extension-template'
+      - name: Install JS Extension Template dependencies
+        run: npm install
+        working-directory: ./js-extension-template
+      - name: Link toolbox into JS Extension Template
+        run: npx link $GITHUB_WORKSPACE/toolbox
+        working-directory: ./js-extension-template
+      - name: Build JS Extension Template for ${{ matrix.vendor }}
+        run: npm run build ${{ matrix.vendor }}
+        working-directory: ./js-extension-template
+      - name: Read metadata
+        working-directory: ./js-extension-template
+        run: |
+            echo "NAME=$(node -p -e "require('./package.json').name")" >> $GITHUB_ENV
+            echo "VERSION=$(node -p -e "require('./package.json').version")" >> $GITHUB_ENV
+
+      - name: "Check package existence"
+        uses: andstor/file-existence-action@v2
+        with:
+          files: "./js-extension-template/packages/${{ env.NAME }}.v${{ env.VERSION }}.${{ matrix.vendor }}.*"
+          fail: true

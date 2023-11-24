@@ -12,11 +12,25 @@ If you want to get started quickly check out the [yeoman generator](https://gith
 
 # Browser Support
 
-- Chrome (`chrome`)
-- Opera (`opera`)
+- Internet Explorer (`ie`)
 - Edge (`edge`)
 - Firefox (`firefox`)
+- Chrome (`chrome`)
 - Safari (`safari`)
+- Opera (`opera`)
+- iOS Safari (`ios_saf`)
+- Opera Mini (`op_mini`)
+- Android Browser (`android`)
+- Blackberry Browser (`bb`)
+- Opera Mobile (`op_mob`)
+- Chrome for Android (`and_chr`)
+- Firefox for Android (`and_ff`)
+- Internet Explorer Mobile (`ie_mob`)
+- UC Browser (`and_uc`)
+- Samsung Internet (`samsung`)
+- QQ Browser (`and_qq`)
+- Baidu Browser (`baidu`)
+- KaiOS (`kaios`)
 
 # Features
 
@@ -43,7 +57,7 @@ Uses default fields (`name`, `version`, `description`) from your `package.json`
 ## Typescript Support
 
 Native typescript support (but not enforced!)
- (see section [How do I use Typescript?](#how-do-i-use-typescript))
+(see section [How do I use Typescript?](#how-do-i-use-typescript))
 
 ## Manifest vendor keys
 
@@ -140,6 +154,7 @@ $ webextension-toolbox dev safari
 ### Syntax
 
 #### Building
+
 ```shell
 Usage: build [options] <vendor>
 
@@ -157,6 +172,7 @@ Options:
 ```
 
 #### Developing
+
 ```shell
 Usage: dev [options] <vendor>
 
@@ -178,17 +194,6 @@ Options:
   --verbose                             print messages at the beginning and end of incremental build
   -h, --help                            display help for command
 ```
-
-## Entry points
-
-All javascript files located at the root of your `./app` or `./app/scripts` directory will create a separate bundle.
-
-| app                                 | dist                                  |
-| ----------------------------------- | ------------------------------------- |
-| `app/background.js`                 | `dist/<vendor>/background.js`         |
-| `app/scripts/background.js`         | `dist/<vendor>/scripts/background.js` |
-| `app/some-dir/some-file.js`         | Will be ignored as entry file.        |
-| `app/scripts/some-dir/some-file.js` | Will be ignored as entry file.        |
 
 ## Customizing webpack config
 
