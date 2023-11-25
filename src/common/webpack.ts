@@ -271,9 +271,10 @@ export default async function webpackConfig({
     config.plugins.push(
       new ZipPlugin({
         path: resolve(packageTarget.replace("[vendor]", vendor)),
-        filename: `${name}.v${version}.${vendor}.${getExtensionFileType(
+        filename: `${name}.v${version}.${vendor}`,
+        extension: getExtensionFileType(
           vendor
-        )}`,
+        )
       })
     );
   }

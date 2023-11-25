@@ -24,7 +24,8 @@
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc",
-    "lint": "eslint --ignore-path .eslintignore --ext .js,.ts ./src"
+    "lint": "eslint --ignore-path .eslintignore --ext .js,.ts ./src",
+    "markdown-toc": "markdown-toc -i README.md"
   },
   "standard": {
     "globals": [
@@ -49,6 +50,7 @@
     "copy-webpack-plugin": "^11.0.0",
     "find-up": "^7.0.0",
     "glob": "^10.3.10",
+    "markdown-toc": "^1.2.0",
     "swc-loader": "^0.2.3",
     "ts-loader": "^9.5.1",
     "tsconfig-paths-webpack-plugin": "^4.1.0",

@@ -10,14 +10,57 @@ Small cli toolbox for creating cross-browser WebExtensions.
 
 If you want to get started quickly check out the [yeoman generator](https://github.com/webextension-toolbox/generator-web-extension) for this project.
 
+<!-- toc -->
+
+- [WebExtension Toolbox](#webextension-toolbox)
+- [Browser Support](#browser-support)
+  - [Official](#official)
+  - [Unofficial](#unofficial)
+- [Features](#features)
+  - [Packing](#packing)
+  - [Manifest validation](#manifest-validation)
+  - [Manifest defaults](#manifest-defaults)
+  - [Typescript Support](#typescript-support)
+  - [Manifest vendor keys](#manifest-vendor-keys)
+    - [Example](#example)
+  - [Polyfill](#polyfill)
+- [Usage](#usage)
+  - [Install](#install)
+      - [Globally](#globally)
+      - [Locally](#locally)
+  - [Development](#development)
+    - [Syntax](#syntax)
+    - [Examples](#examples)
+  - [Build](#build)
+    - [Syntax](#syntax-1)
+      - [Building](#building)
+      - [Developing](#developing)
+  - [Customizing webpack config](#customizing-webpack-config)
+- [FAQ](#faq)
+  - [What is the difference to web-ext?](#what-is-the-difference-to-web-ext)
+  - [How do I use React?](#how-do-i-use-react)
+  - [How do I use Typescript?](#how-do-i-use-typescript)
+- [License](#license)
+
+<!-- tocstop -->
+
 # Browser Support
 
-- Internet Explorer (`ie`)
+## Official
+
+These browsers are tested through [github actions](https://github.com/webextension-toolbox/webextension-toolbox/actions/workflows/build.yml)
+
 - Edge (`edge`)
 - Firefox (`firefox`)
 - Chrome (`chrome`)
 - Safari (`safari`)
 - Opera (`opera`)
+
+## Unofficial
+
+These browsers will compile but are not tested
+
+- Internet Explorer (`ie`)
 - iOS Safari (`ios_saf`)
 - Opera Mini (`op_mini`)
 - Android Browser (`android`)
@@ -36,13 +79,12 @@ If you want to get started quickly check out the [yeoman generator](https://gith
 
 ## Packing
 
-The `build` task creates bundles for:
+The `build` task creates specific bundles for:
 
 - Firefox (`.xpi`)
-- Chrome (`.zip`)
 - Opera (`.crx`)
-- Edge (`.zip`)
-- Safari (`.zip`)
+
+all other bundles are `.zip` files
 
 ## Manifest validation
 
@@ -138,7 +180,6 @@ $ webextension-toolbox dev <vendor> [..options]
 $ webextension-toolbox dev --help
 $ webextension-toolbox dev chrome
 $ webextension-toolbox dev firefox
-$ webextension-toolbox dev opera
 $ webextension-toolbox dev edge
 $ webextension-toolbox dev safari
 ```
@@ -161,14 +202,19 @@ Usage: build [options] <vendor>
 Compiles extension for production
 
 Options:
-  -c, --config [config]                 specify config file path (default: "./webextension-toolbox.config.js")
-  -s, --src [src]                       specify source directory (default: "app")
-  -t, --target [target]                 specify target directory (default: "dist/[vendor]")
-  -d, --devtool [string | false]        controls if and how source maps are generated (default: false)
-  --no-minimize                         disables code minification
-  -v, --vendor-version [vendorVersion]  last supported vendor (default: current)
-  --no-manifest-validation              validate manifest syntax
-  -h, --help                            display help for command
+  --swc                                Use SWC instead of Babel
+  -c, --config [config]                specify config file path
+  -s, --src [src]                      specify source directory (default: "app")
+  -t, --target [target]                specify target directory (default: "dist/[vendor]")
+  -d, --devtool [string | false]       controls if and how source maps are generated (default: "cheap-source-map")
+  --vendor-version [vendorVersion]     last supported vendor (default: current)
+  --copy-ignore [copyIgnore...]        Do not copy the files in this list, glob pattern
+  --compile-ignore [compileIgnore...]  Do not compile the files in this list, glob pattern
+  --no-manifest-validation             Skip Manifest Validation
+  --save                               Save config to .webextensiontoolboxrc
+  --verbose                            print messages at the beginning and end of incremental build
+  --no-minimize                        disables code minification
+  -h, --help                           display help for command
 ```
 
 #### Developing
@@ -182,22 +228,26 @@ Arguments:
   vendor                                The Vendor to compile
 
 Options:
-  -c, --config [config]                 specify config file path (default: "./webextension-toolbox.config.js")
-  -s, --src [src]                       specify source directory (default: "app")
-  -t, --target [target]                 specify target directory (default: "dist/[vendor]")
-  -d, --devtool [string | false]        controls if and how source maps are generated (default: "cheap-source-map")
-  -r, --no-auto-reload                  Do not inject auto reload scripts into background objects
-  -p, --port [port]                     Define the port for the websocket development server (default: "35729")
-  -v, --vendor-version [vendorVersion]  last supported vendor (default: current)
-  --dev-server [devServer]              use webpack dev server to serve bundled files (default: false)
-  --no-manifest-validation              Skip Manifest Validation
-  --verbose                             print messages at the beginning and end of incremental build
-  -h, --help                            display help for command
+  --swc                                Use SWC instead of Babel
+  -c, --config [config]                specify config file path
+  -s, --src [src]                      specify source directory (default: "app")
+  -t, --target [target]                specify target directory (default: "dist/[vendor]")
+  -d, --devtool [string | false]       controls if and how source maps are generated (default: "cheap-source-map")
+  --vendor-version [vendorVersion]     last supported vendor (default: current)
+  --copy-ignore [copyIgnore...]        Do not copy the files in this list, glob pattern
+  --compile-ignore [compileIgnore...]  Do not compile the files in this list, glob pattern
+  --no-manifest-validation             Skip Manifest Validation
+  --save                               Save config to .webextensiontoolboxrc
+  --verbose                            print messages at the beginning and end of incremental build
+  --no-auto-reload                     Do not inject auto reload scripts into background pages or service workers
+  -p, --port [port]                    Define the port for the websocket development server (default: "35729")
+  --dev-server [devServer]             use webpack dev server to serve bundled files (default: false)
+  -h, --help                           display help for command
 ```
 
 ## Customizing webpack config
 
-In order to extend the usage of `webpack`, you can define a function that extends its config via `webextension-toolbox.config.js` (or a file you define through the usage of the `-c` option) in your project root.
+In order to extend the usage of `webpack`, you can define a function that extends its config through a file you define through the usage of the `-c` option in your project root.
 
 ```js
 module.exports = {
@@ -254,6 +304,6 @@ webextension-toolbox might be your tool of choice.
 
 # License
 
-Copyright 2018-2022 Henrik Wenz
+Copyright 2018-2023 Henrik Wenz
 
 This project is free software released under the MIT license.
