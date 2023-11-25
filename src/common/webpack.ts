@@ -9,8 +9,11 @@ import WebpackBar from "webpackbar";
 import { data as browserslistData } from "browserslist";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import { glob } from "glob";
+import chalk from "chalk";
 import getExtensionInfo from "./utils/getExtensionInfo";
 import { BuildCompileOptions, DevCompileOptions } from "./interfaces";
+
+const { green } = chalk;
 
 const { getEntries } = GlobEntriesPlugin;
 
@@ -66,6 +69,7 @@ export default async function webpackConfig({
   port = 35729,
   autoReload = false,
   swc = false,
+  outputFilename,
 }: WebpackConfigOptions) {
   if (!browserslistData[vendor]) {
     throw new Error(
@@ -141,7 +145,7 @@ export default async function webpackConfig({
   config.module.rules = [];
 
   if (swc) {
-    console.log("SWC!!");
+    console.log(green("Using SWC loader to compile"));
     // SWC Mode
     config.module.rules.push({
       test: /\.m?(t|j)sx?$/,
@@ -159,6 +163,7 @@ export default async function webpackConfig({
       },
     });
   } else {
+    console.log(green("Using Babel loader to compile"));
     // Babel Mode
     // Find all Regular TS files
     config.module.rules.push({
@@ -271,10 +276,8 @@ export default async function webpackConfig({
     config.plugins.push(
       new ZipPlugin({
         path: resolve(packageTarget.replace("[vendor]", vendor)),
-        filename: `${name}.v${version}.${vendor}`,
-        extension: getExtensionFileType(
-          vendor
-        )
+        filename: outputFilename || `${name}.v${version}.${vendor}`,
+        extension: getExtensionFileType(vendor),
       })
     );
   }

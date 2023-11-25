@@ -15,6 +15,7 @@ export interface BaseCompileOptions {
   copyIgnore?: string[];
   compileIgnore?: string[];
   swc?: boolean;
+  outputFilename?: string;
 }
 
 export interface DevCompileOptions extends BaseCompileOptions {

@@ -150,6 +150,10 @@ export default async function command() {
       .argument("<vendor>", "The Vendor to compile")
   )
     .option("--no-minimize", "disables code minification", true)
+    .option(
+      "-o,--output-filename [outputFilename]",
+      "Override the output filename"
+    )
     .action(async (vendor: string, options: CompileOptions) => {
       await saveConfig(options);
       return build(vendor, options);

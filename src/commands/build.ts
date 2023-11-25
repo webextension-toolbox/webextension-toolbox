@@ -15,6 +15,7 @@ export default async function build(
     manifestValidation: options.manifestValidation,
     config: options.config,
     swc: options.swc ?? false,
+    outputFilename: options.outputFilename,
   });
 
   compiler.run(logCompileOutput.bind(null, options));
