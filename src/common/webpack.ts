@@ -8,11 +8,9 @@ import WebextensionPlugin from "@webextension-toolbox/webpack-webextension-plugi
 import WebpackBar from "webpackbar";
 import { data as browserslistData } from "browserslist";
 import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
-import { promisify } from "util";
-import g from "glob";
+import { glob } from "glob";
 import getExtensionInfo from "./utils/getExtensionInfo";
 
-const glob = promisify(g);
 const { getEntries } = GlobEntriesPlugin;
 
 /**
