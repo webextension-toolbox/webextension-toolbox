@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.0.0] - ????-??-??
+
+### Changed
+
+- Uses ESM instead of CJS
+- Optimize code
+- Provide support for SWC
+- Add option to only copy files and not compile them (compileIgnore glob)
+- Additional debugging
+- yaml config file to use instead of or with command options
+- Move examples into their own template repos and use those in testing
+
+### Fixed
+
+- web_accessible_resources ignore js file (#793)
+- Setup with additional webextension-toolbox.config.js config seems to fail on windows 11 (#656)
+- Request for Node.js 20 Support (#847)
+- Chalk is an implicit dependency (should be explicit) (#835)
+
 ## [6.2.0] - 2023-10-28
 
 ### Changed

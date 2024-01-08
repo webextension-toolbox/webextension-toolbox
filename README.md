@@ -35,11 +35,13 @@ If you want to get started quickly check out the [yeoman generator](https://gith
     - [Syntax](#syntax-1)
       - [Building](#building)
       - [Developing](#developing)
+  - [.webextensiontoolboxrc](#webextensiontoolboxrc)
   - [Customizing webpack config](#customizing-webpack-config)
 - [FAQ](#faq)
   - [What is the difference to web-ext?](#what-is-the-difference-to-web-ext)
   - [How do I use React?](#how-do-i-use-react)
   - [How do I use Typescript?](#how-do-i-use-typescript)
+  - [What is SWC?](#what-is-swc)
 - [License](#license)
 
 <!-- tocstop -->
@@ -245,6 +247,10 @@ Options:
   -h, --help                           display help for command
 ```
 
+## .webextensiontoolboxrc
+
+This file is used to configure the WebExtension Toolbox without cli options. You can generate it by running `webextension-toolbox <options> --save command`. This will take your current cli options and save them to `.webextensiontoolboxrc`. You can then run `webextension-toolbox` without any options
+
 ## Customizing webpack config
 
 In order to extend the usage of `webpack`, you can define a function that extends its config through a file you define through the usage of the `-c` option in your project root.
@@ -274,7 +280,7 @@ Please see [Issue #58](https://github.com/webextension-toolbox/webextension-tool
 
 ## What is the difference to [web-ext](https://github.com/mozilla/web-ext)?
 
-If want to develop browser extensions for Firefox only [web-ext](https://github.com/mozilla/web-ext) might be a better fit for you, since it supports, extension signing, better manifest validation and auto mounting.
+If want to develop browser extensions for Firefox only [web-ext](https://github.com/mozilla/web-ext) might be a better fit for you, since it supports extension signing, better manifest validation and auto mounting.
 
 Nevertheless if you want to develop cross browser extensions using
 
@@ -301,6 +307,10 @@ webextension-toolbox might be your tool of choice.
 
 1. `npm install typescript --save-dev`
 2. Run `tsc --init` or manually add a tsconfig.json file to your project root
+
+## What is SWC?
+
+SWC (stands for Speedy Web Compiler) is a super-fast TypeScript / JavaScript compiler written in Rust. It's an alternative to Babel. For more informaiton see: https://github.com/swc-project/swc
 
 # License
 
