@@ -1,15 +1,14 @@
 import compileWebpack, { Configuration } from "webpack";
-import chalk from "chalk";
-import configureWebpack from "./webpack";
-import { CompileOptions, UserWebpack } from "./interfaces";
+import { Chalk } from "chalk";
+import { findUp } from "find-up";
+import configureWebpack from "./webpack.js";
+import { CompileOptions, UserWebpack } from "./interfaces.js";
 
-const { bold, green, red, grey, italic } = chalk;
+const { bold, green, red, grey, italic } = new Chalk();
 
 async function loadWebpackConfig(
   options: CompileOptions
 ): Promise<UserWebpack> {
-  const { findUp } = await import("find-up");
-
   if (!options.config) {
     const path = await findUp("webextension-toolbox.config.js");
     if (path) {

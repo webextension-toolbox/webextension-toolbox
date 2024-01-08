@@ -1,4 +1,8 @@
-import { compile, logCompileOutput, BuildCompileOptions } from "../common";
+import {
+  compile,
+  logCompileOutput,
+  BuildCompileOptions,
+} from "../common/index.js";
 
 export default async function build(
   vendor: string,

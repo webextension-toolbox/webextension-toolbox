@@ -1,11 +1,15 @@
 import { Command, program } from "commander";
 import chalk from "chalk";
 import { promises as fs } from "fs";
-import path from "path";
+import path, { dirname } from "path";
 import { parse, stringify } from "yaml";
-import { build, dev } from "./commands";
-import { CompileOptions } from "./common";
+import { findUp } from "find-up";
+import { fileURLToPath } from "url";
+import { build, dev } from "./commands/index.js";
+import { CompileOptions } from "./common/index.js";
 
+// eslint-disable-next-line no-underscore-dangle
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const { blue, bold, green, dim } = chalk;
 
 const configFile = ".webextensiontoolboxrc";
@@ -68,7 +72,6 @@ function addSharedOptions(cmd: Command): Command {
 }
 
 export default async function command() {
-  const { findUp } = await import("find-up");
   const webextensiontoolboxrcPath = await findUp(configFile);
 
   let config = {};

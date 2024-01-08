@@ -1,6 +1,10 @@
 import WebpackDevServer from "webpack-dev-server";
 import path from "path";
-import { compile, logCompileOutput, DevCompileOptions } from "../common";
+import {
+  compile,
+  logCompileOutput,
+  DevCompileOptions,
+} from "../common/index.js";
 
 export default async function dev(vendor: string, options: DevCompileOptions) {
   const compiler = await compile({

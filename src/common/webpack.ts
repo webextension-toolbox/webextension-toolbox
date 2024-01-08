@@ -1,20 +1,23 @@
 import { resolve } from "path";
-import { Configuration, EnvironmentPlugin } from "webpack";
+import Webpack, { Configuration } from "webpack";
 import GlobEntriesPlugin from "webpack-watched-glob-entries-plugin";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CopyPlugin from "copy-webpack-plugin";
 import ZipPlugin from "zip-webpack-plugin";
-import WebextensionPlugin from "@webextension-toolbox/webpack-webextension-plugin";
 import WebpackBar from "webpackbar";
-import { data as browserslistData } from "browserslist";
-import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import { glob } from "glob";
-import chalk from "chalk";
-import getExtensionInfo from "./utils/getExtensionInfo";
-import { BuildCompileOptions, DevCompileOptions } from "./interfaces";
+import { Chalk } from "chalk";
+import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
+import { WebextensionPlugin } from "@webextension-toolbox/webpack-webextension-plugin";
+import browserslist from "browserslist";
+import { BuildCompileOptions, DevCompileOptions } from "./interfaces.js";
+import getExtensionInfo from "./utils/getExtensionInfo.js";
 
-const { green } = chalk;
+// CommonJS module, which may not support all module.exports as named exports
+const { data: browserslistData } = browserslist;
+const { EnvironmentPlugin } = Webpack;
 
+const { green } = new Chalk();
 const { getEntries } = GlobEntriesPlugin;
 
 /**

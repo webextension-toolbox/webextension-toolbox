@@ -21,14 +21,8 @@ module.exports = {
         ignorePropertyModificationsFor: ["manifest", "previousValue"],
       },
     ],
-    "import/extensions": [
-      "error",
-      "ignorePackages",
-      {
-        js: "never",
-        ts: "never",
-      },
-    ],
+    "import/extensions": "off",
+    "import/no-unresolved": "off",
   },
   globals: {
     browser: "readonly",
