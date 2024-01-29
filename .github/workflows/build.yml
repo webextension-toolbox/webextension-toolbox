@@ -1,7 +1,7 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Node.js CI
+name: Build
 
 on:
   push:
@@ -9,21 +9,85 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  tests:
+    uses: ./.github/workflows/lint.yml
   build:
     runs-on: ${{ matrix.os }}
+    needs: [tests]
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [18.x, 20.x, 21.x]
+        os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Toolbox
+        uses: actions/checkout@v4
+        with:
+          path: 'toolbox'
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run build
+          cache: 'npm'
+          cache-dependency-path: |
+            ./toolbox/package-lock.json
+            ./js-extension-template/package-lock.json
+      - name: Install Toolbox dependencies
+        run: npm ci
+        working-directory: ./toolbox
+      - name: Build Toolbox binary
+        run: npm run build
+        working-directory: ./toolbox
+      - name: Checkout JS Extension Template
+        uses: actions/checkout@v4
+        with:
+          repository: webextension-toolbox/js-extension-template
+          ref: refs/heads/main
+          path: 'js-extension-template'
+      - name: Install JS Extension Template dependencies
+        run: npm install
+        working-directory: ./js-extension-template
+      - name: Install Additional deps for dev linking
+        run: npm install babel-loader swc-loader
+        working-directory: ./js-extension-template
+      - name: Link toolbox into JS Extension Template on unix
+        if: ${{ matrix.os != 'windows-latest' }}
+        run: npx link $GITHUB_WORKSPACE/toolbox
+        working-directory: ./js-extension-template
+      - name: Link toolbox into JS Extension Template on windows
+        if: ${{ matrix.os == 'windows-latest' }}
+        run: npx link $env:GITHUB_WORKSPACE/toolbox
+        working-directory: ./js-extension-template
+      - name: Build JS Extension Template
+        run: |
+          npm run build -- -o chrome.babel chrome
+          npm run build -- -o firefox.babel firefox
+          npm run build -- -o edge.babel edge
+          npm run build -- -o safari.babel safari
+          npm run build -- -o opera.babel opera
+          npm run build -- -o chrome.swc --swc chrome
+          npm run build -- -o firefox.swc --swc firefox
+          npm run build -- -o edge.swc --swc edge
+          npm run build -- -o safari.swc --swc safari
+          npm run build -- -o opera.swc --swc opera
+        working-directory: ./js-extension-template
+      - name: "Check package existence"
+        uses: andstor/file-existence-action@v2
+        with:
+          files: >-
+            ./js-extension-template/packages/chrome.babel.*,
+            ./js-extension-template/packages/firefox.babel.*,
+            ./js-extension-template/packages/edge.babel.*,
+            ./js-extension-template/packages/safari.babel.*,
+            ./js-extension-template/packages/opera.babel.*,
+            ./js-extension-template/packages/chrome.swc.*,
+            ./js-extension-template/packages/firefox.swc.*,
+            ./js-extension-template/packages/edge.swc.*,
+            ./js-extension-template/packages/safari.swc.*,
+            ./js-extension-template/packages/opera.swc.*
+          fail: true

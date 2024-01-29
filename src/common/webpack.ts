@@ -1,16 +1,23 @@
 import { resolve } from "path";
-import { Configuration, EnvironmentPlugin } from "webpack";
+import Webpack, { Configuration } from "webpack";
 import GlobEntriesPlugin from "webpack-watched-glob-entries-plugin";
 import CaseSensitivePathsPlugin from "case-sensitive-paths-webpack-plugin";
 import CopyPlugin from "copy-webpack-plugin";
 import ZipPlugin from "zip-webpack-plugin";
-import WebextensionPlugin from "@webextension-toolbox/webpack-webextension-plugin";
 import WebpackBar from "webpackbar";
-import { data as browserslistData } from "browserslist";
-import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 import { glob } from "glob";
-import getExtensionInfo from "./utils/getExtensionInfo";
+import { Chalk } from "chalk";
+import { TsconfigPathsPlugin } from "tsconfig-paths-webpack-plugin";
+import { WebextensionPlugin } from "@webextension-toolbox/webpack-webextension-plugin";
+import browserslist from "browserslist";
+import { BuildCompileOptions, DevCompileOptions } from "./interfaces.js";
+import getExtensionInfo from "./utils/getExtensionInfo.js";
 
+// CommonJS module, which may not support all module.exports as named exports
+const { data: browserslistData } = browserslist;
+const { EnvironmentPlugin } = Webpack;
+
+const { green } = new Chalk();
 const { getEntries } = GlobEntriesPlugin;
 
 /**
@@ -35,35 +42,38 @@ function getExtensionFileType(vendor: string): string {
       return "zip";
   }
 }
-export interface WebpackConfig {
-  src?: string;
-  target?: string;
-  packageTarget?: string;
-  dev?: boolean;
-  copyIgnore?: string[];
-  devtool?: string | false | undefined;
-  minimize?: boolean;
-  vendor?: string;
-  manifestValidation?: boolean;
-  port?: number;
-  vendorVersion?: string;
-  autoReload?: boolean;
-}
+
+type WebpackConfigOptions = DevCompileOptions & BuildCompileOptions;
+
+const defaultGlob = "**/*.?(m){j,t}s?(x)";
+
+const defaultExtensions = [
+  ".js",
+  ".mjs",
+  ".jsx",
+  ".mjsx",
+  ".ts",
+  ".mts",
+  ".tsx",
+  ".mtsx",
+];
 
 export default async function webpackConfig({
   src = "app",
   target = "build/[vendor]",
   packageTarget = "packages",
   dev = false,
-  copyIgnore = ["**/*.js", "**/*.json", "**/*.ts", "**/*.tsx"],
+  copyIgnore = [],
+  compileIgnore = [],
   devtool = false,
   minimize = false,
   vendor = "chrome",
   manifestValidation = true,
   port = 35729,
   autoReload = false,
-  vendorVersion,
-}: WebpackConfig = {}) {
+  swc = false,
+  outputFilename,
+}: WebpackConfigOptions) {
   if (!browserslistData[vendor]) {
     throw new Error(
       `${vendor} is not a valid vendor. Valid options are: ${Object.keys(
@@ -76,9 +86,7 @@ export default async function webpackConfig({
   const mode = dev ? "development" : "production";
 
   // Get some defaults
-  const { version, name, description, typescript } = await getExtensionInfo(
-    src
-  );
+  const { version, name, description } = await getExtensionInfo(src);
 
   /** *************************** */
   /*      WEBPACK               */
@@ -94,14 +102,8 @@ export default async function webpackConfig({
     },
   };
 
-  const extensions = [".js", ".json", ".mjs", ".jsx"];
-  // Automatically resolve the following extensions:
-  if (typescript) {
-    extensions.push(".ts", ".tsx");
-  }
-
   config.resolve = {
-    extensions,
+    extensions: defaultExtensions,
   };
 
   // Source-Maps
@@ -113,19 +115,15 @@ export default async function webpackConfig({
   const entries = [];
 
   // Add main entry glob
-  if (typescript) {
-    entries.push(resolve(src, "*.{js,mjs,jsx,ts,tsx}"));
-    entries.push(resolve(src, "?(scripts)/*.{js,mjs,jsx,ts,tsx}"));
-  } else {
-    entries.push(resolve(src, "*.{js,mjs,jsx}"));
-    entries.push(resolve(src, "?(scripts)/*.{js,mjs,jsx}"));
-  }
+  entries.push(resolve(src, defaultGlob));
+
+  const compileIgnoredArray = compileIgnore.map((path) => resolve(src, path));
 
   // We use the GlobEntriesPlugin in order to
   // restart the compiler in watch mode, when new
   // files got added.
   config.entry = getEntries(entries, {
-    ignore: [],
+    ignore: compileIgnoredArray,
   });
 
   /** *************************** */
@@ -146,38 +144,59 @@ export default async function webpackConfig({
   /*       WEBPACK.LOADERS      */
   /** *************************** */
   config.module = {};
+
   config.module.rules = [];
 
-  // Add babel support
-  config.module.rules.push({
-    test: /\.m?jsx?$/,
-    exclude: /node_modules/,
-    use: {
-      loader: "babel-loader",
-      options: {
-        envName: mode,
-        cacheDirectory: false,
-        presets: [
-          [
-            "@babel/preset-env",
-            {
-              // Do not transform modules to CJS
-              modules: false,
-              // Restrict to vendor
-              targets: {
-                [vendor]: vendorVersion || getLastNVendorVersion(3, vendor),
-              },
-            },
-          ],
-        ],
-      },
-    },
-  });
-
-  // Add TypeScript support if there is a tsconfig.json file
-  if (typescript) {
+  if (swc) {
+    console.log(green("Using SWC loader to compile"));
+    // SWC Mode
     config.module.rules.push({
-      test: /\.tsx?$/,
+      test: /\.m?(t|j)sx?$/,
+      exclude: /(node_modules)/,
+      use: {
+        loader: "swc-loader",
+        options: {
+          env: {
+            targets: {
+              [vendor]: getLastNVendorVersion(3, vendor),
+            },
+          },
+          minify: minimize,
+        },
+      },
+    });
+  } else {
+    console.log(green("Using Babel loader to compile"));
+    // Babel Mode
+    // Find all Regular TS files
+    config.module.rules.push({
+      test: /\.m?jsx?$/,
+      exclude: [/node_modules/],
+      use: {
+        loader: "babel-loader",
+        options: {
+          envName: mode,
+          cacheDirectory: false,
+          presets: [
+            [
+              "@babel/preset-env",
+              {
+                // Do not transform modules to CJS
+                modules: false,
+                // Restrict to vendor
+                targets: {
+                  [vendor]: getLastNVendorVersion(3, vendor),
+                },
+              },
+            ],
+          ],
+        },
+      },
+    });
+
+    // Find all typescript files
+    config.module.rules.push({
+      test: /\.m?tsx?$/,
       exclude: /node_modules/,
       loader: "ts-loader",
     });
@@ -188,8 +207,14 @@ export default async function webpackConfig({
   /** *************************** */
   config.plugins = [];
 
-  // Use this to load modules whose location is specified in the paths section of tsconfig.json
-  if (typescript) {
+  // Check for existence of any typescript files
+  const typescript = await glob(resolve(src, "**/*.?(m)ts?(x)"), {
+    ignore: compileIgnoredArray,
+  });
+
+  // If there are any typescript files being compiled
+  // add the typescript plugin to load tsconfig.json
+  if (typescript.length > 0) {
     config.resolve.plugins = [];
     config.resolve.plugins.push(new TsconfigPathsPlugin());
   }
@@ -199,8 +224,8 @@ export default async function webpackConfig({
   config.plugins.push(new CaseSensitivePathsPlugin());
 
   // Add Wilcard Entry Plugin
-  const bb = <any>new GlobEntriesPlugin();
-  config.plugins.push(bb);
+  const gep = <any>new GlobEntriesPlugin();
+  config.plugins.push(gep);
 
   // Set environment vars
   config.plugins.push(
@@ -211,34 +236,25 @@ export default async function webpackConfig({
     })
   );
 
-  const copyPatterns: CopyPlugin.Pattern[] = [
-    {
-      // Copy all files except (.js, .json, _locales)
-      context: resolve(src),
-      from: resolve(src, "**/*").replace(/\\/g, "/"),
-      globOptions: {
-        ignore: copyIgnore,
-      },
-      to: resolvedTarget,
-    },
-  ];
+  const compiledFiles = await glob(resolve(src, defaultGlob), {
+    ignore: compileIgnoredArray,
+  });
 
-  // Copy language files (_locales) if they exist
-  const resolvedFrom = resolve(src, "_locales/**/*.json").replace(/\\/g, "/");
-  const resolvedFromGlob = await glob(resolvedFrom);
-  if (resolvedFromGlob.length) {
-    copyPatterns.push({
-      // Copy all language json files
-      context: resolve(src),
-      from: resolvedFrom,
-      to: resolvedTarget,
-    });
-  }
-
-  // Copy non js files & compile manifest
+  // Copy non compiled files
   config.plugins.push(
     new CopyPlugin({
-      patterns: copyPatterns,
+      patterns: [
+        ...compileIgnoredArray,
+        {
+          // Copy all files except those that are compiled and manifest
+          context: resolve(src),
+          from: resolve(src, "**/*").replace(/\\/g, "/"),
+          globOptions: {
+            ignore: [...copyIgnore, "manifest.json", ...compiledFiles],
+          },
+          to: resolvedTarget,
+        },
+      ],
     })
   );
 
@@ -263,9 +279,8 @@ export default async function webpackConfig({
     config.plugins.push(
       new ZipPlugin({
         path: resolve(packageTarget.replace("[vendor]", vendor)),
-        filename: `${name}.v${version}.${vendor}.${getExtensionFileType(
-          vendor
-        )}`,
+        filename: outputFilename || `${name}.v${version}.${vendor}`,
+        extension: getExtensionFileType(vendor),
       })
     );
   }

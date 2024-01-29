@@ -1,5 +1,5 @@
 import { Stats } from "webpack";
-import { CompileOptions } from "../compile";
+import { CompileOptions } from "../interfaces.js";
 
 export default function logCompileOutput(
   options: CompileOptions,

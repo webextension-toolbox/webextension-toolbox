@@ -1,11 +1,6 @@
 import { resolve } from "path";
 import { promises as fs } from "fs";
-
-interface NodePackage {
-  name?: string;
-  description?: string;
-  version?: string;
-}
+import type { PackageJson } from "type-fest";
 
 /**
  * Finds the manifest.json file in the parent directory
@@ -30,7 +25,7 @@ async function getManifestJSON(
  * @param src string
  * @returns Promise<NodePackage>
  */
-async function getPackageJSON(src: string): Promise<NodePackage> {
+async function getPackageJSON(src: string): Promise<PackageJson> {
   try {
     try {
       return JSON.parse(
@@ -56,17 +51,9 @@ export default async function getExtensionInfo(src: string) {
     );
   }
 
-  let typescript = false;
-  try {
-    await fs.stat(resolve(src, "../tsconfig.json"));
-    typescript = true;
-    // eslint-disable-next-line no-empty
-  } catch (err) {}
-
   return {
     version: manifestJSON.version || packageJSON.version,
     name: packageJSON.name || "extension",
     description: packageJSON.description,
-    typescript,
   };
 }

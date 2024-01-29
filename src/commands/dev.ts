@@ -1,21 +1,24 @@
 import WebpackDevServer from "webpack-dev-server";
 import path from "path";
-import compile, { CompileOptions } from "./common/compile";
-import logCompileOutput from "./common/utils/logCompileOutput";
+import {
+  compile,
+  logCompileOutput,
+  DevCompileOptions,
+} from "../common/index.js";
 
-export default async function dev(vendor: string, options: CompileOptions) {
+export default async function dev(vendor: string, options: DevCompileOptions) {
   const compiler = await compile({
     vendor,
     devtool: options.devtool,
     src: options.src,
     minimize: false,
-    dev: true,
     target: options.target,
     autoReload: options.autoReload,
     vendorVersion: options.vendorVersion,
     manifestValidation: options.manifestValidation,
     config: options.config,
     port: options.port ?? 35729,
+    swc: options.swc ?? false,
   });
 
   if (options.verbose) {

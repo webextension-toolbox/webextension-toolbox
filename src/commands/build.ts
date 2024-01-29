@@ -1,7 +1,13 @@
-import compile, { CompileOptions } from "./common/compile";
-import logCompileOutput from "./common/utils/logCompileOutput";
+import {
+  compile,
+  logCompileOutput,
+  BuildCompileOptions,
+} from "../common/index.js";
 
-export default async function build(vendor: string, options: CompileOptions) {
+export default async function build(
+  vendor: string,
+  options: BuildCompileOptions
+) {
   const compiler = await compile({
     vendor,
     devtool: options.devtool,
@@ -12,6 +18,8 @@ export default async function build(vendor: string, options: CompileOptions) {
     vendorVersion: options.vendorVersion,
     manifestValidation: options.manifestValidation,
     config: options.config,
+    swc: options.swc ?? false,
+    outputFilename: options.outputFilename,
   });
 
   compiler.run(logCompileOutput.bind(null, options));
