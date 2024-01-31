@@ -21,15 +21,18 @@ const { green } = new Chalk();
 const { getEntries } = GlobEntriesPlugin;
 
 /**
- * Returns last n
- * vendor version
- * @param {integer} n
+ * Returns a Browserslist query string
+ * for the target vendor and version
  * @param {string} vendor
- * @return {string} version
+ * @param {string} [version]
+ * @return {string}
  */
-function getLastNVendorVersion(n: number, vendor: string): string | undefined {
-  const { released } = browserslistData[vendor] ?? { released: [] };
-  return released[released.length - n] ?? undefined;
+function getBrowserslistQuery(vendor: string, version?: string): string {
+  if (version && !Number.isNaN(Number(version))) {
+    return `${vendor} ${version}`;
+  }
+
+  return `browserslist config and ${vendor} > 0 or defaults`;
 }
 
 function getExtensionFileType(vendor: string): string {
@@ -68,6 +71,7 @@ export default async function webpackConfig({
   devtool = false,
   minimize = false,
   vendor = "chrome",
+  vendorVersion = "",
   manifestValidation = true,
   port = 35729,
   autoReload = false,
@@ -157,9 +161,8 @@ export default async function webpackConfig({
         loader: "swc-loader",
         options: {
           env: {
-            targets: {
-              [vendor]: getLastNVendorVersion(3, vendor),
-            },
+            // Restrict to vendor by explicit vendor version OR configured browser(s) using browserslist
+            targets: getBrowserslistQuery(vendor, vendorVersion),
           },
           minify: minimize,
         },
@@ -183,10 +186,8 @@ export default async function webpackConfig({
               {
                 // Do not transform modules to CJS
                 modules: false,
-                // Restrict to vendor
-                targets: {
-                  [vendor]: getLastNVendorVersion(3, vendor),
-                },
+                // Restrict to vendor by explicit vendor version OR configured browser(s) using browserslist
+                targets: getBrowserslistQuery(vendor, vendorVersion),
               },
             ],
           ],
