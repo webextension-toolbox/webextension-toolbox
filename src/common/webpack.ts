@@ -21,19 +21,6 @@ const { green } = new Chalk();
 const { getEntries } = GlobEntriesPlugin;
 
 /**
- * Returns last n
- * vendor version
- * @param {integer} n
- * @param {string} vendor
- * @return {string} version
- * @deprecated in favor of `getBrowserslistQuery()`
- */
-function getLastNVendorVersion(n: number, vendor: string): string | undefined {
-  const { released } = browserslistData[vendor] ?? { released: [] };
-  return released[released.length - n] ?? undefined;
-}
-
-/**
  * Returns a Browserslist query string
  * for the target vendor and version
  * @param {string} vendor
@@ -41,7 +28,7 @@ function getLastNVendorVersion(n: number, vendor: string): string | undefined {
  * @return {string}
  */
 function getBrowserslistQuery(vendor: string, version?: string): string {
-  if (version && !isNaN(Number(version))) {
+  if (version && !Number.isNaN(Number(version))) {
     return `${vendor} ${version}`;
   }
 
