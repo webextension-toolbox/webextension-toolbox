@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.1.0] - 2024-01-31
+
+### Changed
+
+- Configures the `swc-loader` and `babel-loader` (via `@babel/preset-env` preset) to target browsers defined by the project's [`browserslist`](https://github.com/browserslist/browserslist#readme) configuration settings, **_but only when the vendor version is NOT explicitly defined_**. Thanks you to [@rthaut](https://github.com/rthaut)!
+
 ## [7.0.0] - 2024-01-29
 
 ### Changed
