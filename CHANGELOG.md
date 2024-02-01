@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [7.1.1] - 2024-02-01
+
+### Fixed
+
+- Fixes #865 by making sure all options are loaded into the filter before filtering, not just options with default values
+
 ## [7.1.0] - 2024-01-31
 
 ### Changed

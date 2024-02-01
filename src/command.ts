@@ -1,4 +1,4 @@
-import { Command, program } from "commander";
+import { Command, Option, program } from "commander";
 import chalk from "chalk";
 import { promises as fs } from "fs";
 import path, { dirname } from "path";
@@ -14,6 +14,9 @@ const { blue, bold, green, dim } = chalk;
 
 const configFile = ".webextensiontoolboxrc";
 
+/**
+ * Save the configuration options to a file and exit the process if the save flag is set.
+ */
 async function saveConfig(options: CompileOptions) {
   if (!options.save) {
     return;
@@ -36,6 +39,9 @@ async function saveConfig(options: CompileOptions) {
   process.exit(0);
 }
 
+/**
+ * Adds shared options to the given command.
+ */
 function addSharedOptions(cmd: Command): Command {
   return cmd
     .option("--swc", "Use SWC instead of Babel")
@@ -71,6 +77,9 @@ function addSharedOptions(cmd: Command): Command {
     );
 }
 
+/**
+ * Asynchronous function for handling commands.
+ */
 export default async function command() {
   const webextensiontoolboxrcPath = await findUp(configFile);
 
@@ -102,18 +111,28 @@ export default async function command() {
     .hook(
       "preSubcommand",
       async (hookedCommand: Command, subCommand: Command) => {
-        const supportedOptions = subCommand.opts();
-
-        if (webextensiontoolboxrcPath) {
-          console.log(
-            `${green(bold("✔"))} Loaded ${dim(
-              ".webextensiontoolboxrc"
-            )} from ${green(bold(webextensiontoolboxrcPath))}`
-          );
+        if (!webextensiontoolboxrcPath) {
+          return;
         }
 
+        const optionCount = subCommand.options.length;
+        const validOptions: Record<string, Option> = {};
+
+        for (let i = 0; i < optionCount; i += 1) {
+          const optionKey = subCommand.options[i].attributeName();
+          if (optionKey !== "save") {
+            validOptions[optionKey] = subCommand.options[i];
+          }
+        }
+
+        console.log(
+          `${green(bold("✔"))} Loaded ${dim(
+            ".webextensiontoolboxrc"
+          )} from ${green(bold(webextensiontoolboxrcPath))}`
+        );
+
         Object.entries(config)
-          .filter(([key]) => supportedOptions[key] !== undefined)
+          .filter(([key]) => validOptions[key] !== undefined)
           .forEach(([key, value]) => {
             subCommand.setOptionValue(key, value);
           });
