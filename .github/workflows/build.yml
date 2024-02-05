@@ -77,7 +77,7 @@ jobs:
           npm run build -- -o opera.swc --swc opera
         working-directory: ./js-extension-template
       - name: "Check package existence"
-        uses: andstor/file-existence-action@v2
+        uses: andstor/file-existence-action@v3
         with:
           files: >-
             ./js-extension-template/packages/chrome.babel.*,
