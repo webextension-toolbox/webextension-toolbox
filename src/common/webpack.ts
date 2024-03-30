@@ -239,7 +239,7 @@ export default async function webpackConfig({
     })
   );
 
-  let compiledFiles = await glob(resolve(src, defaultGlob), {
+  const compiledFiles = await glob(resolve(src, defaultGlob), {
     ignore: compileIgnoredArray,
   });
 
