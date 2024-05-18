@@ -31,7 +31,7 @@ jobs:
         uses: mindsers/changelog-reader-action@v2
         with:
           version: ${{ steps.get_version.outputs.version }}
-      - uses: softprops/action-gh-release@v1
+      - uses: softprops/action-gh-release@v2
         with:
           body: ${{ steps.changelog_reader.outputs.changes }}
           tag_name: ${{ steps.get_version.outputs.version }}
