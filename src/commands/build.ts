@@ -11,6 +11,7 @@ export default async function build(
   const compiler = await compile({
     vendor,
     devtool: options.devtool,
+    dev: false,
     src: options.src,
     target: options.target,
     minimize: options.minimize,
