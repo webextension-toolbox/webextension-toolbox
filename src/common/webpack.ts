@@ -251,7 +251,7 @@ export default async function webpackConfig({
           context: resolve(src),
           from: resolve(src, "**/*").replace(/\\/g, "/"),
           globOptions: {
-            ignore: [...copyIgnore, "manifest.json", ...compiledFiles],
+            ignore: [...copyIgnore, "**/manifest.json", ...compiledFiles],
           },
           to: resolvedTarget,
         },
