@@ -137,8 +137,10 @@ export default async function webpackConfig({
     path: resolvedTarget,
     filename: "[name].js",
     chunkFilename: "[id].chunk.js",
+    // https://github.com/webpack/webpack-dev-middleware/issues/861
     clean: true,
   };
+
   /** *************************** */
   /*    WEBPACK.OPTIMIZATION    */
   /** *************************** */
@@ -241,6 +243,9 @@ export default async function webpackConfig({
     ignore: compileIgnoredArray,
   });
 
+  // Add manifest to compiled files list
+  compiledFiles.push(resolve(src, "manifest.json"));
+
   // Copy non compiled files
   config.plugins.push(
     new CopyPlugin({
@@ -251,7 +256,7 @@ export default async function webpackConfig({
           context: resolve(src),
           from: resolve(src, "**/*").replace(/\\/g, "/"),
           globOptions: {
-            ignore: [...copyIgnore, "manifest.json", ...compiledFiles],
+            ignore: [...copyIgnore, ...compiledFiles],
           },
           to: resolvedTarget,
         },
