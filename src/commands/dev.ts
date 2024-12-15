@@ -10,6 +10,7 @@ export default async function dev(vendor: string, options: DevCompileOptions) {
   const compiler = await compile({
     vendor,
     devtool: options.devtool,
+    dev: true,
     src: options.src,
     minimize: false,
     target: options.target,
