@@ -21,16 +21,16 @@ jobs:
     needs: [tests]
     strategy:
       matrix:
-        node-version: [18.x, 20.x, 21.x]
+        node-version: [20.x, 22.x ,24.x]
         os: [ubuntu-latest, macos-latest, windows-latest]
 
     steps:
       - name: Checkout Toolbox
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: 'toolbox'
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
@@ -44,7 +44,7 @@ jobs:
         run: npm run build
         working-directory: ./toolbox
       - name: Checkout JS Extension Template
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           repository: webextension-toolbox/js-extension-template
           ref: refs/heads/main

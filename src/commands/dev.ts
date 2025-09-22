@@ -1,10 +1,21 @@
 import WebpackDevServer from "webpack-dev-server";
 import path from "path";
+import type { Compiler, MultiCompiler } from "webpack";
 import {
   compile,
   logCompileOutput,
   DevCompileOptions,
 } from "../common/index.js";
+
+function isMultiCompiler(
+  compiler: Compiler | MultiCompiler
+): compiler is MultiCompiler {
+  return "compilers" in compiler;
+}
+
+function getCompilers(compiler: Compiler | MultiCompiler): Compiler[] {
+  return isMultiCompiler(compiler) ? compiler.compilers : [compiler];
+}
 
 export default async function dev(vendor: string, options: DevCompileOptions) {
   const compiler = await compile({
@@ -22,14 +33,23 @@ export default async function dev(vendor: string, options: DevCompileOptions) {
     swc: options.swc ?? false,
   });
 
+  if (!compiler) {
+    throw new Error("Failed to initialize webpack compiler.");
+  }
+
   if (options.verbose) {
-    compiler.hooks.watchRun.tap("WebpackInfo", () => {
-      console.error("\nCompilation starting…\n");
+    getCompilers(compiler).forEach((activeCompiler) => {
+      activeCompiler.hooks.watchRun.tap("WebpackInfo", () => {
+        console.error("\nCompilation starting…\n");
+      });
     });
   }
 
   if (options.devServer) {
-    const devServerPort = process.env.DEV_SERVER_PORT || 9000;
+    const envPort = process.env.DEV_SERVER_PORT;
+    const devServerPort = Number(envPort ?? 9000);
+    const normalizedPort = Number.isNaN(devServerPort) ? 9000 : devServerPort;
+    const host = "127.0.0.1";
     const server = new WebpackDevServer(
       {
         static: {
@@ -39,7 +59,8 @@ export default async function dev(vendor: string, options: DevCompileOptions) {
           ),
         },
         compress: true,
-        port: devServerPort,
+        host,
+        port: normalizedPort,
         devMiddleware: {
           stats: {
             colors: true,
@@ -51,9 +72,8 @@ export default async function dev(vendor: string, options: DevCompileOptions) {
       },
       compiler
     );
-    server.listen(devServerPort, "127.0.0.1", () => {
-      console.log(`Starting dev server on http://localhost:${devServerPort}`);
-    });
+    await server.start();
+    console.log(`Starting dev server on http://${host}:${normalizedPort}`);
   } else {
     compiler.watch({}, logCompileOutput.bind(null, options));
   }

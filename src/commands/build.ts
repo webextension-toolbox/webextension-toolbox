@@ -23,5 +23,9 @@ export default async function build(
     outputFilename: options.outputFilename,
   });
 
+  if (!compiler) {
+    throw new Error("Failed to initialize webpack compiler.");
+  }
+
   compiler.run(logCompileOutput.bind(null, options));
 }
