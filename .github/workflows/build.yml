@@ -26,11 +26,11 @@ jobs:
 
     steps:
       - name: Checkout Toolbox
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           path: 'toolbox'
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v5
+        uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
@@ -44,7 +44,7 @@ jobs:
         run: npm run build
         working-directory: ./toolbox
       - name: Checkout JS Extension Template
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
         with:
           repository: webextension-toolbox/js-extension-template
           ref: refs/heads/main
