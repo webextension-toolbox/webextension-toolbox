@@ -55,7 +55,7 @@
     "swc-loader": "^0.2.3",
     "ts-loader": "^9.5.1",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
-    "webpack": "^5.90.0",
+    "webpack": "^5.105.3",
     "webpack-dev-server": "^5.2.2",
     "webpack-watched-glob-entries-plugin": "^3.0.0",
     "webpackbar": "^7.0.0",
