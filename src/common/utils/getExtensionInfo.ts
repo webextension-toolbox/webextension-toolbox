@@ -16,7 +16,14 @@ async function getManifestJSON(
       (await fs.readFile(resolve(src, "manifest.json"))).toString()
     );
   } catch (error) {
-    throw new Error("You need to provide a valid 'manifest.json'");
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    throw new Error(
+      `Failed to read or parse manifest.json: ${errorMessage}\n` +
+      'Please ensure:\n' +
+      '  - manifest.json exists in your src directory\n' +
+      '  - manifest.json contains valid JSON\n' +
+      '  - The file is readable'
+    );
   }
 }
 
