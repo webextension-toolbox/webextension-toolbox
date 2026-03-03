@@ -34,7 +34,14 @@ export default async function dev(vendor: string, options: DevCompileOptions) {
   });
 
   if (!compiler) {
-    throw new Error("Failed to initialize webpack compiler.");
+    throw new Error(
+      "Failed to initialize webpack compiler.\n" +
+      "This may be caused by:\n" +
+      "  - Invalid configuration in webpack.config.js\n" +
+      "  - Missing or invalid manifest.json\n" +
+      "  - Syntax errors in your source files\n" +
+      "Please check your configuration and try again."
+    );
   }
 
   if (options.verbose) {

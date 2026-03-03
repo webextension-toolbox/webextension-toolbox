@@ -16,7 +16,26 @@ async function getManifestJSON(
       (await fs.readFile(resolve(src, "manifest.json"))).toString()
     );
   } catch (error) {
-    throw new Error("You need to provide a valid 'manifest.json'");
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    if (errorMessage.includes('ENOENT')) {
+      throw new Error(
+        `manifest.json not found in directory: ${resolve(src)}\n` +
+        `Please ensure your manifest.json file exists at: ${resolve(src, 'manifest.json')}\n` +
+        `Tip: The source directory should contain your extension's manifest.json file.`
+      );
+    }
+    if (errorMessage.includes('JSON')) {
+      throw new Error(
+        `Failed to parse manifest.json: Invalid JSON syntax\n` +
+        `Please check your manifest.json file for syntax errors.\n` +
+        `Location: ${resolve(src, 'manifest.json')}`
+      );
+    }
+    throw new Error(
+      `Failed to read manifest.json: ${errorMessage}\n` +
+      `Please ensure the file exists and is readable.\n` +
+      `Expected location: ${resolve(src, 'manifest.json')}`
+    );
   }
 }
 
@@ -47,7 +66,11 @@ export default async function getExtensionInfo(src: string) {
 
   if (!manifestJSON.version && !packageJSON.version) {
     throw new Error(
-      "You need to provide a version string either in the manifest.json or in your package.json"
+      "No version found in manifest.json or package.json\n" +
+      "Please add a 'version' field to either:\n" +
+      "  - manifest.json (e.g., \"version\": \"1.0.0\")\n" +
+      "  - package.json (e.g., \"version\": \"1.0.0\")\n" +
+      "The version is required for building and publishing your extension."
     );
   }
 
