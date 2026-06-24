@@ -39,8 +39,8 @@
     ]
   },
   "dependencies": {
-    "@babel/core": "^7.23.9",
-    "@babel/preset-env": "^7.23.9",
+    "@babel/core": "^8.0.1",
+    "@babel/preset-env": "^8.0.2",
     "@babel/runtime": "^7.23.9",
     "@swc/core": "^1.3.107",
     "@webextension-toolbox/webpack-webextension-plugin": "^3.3.1",
